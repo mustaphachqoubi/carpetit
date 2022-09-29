@@ -1,0 +1,6 @@
+export {default as Navbar} from './Navbar/Navbar'
+export {default as HeroBanner} from './HeroSection/HeroBanner/HeroBanner'
+export {default as Carpets} from './Carpets/Carpets'
+export {default as Footer} from '../components/Footer/Footer'
+export {default as Cart} from '../components/Cart/Cart'
+export {default as Checkout} from '../components/Checkout/Checkout'
