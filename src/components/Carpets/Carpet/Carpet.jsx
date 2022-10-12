@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
 const Carpet = ({ products, onAddToCart }) => {
   const [loading, setLoading] = useState(-1);

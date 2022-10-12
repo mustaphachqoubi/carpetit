@@ -3,6 +3,7 @@ import Carpet from "./Carpet/Carpet";
 import FilterProduct from "./FilterProduct/FilterProduct";
 
 const Carpets = ({ products, onAddToCart, wait, cart }) => {
+  
   return (
     <div className="flex flex-col">
       <FilterProduct />

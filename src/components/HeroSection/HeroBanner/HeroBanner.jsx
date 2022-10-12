@@ -8,6 +8,7 @@ import Specification from "../Specification/Specification";
 import Carpets from "../../Carpets/Carpets";
 import { commerce } from "../../../lib/commerce";
 import at from "core-js/features/array/at";
+import "./styles.css";
 
 const HeroBanner = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
@@ -107,6 +108,7 @@ const HeroBanner = ({ handleAddToCart }) => {
           </div>
         </div>
       </div>
+
       <Carpets products={products} onAddToCart={handleAddToCart} />
     </>
   );
