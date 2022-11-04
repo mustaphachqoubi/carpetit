@@ -302,13 +302,13 @@ const Payment = ({
         },
         fulfillment: { shipping_method: shippingData.option },
         payment: {
-          gateway: 'test_gateway',
+          gateway: "test_gateway",
           card: {
-            number: '4242424242424242',
-            expiry_month: '02',
-            expiry_year: '24',
-            cvc: '123',
-            postal_zip_code: '94107',
+            number: "4242424242424242",
+            expiry_month: "02",
+            expiry_year: "24",
+            cvc: "123",
+            postal_zip_code: "94107",
           },
         },
         // payment: {
@@ -358,8 +358,8 @@ const Payment = ({
         // },
         // pay_what_you_want: '149.99'
       };
-      
-      handleCaptureCheckout(checkoutToken.id, orderData)
+
+      handleCaptureCheckout(checkoutToken.id, orderData);
       nextStep();
     }
   };
@@ -543,16 +543,19 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
         <h1 className="font-bold tracking-wider text-2xl p-4 md:p-8 flex justify-center items-center">
           Checkout
         </h1>
-        <div className="px-2 sm:flex justify-between">
-          <ul className="flex p-2 gap-2 items-center justify-center">
-            <li
+
+        <div className="sm:flex justify-between py-4 px-8">
+          <div className="flex space-x-2 items-center justify-center">
+            <h4
               className={`text-white px-2 rounded-full ${
-                step > 1 ? "bg-blue-400 py-2" : "bg-blue-500"
+                step > 1
+                  ? "bg-blue-400 py-2"
+                  : "bg-blue-500 py-[0.2rem] px-[0.7rem]"
               }`}
             >
               {step !== 1 ? <MdDone /> : "1"}
-            </li>
-            <li
+            </h4>
+            <h4
               className={` ${
                 step === 1
                   ? "text-gray-700 font-semibold dark:text-white"
@@ -560,24 +563,24 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
               }`}
             >
               Shipping address
-            </li>
-          </ul>
+            </h4>
+          </div>
           <div className="flex items-center justify-center">
             <div className="border-l h-6 sm:border-b border-slate-400 dark:border-white sm:h-0 sm:w-20 sm:w-40 md:w-[20rem]" />
           </div>
-          <ul className="flex p-2 gap-4 sm:gap-2 items-center justify-center">
-            <li
+          <div className="flex space-x-4 sm:space-x-2 items-center justify-center">
+            <h4
               className={`text-white ${
                 step < 2
-                  ? "bg-blue-400 "
+                  ? "bg-blue-400 py-[0.2rem] px-[0.6rem]"
                   : step > 2
                   ? "bg-blue-400 py-2"
-                  : "bg-blue-500"
+                  : "bg-blue-500 py-[0.2rem] px-[0.7rem]"
               } px-2 rounded-full`}
             >
               {step > 2 ? <MdDone /> : "2"}
-            </li>
-            <li
+            </h4>
+            <h4
               className={` ${
                 step === 2
                   ? "text-gray-700 font-semibold dark:text-white"
@@ -585,9 +588,10 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
               }`}
             >
               Payment details
-            </li>
-          </ul>
+            </h4>
+          </div>
         </div>
+
         {step === 1 ? (
           <Shipping
             setStep={setStep}

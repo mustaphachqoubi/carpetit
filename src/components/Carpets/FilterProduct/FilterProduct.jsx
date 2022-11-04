@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiFilterAlt } from "react-icons/bi";
-import {Filtering} from "../../../dummy";
+import { Filtering } from "../../../dummy";
 
 const FilterProduct = () => {
   const [filter, setFilter] = useState("hidden");
@@ -62,7 +62,14 @@ const FilterProduct = () => {
             <div key={fil.title}>
               <h3 className="font-bold text-slate-900">{fil.title}</h3>
               <ul className="mt-2">
-              {fil.filterList.map(i => (<li className="text-sm hover:text-black cursor-pointer" key={i}>{i}</li>))}
+                {fil.filterList.map((i) => (
+                  <li
+                    className="text-sm hover:text-black cursor-pointer"
+                    key={i}
+                  >
+                    {i}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
