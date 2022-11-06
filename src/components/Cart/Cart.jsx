@@ -44,7 +44,7 @@ const Cart = ({
         <h1 className="font-bold text-2xl">
           You Have{" "}
           <span className="text-orange-500">{cart.total_unique_items}</span>{" "}
-          carpets in your cart
+          carpet{cart.total_unique_items > 1 ? 's' : ''} in your cart
         </h1>
       </div>
       <div className="flex flex-wrap justify-center gap-[2rem] py-20 px-5 items-center">
