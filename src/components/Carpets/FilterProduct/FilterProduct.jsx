@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { Filtering } from "../../../dummy";
 
-const FilterProduct = () => {
+const FilterProduct = ({ products, Search }) => {
   const [filter, setFilter] = useState("hidden");
+  const searchRef = useRef(null);
 
   return (
     <div className="flex flex-col items-center mt-20 md:mt-10">
@@ -13,11 +14,13 @@ const FilterProduct = () => {
           type="search"
           name=""
           id=""
-          placeholder="Search Products"
+          placeholder="Search Carpets"
+          ref={searchRef}
         />
         <button
           className="text-xs ml-[-7rem] md:ml-[-10rem] h-12 w-[6.5rem] md:h-[3.5rem] md:w-[10rem] flex justify-center items-center bg-zinc-900 hover:bg-black text-white  font-bold rounded-lg md:rounded-sm"
           type="submit"
+          onClick={() => Search(searchRef.current.value)}
         >
           Explore Now
         </button>

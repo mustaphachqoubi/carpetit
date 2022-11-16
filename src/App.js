@@ -49,14 +49,11 @@ function App() {
         checkoutTokenId,
         newOrder
       );
-      // console.log('done')
       setOrder(incommingOrder);
       refreshCart();
     } catch (error) {
       setErrorMessage(error.data.error.message);
-      // console.log('failed')
-      // console.log(error)
-      // console.log(newOrder)
+
     }
   };
 
