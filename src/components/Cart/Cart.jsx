@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import CartItems from "./CartItems";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const EmptyCart = () => {
   
@@ -32,6 +33,7 @@ const Cart = ({
   handleEmptyCart,
 }) => {
   const [empty, setDelete] = useState('Delete all')
+
   return cart.length >= 0 ? (
     <h1 className="font-bold dark:text-white text-2xl flex justify-center items-center p-10 h-screen">
       Loading...

@@ -1,10 +1,55 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { Filtering } from "../../../dummy";
 
-const FilterProduct = ({ products, Search }) => {
+const FilterProduct = ({ SelectedCat, SearchedCarpet }) => {
   const [filter, setFilter] = useState("hidden");
+  const [choosenBg, setChoosenBg] = useState("bg-orange-500 text-white");
+  const [allBg, setAllBg] = useState("bg-orange-500 text-white");
+  const [isAllBg, setIsAllBg] = useState(false);
+  const [ispopularBg, setPopularBg] = useState(false);
+  const [ishotBg, setHotBg] = useState(false);
+  const [ismoroccanBg, setMoroccanBg] = useState(false);
+  const [isegyptiang, setEgyptianBg] = useState(false);
+
   const searchRef = useRef(null);
+
+  const handleAllBg = () => {
+    setIsAllBg((current) => !current);
+    setHotBg(false);
+    setMoroccanBg(false);
+    setEgyptianBg(false);
+    setPopularBg(false);
+    setAllBg("bg-orange-500 text-white");
+  };
+  const handlePopularBg = () => {
+    setPopularBg((current) => !current);
+    setHotBg(false);
+    setMoroccanBg(false);
+    setEgyptianBg(false);
+    setAllBg("");
+  };
+  const handleHotBg = () => {
+    setHotBg((current) => !current);
+    setPopularBg(false);
+    setMoroccanBg(false);
+    setEgyptianBg(false);
+    setAllBg("");
+  };
+  const handleMoroccanBg = () => {
+    setMoroccanBg((current) => !current);
+    setHotBg(false);
+    setPopularBg(false);
+    setEgyptianBg(false);
+    setAllBg("");
+  };
+  const handleEgyptianBg = () => {
+    setEgyptianBg((current) => !current);
+    setHotBg(false);
+    setPopularBg(false);
+    setMoroccanBg(false);
+    setAllBg("");
+  };
 
   return (
     <div className="flex flex-col items-center mt-20 md:mt-10">
@@ -14,32 +59,77 @@ const FilterProduct = ({ products, Search }) => {
           type="search"
           name=""
           id=""
-          placeholder="Search Carpets"
+          placeholder="white, moroccan..."
           ref={searchRef}
         />
         <button
           className="text-xs ml-[-7rem] md:ml-[-10rem] h-12 w-[6.5rem] md:h-[3.5rem] md:w-[10rem] flex justify-center items-center bg-zinc-900 hover:bg-black text-white  font-bold rounded-lg md:rounded-sm"
           type="submit"
-          onClick={() => Search(searchRef.current.value)}
+          onClick={() => {
+            SelectedCat(searchRef.current.value.toLowerCase());
+          }}
         >
           Explore Now
         </button>
       </div>
 
-      <div className="text-gray-400 w-full flex justify-center md:px-48 flex-wrap">
-        <button className="bg-orange-500 py-2 px-4 rounded-md font-medium text-white m-2">
-          Everything
+      <div className="text-gray-400 w-full flex justify-center md:px-48 flex-wrap px-4 md:px-0">
+        <button
+          title="all"
+          onClick={(e) => {
+            SelectedCat(e.target.title);
+            handleAllBg();
+          }}
+          className={`${allBg} py-2 px-4 rounded-md font-medium m-2`}
+        >
+          All
         </button>
-        <button className="hover:bg-orange-500 hover:text-white py-2 px-4 rounded-md font-medium m-2">
+        <button
+          title="popular"
+          className={`${
+            ispopularBg ? choosenBg : ""
+          } py-2 px-4 rounded-md font-medium m-2`}
+          onClick={(e) => {
+            SelectedCat(e.target.title);
+            handlePopularBg();
+          }}
+        >
           Popular
         </button>
-        <button className="hover:bg-orange-500 hover:text-white py-2 px-4 rounded-md font-medium m-2">
+        <button
+          title="hot"
+          onClick={(e) => {
+            SelectedCat(e.target.title);
+            handleHotBg();
+          }}
+          className={`${
+            ishotBg ? choosenBg : ""
+          } py-2 px-4 rounded-md font-medium m-2`}
+        >
           Hot
         </button>
-        <button className="hover:bg-orange-500 hover:text-white py-2 px-4 rounded-md font-medium m-2">
+        <button
+          title="moroccan"
+          onClick={(e) => {
+            handleMoroccanBg();
+            SelectedCat(e.target.title);
+          }}
+          className={`${
+            ismoroccanBg ? choosenBg : ""
+          } py-2 px-4 rounded-md font-medium m-2`}
+        >
           Moroccan
         </button>
-        <button className="hover:bg-orange-500 hover:text-white py-2 px-4 rounded-md font-medium m-2">
+        <button
+          title="egyptian"
+          onClick={(e) => {
+            handleEgyptianBg();
+            SelectedCat(e.target.title);
+          }}
+          className={`${
+            isegyptiang ? choosenBg : ""
+          } py-2 px-4 rounded-md font-medium m-2`}
+        >
           Egyptian
         </button>
         <button
@@ -64,16 +154,20 @@ const FilterProduct = ({ products, Search }) => {
           {Filtering.map((fil) => (
             <div key={fil.title}>
               <h3 className="font-bold text-slate-900">{fil.title}</h3>
-              <ul className="mt-2">
+              <div className="mt-2">
                 {fil.filterList.map((i) => (
-                  <li
-                    className="text-sm hover:text-black cursor-pointer"
+                  <h3
+                    title={i.toLowerCase()}
+                    className="text-sm mt-2 hover:text-black cursor-pointer"
                     key={i}
+                    onClick={(e) => {
+                      SelectedCat(e.target.title);
+                    }}
                   >
                     {i}
-                  </li>
+                  </h3>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
         </div>

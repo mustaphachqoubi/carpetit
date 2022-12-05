@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiTrash } from "react-icons/fi";
+import ProductSkeleton from "../Skeletons/ProductSkeleton";
 
 const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
   const [trash, setTrash] = useState(-1);
@@ -29,6 +30,10 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
     }, 1600);
     handleUpdateQt(id, quantity - 1);
   };
+
+  useEffect(() => {
+    console.log(cart)
+  }, [cart])
 
   return (
     <>

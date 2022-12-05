@@ -7,15 +7,16 @@ import { FaPlay } from "react-icons/fa";
 import Specification from "../Specification/Specification";
 import Carpets from "../../Carpets/Carpets";
 import { commerce } from "../../../lib/commerce";
-import at from "core-js/features/array/at";
+// import at from "core-js/features/array/at";
 import "./styles.css";
+import IntroImageSkeleton from "../../Skeletons/IntroImageSkeleton";
 
 const HeroBanner = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(<FiShoppingCart />);
 
   const fetchProducts = async () => {
-    const products = await commerce.products.list();
+    const products = await commerce.products.list({include: 'assets,variant_groups'});
     setProducts(products.data);
   };
 
@@ -87,23 +88,23 @@ const HeroBanner = ({ handleAddToCart }) => {
 
         <div className="col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]">
           <div className="">
-            <Similar />
+            <Similar products={products}/>
           </div>
-          <img
+          {products.length > 0 ? (<img
             src={products.at(0) ? products.at(0).image.url : Carpet}
             alt="carpet"
             className="w-80"
-          />
+          />) : <IntroImageSkeleton />}
         </div>
 
         <div className="row-span-2 xl:grid content-end hidden dark:text-white">
           <Specification products={products} />
         </div>
         <div
-          onClick={() => window.scrollTo({ top: 20000, behavior: "smooth" })}
+          
           className="dark:text-white flex items-center justify-center col-start-1 xl:col-start-2 xl:col-span-1 col-span-2 mt-8 md:mt-20"
         >
-          <div className="border p-4 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 cursor-pointer">
+          <div className="border p-4 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 cursor-pointer" onClick={() => window.scrollTo({ top: 20000, behavior: "smooth" })}>
             <AiOutlineArrowDown />
           </div>
         </div>

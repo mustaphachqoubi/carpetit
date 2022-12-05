@@ -11,9 +11,10 @@ function App() {
   const [cart, setCart] = useState([]);
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const [viriants, setViriants] = useState("");
 
   const fetchProducts = async () => {
-    const products = await commerce.products.list();
+    const products = await commerce.products.list({include: 'assets,variant_groups'});
     setProducts(products.data);
   };
 
@@ -53,7 +54,6 @@ function App() {
       refreshCart();
     } catch (error) {
       setErrorMessage(error.data.error.message);
-
     }
   };
 
