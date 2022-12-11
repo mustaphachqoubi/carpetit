@@ -14,8 +14,14 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [selectedId, setSelectedId] = useState(null);
   const [carpetList, setCarpetList] = useState([]);
   const [count, setCount] = useState(0);
+  const [singleCount, setSingleCount] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("border border-gray-300");
+
+  const handleSelectedSize = (id) => {
+    id && setSelectedSize("border-2 border-black");
+  };
 
   const minSwipeDistance = 50;
 
@@ -40,6 +46,27 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
         count < products.map((carpet) => setCount(carpet.assets.length - 1))
           ? setCount(count + 1)
           : setCount(0);
+      }
+    }
+  };
+
+  const onOuterTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe || isRightSwipe) {
+      if (isLeftSwipe) {
+        products.map((carpet) =>
+          count <= 0
+            ? setSingleCount(carpet.assets.length - 1)
+            : setSingleCount(count - 1)
+        );
+      } else {
+        count <
+        products.map((carpet) => setSingleCount(carpet.assets.length - 1))
+          ? setSingleCount(count + 1)
+          : setSingleCount(0);
       }
     }
   };
@@ -77,6 +104,9 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               layoutId={c.id}
               className="shrink-0 cursor-pointer w-[18rem] sm:max-w-sm "
               key={c.id}
+              onClick={() => {
+                document.body.style.overflow = "hidden";
+              }}
             >
               <motion.div className="relative">
                 <motion.h3
@@ -86,8 +116,11 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   -70%
                 </motion.h3>
                 <motion.img
-                  onClick={() => setSelectedId(c.id)}
-                  src={c.image.url}
+                  onTouchStart={(e) => c.id && onTouchStart(e)}
+                  onTouchMove={(e) => onTouchMove(e)}
+                  onTouchEnd={() => onOuterTouchEnd()}
+                  onClick={() => c.id && setSelectedId(c.id)}
+                  src={c.assets[singleCount].url}
                   alt="carpet"
                   className="object-cover h-[18em] w-80 rounded-xl"
                 />
@@ -147,13 +180,30 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
       <AnimatePresence>
         {selectedId && (
           <div className="p-8 sm:p-0 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
+            {/* <div
+              onClick={() => {
+                setSelectedId(null)
+                document.body.style.overflow = "visible"
+              }}
+              className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0"
+            > */}
             <div>
+              <div
+                onClick={() => {
+                  setSelectedId(null);
+                  document.body.style.overflow = "visible";
+                }}
+                className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0 "
+              ></div>
               <motion.div
                 layoutId={selectedId}
                 className="w-full relative dark:bg-slate-600 bg-[#EFF0F0] rounded-xl p-6"
               >
                 <motion.button
-                  onClick={() => setSelectedId(null)}
+                  onClick={() => {
+                    setSelectedId(null);
+                    document.body.style.overflow = "visible";
+                  }}
                   className="bg-white/30 backdrop-blur-sm dark:md:text-white dark:md:border-slate-500 m-2 absolute z-50 top-5 right-5 md:right-0 md:border md:border-black md:top-0 md:hover:bg-black md:hover:text-white w-8 h-8 rounded-full flex justify-center items-center cursur-pointer hover:backdrop-blur-xl dark:text-white"
                 >
                   <AiOutlineClose />
@@ -282,7 +332,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
 
                       {products.map((carpet) => {
                         return (
-                          <div key={carpet.id} className="">
+                          <div key={carpet.id}>
                             {carpet.id == selectedId &&
                               carpet.variant_groups.map((variant) => {
                                 return (
@@ -294,8 +344,14 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                       variant.options.map((option) => {
                                         return (
                                           <div
+                                            onClick={(e) => {
+                                              handleSelectedSize(selectedId);
+                                            }}
                                             key={option.id}
-                                            className="p-2 w-20 border rounded-md border-gray-300 hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center"
+                                            className={`p-2 w-20 rounded-md ${
+                                              option.id == selectedId &&
+                                              selectedSize
+                                            } hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center`}
                                           >
                                             {option.name}
                                           </div>
@@ -369,6 +425,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               </motion.div>
             </div>
           </div>
+          // </div>
         )}
       </AnimatePresence>
     </>
