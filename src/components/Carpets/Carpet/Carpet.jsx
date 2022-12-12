@@ -4,6 +4,8 @@ import {
   AiOutlineClose,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
+  AiOutlineDoubleRight,
+  AiOutlineDoubleLeft,
 } from "react-icons/ai";
 import { BsStar, BsStarHalf, BsStarFill } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,6 +19,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [singleCount, setSingleCount] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [scroll, setScroll] = useState("");
   const [selectedSize, setSelectedSize] = useState("border border-gray-300");
 
   const handleSelectedSize = (id) => {
@@ -77,6 +80,10 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
       setLoading(-1);
     }, 1000);
     onAddToCart(id, 1);
+  };
+
+  const HideScroll = () => {
+    setScroll("hidden");
   };
 
   const getFilteredList = () => {
@@ -176,33 +183,30 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               </motion.div>
             </motion.div>
           ))
-        : [1, 2, 3, 4, 5, 6, 7, 8].map((p) => <ProductSkeleton key={p} />)}
+        : [1, 2, 3, 4, 5, 6, 7, 8].map((p) => (
+            <ProductSkeleton key={p} className="animate-pulse" />
+          ))}
       <AnimatePresence>
         {selectedId && (
           <div className="p-8 sm:p-0 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
-            {/* <div
-              onClick={() => {
-                setSelectedId(null)
-                document.body.style.overflow = "visible"
-              }}
-              className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0"
-            > */}
-            <div>
+            <div className="flex justify-center">
               <div
                 onClick={() => {
                   setSelectedId(null);
                   document.body.style.overflow = "visible";
+                  setScroll("");
                 }}
                 className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0 "
               ></div>
               <motion.div
                 layoutId={selectedId}
-                className="w-full relative dark:bg-slate-600 bg-[#EFF0F0] rounded-xl p-6"
+                className="w-full relative dark:bg-slate-600 bg-[#EFF0F0] rounded-xl p-6 m-2 md:m-0"
               >
                 <motion.button
                   onClick={() => {
                     setSelectedId(null);
                     document.body.style.overflow = "visible";
+                    setScroll("");
                   }}
                   className="bg-white/30 backdrop-blur-sm dark:md:text-white dark:md:border-slate-500 m-2 absolute z-50 top-5 right-5 md:right-0 md:border md:border-black md:top-0 md:hover:bg-black md:hover:text-white w-8 h-8 rounded-full flex justify-center items-center cursur-pointer hover:backdrop-blur-xl dark:text-white"
                 >
@@ -249,15 +253,25 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                       )}
                     </div>
 
-                    <div className="sm:h-20 overflow-hidden">
+                    <div className="h-20 sm:w-96 md:w-80 overflow-hidden flex items-center justify-center relative rounded-lg">
+                      <div
+                        onClick={() => HideScroll()}
+                        className={`${scroll} w-full h-screen absolute flex justify-center items-center bg-slate/20 backdrop-blur-md cursor-pointer`}
+                      >
+                        <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md">
+                          <AiOutlineDoubleLeft className="animate-bounce text-xl text-white front-bold" />{" "}
+                          Click & Scroll{" "}
+                          <AiOutlineDoubleRight className="text-xl text-white front-bold animate-bounce" />
+                        </h1>
+                      </div>
                       {products.map((c) => {
                         return (
                           c.id == selectedId && (
                             <div
                               key={c.id}
-                              className="flex justify-between items-center gap-5"
+                              className="flex justify-between items-center gap-5 overflow-x-auto"
                             >
-                              {c.assets.slice(1).map((a) => {
+                              {c.assets.map((a) => {
                                 return (
                                   <motion.img
                                     onClick={() => {
@@ -265,12 +279,13 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                     }}
                                     key={a.id}
                                     src={
-                                      c.assets[count].id == a.id
-                                        ? c.assets[0].url
-                                        : a.url
+                                      // c.assets[count].id == a.id
+                                      //   ? c.assets[0].url
+                                      //   : a.url
+                                      a.url
                                     }
                                     alt="carpet"
-                                    className="object-fill h-16 w-full cursor-pointer rounded-lg"
+                                    className="object-cover cursor-pointer rounded-lg"
                                   />
                                 );
                               })}
@@ -288,7 +303,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                           (carpet) => carpet.id == selectedId && carpet.name
                         )}
                       </h3>
-                      <div className="flex justify-around sm:justify-between items-center px-4 m-4 sm:m-0">
+                      <div className="flex justify-evenly sm:justify-between items-center px-4 m-6 sm:m-0">
                         <div className="price flex gap-4 justify-center md:justify-start">
                           <h3 className="text-red-500 line-through font-bold text-sm">
                             $1000
@@ -349,7 +364,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                             }}
                                             key={option.id}
                                             className={`p-2 w-20 rounded-md ${
-                                              option.id == selectedId &&
+                                              // option.id == selectedId &&
                                               selectedSize
                                             } hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center`}
                                           >
@@ -387,7 +402,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                         </svg>
                       ) : (
                         <div className="flex gap-4 items-center justify-center">
-                          Add to Cart <FiShoppingCart className="text-xl" />
+                          Add to Cart <FiShoppingCart className="md:text-xl" />
                         </div>
                       )}
                     </div>
