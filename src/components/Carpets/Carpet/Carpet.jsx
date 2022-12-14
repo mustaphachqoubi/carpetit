@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import {
   AiOutlineClose,
@@ -38,17 +38,17 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
+    const isRightSwipe = distance > minSwipeDistance;
+    const isLeftSwipe = distance < -minSwipeDistance;
     if (isLeftSwipe || isRightSwipe) {
-      if (isLeftSwipe) {
-        products.map((carpet) =>
-          count <= 0 ? setCount(carpet.assets.length - 1) : setCount(count - 1)
-        );
-      } else {
-        count < products.map((carpet) => setCount(carpet.assets.length - 1))
-          ? setCount(count + 1)
-          : setCount(0);
+      if (isRightSwipe) {
+        products.map((carpet) => {
+          count == carpet.assets.length ? setCount(0) : setCount(count + 1);
+        });
+      } else if (isLeftSwipe) {
+        products.map((carpet) => {
+          count == 0 ? setCount(carpet.assets.length) : setCount(count - 1);
+        });
       }
     }
   };
@@ -56,23 +56,49 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const onOuterTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
+    const isRightSwipe = distance > minSwipeDistance;
+    const isLeftSwipe = distance < -minSwipeDistance;
     if (isLeftSwipe || isRightSwipe) {
-      if (isLeftSwipe) {
-        products.map((carpet) =>
-          count <= 0
-            ? setSingleCount(carpet.assets.length - 1)
-            : setSingleCount(count - 1)
-        );
-      } else {
-        count <
-        products.map((carpet) => setSingleCount(carpet.assets.length - 1))
-          ? setSingleCount(count + 1)
-          : setSingleCount(0);
+      if (isRightSwipe) {
+        // products.map((carpet) => {
+        //   singleCount == carpet.assets.length ? setSingleCount(0) : setSingleCount(singleCount + 1);
+        // });
+        
+
+        singleCount == products.map((carpet) => carpet.assets.length) ? setSingleCount(0) : setSingleCount(singleCount + 1);
+
+      } else if (isLeftSwipe) {
+        products.map((carpet) => {
+          singleCount == 0
+            ? setSingleCount(carpet.assets.length)
+            : setSingleCount(singleCount - 1);
+        });
       }
     }
   };
+
+  // const onOuterTouchEnd = () => {
+  //   if (!touchStart || !touchEnd) return;
+  //   const distance = touchStart - touchEnd;
+  //   const isLeftSwipe = distance > minSwipeDistance;
+  //   const isRightSwipe = distance < -minSwipeDistance;
+  //   if (isLeftSwipe || isRightSwipe) {
+  //     if (isLeftSwipe) {
+  //       products.map((carpet) =>
+  //         count <= 0
+  //           ? setSingleCount(carpet.assets.length - 1)
+  //           : setSingleCount(count - 1)
+  //       );
+  //     } else {
+  //       count <
+  //       products.map((carpet) => setSingleCount(carpet.assets.length - 1))
+  //         ? setSingleCount(count + 1)
+  //         : setSingleCount(0);
+  //     }
+  //   }
+  // };
+
+  const imagesRef = useRef(null);
 
   const handleClick = (id) => {
     setLoading(id);
