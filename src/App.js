@@ -11,7 +11,6 @@ function App() {
   const [cart, setCart] = useState([]);
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-  const [viriants, setViriants] = useState("");
 
   const fetchProducts = async () => {
     const products = await commerce.products.list({include: 'assets,variant_groups'});

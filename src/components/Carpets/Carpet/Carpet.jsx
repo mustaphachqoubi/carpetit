@@ -20,11 +20,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [scroll, setScroll] = useState("");
-  const [selectedSize, setSelectedSize] = useState("border border-gray-300");
-
-  const handleSelectedSize = (id) => {
-    id && setSelectedSize("border-2 border-black");
-  };
+  const [selectedSize, setSelectedSize] = useState(-1);
 
   const minSwipeDistance = 50;
 
@@ -63,10 +59,10 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
         // products.map((carpet) => {
         //   singleCount == carpet.assets.length ? setSingleCount(0) : setSingleCount(singleCount + 1);
         // });
-        
 
-        singleCount == products.map((carpet) => carpet.assets.length) ? setSingleCount(0) : setSingleCount(singleCount + 1);
-
+        singleCount == products.map((carpet) => carpet.assets.length)
+          ? setSingleCount(0)
+          : setSingleCount(singleCount + 1);
       } else if (isLeftSwipe) {
         products.map((carpet) => {
           singleCount == 0
@@ -98,7 +94,9 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   //   }
   // };
 
-  const imagesRef = useRef(null);
+  const handleSelectedSize = (id) => {
+    setSelectedSize(id);
+  };
 
   const handleClick = (id) => {
     setLoading(id);
@@ -360,7 +358,12 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                     </div>
 
                     <div className="w-80 mt-4 space-y-4">
-                      <div className="flex justify-center h-10 px-12 sm:px-4">
+                      <div
+                        onClick={() => {
+                          setSelectedSize(-1);
+                        }}
+                        className="flex justify-center h-10 px-12 sm:px-4"
+                      >
                         <input
                           type="text"
                           className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-sm p-2 rounded-l-md w-full "
@@ -385,14 +388,15 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                       variant.options.map((option) => {
                                         return (
                                           <div
-                                            onClick={(e) => {
-                                              handleSelectedSize(selectedId);
+                                            onClick={() => {
+                                              handleSelectedSize(option.id);
                                             }}
                                             key={option.id}
-                                            className={`p-2 w-20 rounded-md ${
-                                              // option.id == selectedId &&
-                                              selectedSize
-                                            } hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center`}
+                                            className={`${
+                                              selectedSize === option.id
+                                                ? "border-2 border-black"
+                                                : "border border-gray-300"
+                                            } p-2 w-20 rounded-md hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center`}
                                           >
                                             {option.name}
                                           </div>
