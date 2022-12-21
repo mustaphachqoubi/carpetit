@@ -12,14 +12,18 @@ function App() {
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
 
+
   const fetchProducts = async () => {
-    const products = await commerce.products.list({include: 'assets,variant_groups'});
+    const products = await commerce.products.list({
+      include: "assets,variant_groups",
+    });
     setProducts(products.data);
   };
 
   const fetchCart = async () => {
     const retrieve = await commerce.cart.retrieve();
     setCart(retrieve);
+
   };
 
   const handleAddToCart = async (productId, quantity) => {

@@ -7,7 +7,14 @@ import {
   AiOutlineDoubleRight,
   AiOutlineDoubleLeft,
 } from "react-icons/ai";
-import { BsStar, BsStarHalf, BsStarFill } from "react-icons/bs";
+import {
+  BsStar,
+  BsStarHalf,
+  BsStarFill,
+  BsCheckLg,
+  BsThreeDots,
+} from "react-icons/bs";
+import { CgClose } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
 
@@ -21,6 +28,15 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [touchEnd, setTouchEnd] = useState(null);
   const [scroll, setScroll] = useState("");
   const [selectedSize, setSelectedSize] = useState(-1);
+  const [sizeitBtn, setSizeitBtn] = useState("bg-black");
+  const [sizeitBtnIcon, setSizeitBtnIcon] = useState("Size it");
+  const [cuponBtn, setCuponBtn] = useState("bg-black");
+  const [cuponBtnIcon, setCuponBtnIcon] = useState("check");
+
+  const sizeInp = useRef();
+  const cuponInp = useRef();
+
+  const cupon = "hello";
 
   const minSwipeDistance = 50;
 
@@ -56,13 +72,11 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
     const isLeftSwipe = distance < -minSwipeDistance;
     if (isLeftSwipe || isRightSwipe) {
       if (isRightSwipe) {
-        // products.map((carpet) => {
-        //   singleCount == carpet.assets.length ? setSingleCount(0) : setSingleCount(singleCount + 1);
-        // });
-
-        singleCount == products.map((carpet) => carpet.assets.length)
-          ? setSingleCount(0)
-          : setSingleCount(singleCount + 1);
+        products.map((carpet) => {
+          singleCount == carpet.assets.length
+            ? setSingleCount(0)
+            : setSingleCount(singleCount + 1);
+        });
       } else if (isLeftSwipe) {
         products.map((carpet) => {
           singleCount == 0
@@ -72,27 +86,6 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
       }
     }
   };
-
-  // const onOuterTouchEnd = () => {
-  //   if (!touchStart || !touchEnd) return;
-  //   const distance = touchStart - touchEnd;
-  //   const isLeftSwipe = distance > minSwipeDistance;
-  //   const isRightSwipe = distance < -minSwipeDistance;
-  //   if (isLeftSwipe || isRightSwipe) {
-  //     if (isLeftSwipe) {
-  //       products.map((carpet) =>
-  //         count <= 0
-  //           ? setSingleCount(carpet.assets.length - 1)
-  //           : setSingleCount(count - 1)
-  //       );
-  //     } else {
-  //       count <
-  //       products.map((carpet) => setSingleCount(carpet.assets.length - 1))
-  //         ? setSingleCount(count + 1)
-  //         : setSingleCount(0);
-  //     }
-  //   }
-  // };
 
   const handleSelectedSize = (id) => {
     setSelectedSize(id);
@@ -147,10 +140,10 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   -70%
                 </motion.h3>
                 <motion.img
-                  onTouchStart={(e) => c.id && onTouchStart(e)}
-                  onTouchMove={(e) => onTouchMove(e)}
-                  onTouchEnd={() => onOuterTouchEnd()}
-                  onClick={() => c.id && setSelectedId(c.id)}
+                  // onTouchStart={(e) => c.id && onTouchStart(e)}
+                  // onTouchMove={(e) => onTouchMove(e)}
+                  // onTouchEnd={() => onOuterTouchEnd()}
+                  onClick={() => setSelectedId(c.id)}
                   src={c.assets[singleCount].url}
                   alt="carpet"
                   className="object-cover h-[18em] w-80 rounded-xl"
@@ -220,7 +213,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   document.body.style.overflow = "visible";
                   setScroll("");
                 }}
-                className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0 "
+                className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0"
               ></div>
               <motion.div
                 layoutId={selectedId}
@@ -302,12 +295,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                       setCount(c.assets.indexOf(a));
                                     }}
                                     key={a.id}
-                                    src={
-                                      // c.assets[count].id == a.id
-                                      //   ? c.assets[0].url
-                                      //   : a.url
-                                      a.url
-                                    }
+                                    src={a.url}
                                     alt="carpet"
                                     className="object-cover cursor-pointer rounded-lg"
                                   />
@@ -330,7 +318,12 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                       <div className="flex justify-evenly sm:justify-between items-center px-4 m-6 sm:m-0">
                         <div className="price flex gap-4 justify-center md:justify-start">
                           <h3 className="text-red-500 line-through font-bold text-sm">
-                            $1000
+                            $
+                            {products.map(
+                              (carpet) =>
+                                carpet.id == selectedId &&
+                                carpet.price.formatted * 1.5
+                            )}
                           </h3>
                           <h3 className="text-green-500">
                             $
@@ -342,17 +335,52 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                           </h3>
                         </div>
                         <div className="bg-red-200 flex justify-center items-center p-2 w-20 rounded-xl text-red-500 font-bold ">
-                          -70%
+                          -
+                          {products.map(
+                            (carpet) =>
+                              carpet.id == selectedId &&
+                              String(
+                                (100 *
+                                  (carpet.price.formatted * 1.5 -
+                                    carpet.price.formatted)) /
+                                  (carpet.price.formatted * 1.5)
+                              ).slice(0, 2)
+                          )}
+                          %
                         </div>
                       </div>
                       <div className="flex px-12 sm:px-4">
                         <input
+                          ref={cuponInp}
                           type="text"
                           className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-sm p-2 rounded-l-md w-full"
                           placeholder="You have a Cupon !"
                         />
-                        <button className="bg-black text-white font-bold p-2 text-sm rounded-r-md h-10 ">
-                          check
+                        <button
+                          onClick={() => {
+                            setCuponBtnIcon(<BsThreeDots />);
+                            setTimeout(() => {
+                              if (
+                                cuponInp.current.value.length >= 1 &&
+                                cuponInp.current.value == cupon
+                              ) {
+                                setCuponBtn("bg-green-500");
+                                setCuponBtnIcon(<BsCheckLg />);
+                              } else if (
+                                cuponInp.current.value.length >= 1 &&
+                                cuponInp.current.value != cupon
+                              ) {
+                                setCuponBtn("bg-red-500");
+                                setCuponBtnIcon(<CgClose />);
+                              } else {
+                                setCuponBtn("bg-black");
+                                setCuponBtnIcon("check");
+                              }
+                            }, 2000);
+                          }}
+                          className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md`}
+                        >
+                          {cuponBtnIcon}
                         </button>
                       </div>
                     </div>
@@ -365,12 +393,27 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                         className="flex justify-center h-10 px-12 sm:px-4"
                       >
                         <input
+                          ref={sizeInp}
                           type="text"
                           className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-sm p-2 rounded-l-md w-full "
                           placeholder="Put size in cm"
                         />
-                        <button className="bg-black text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md">
-                          Size it
+                        <button
+                          onClick={() => {
+                            setSizeitBtnIcon(<BsThreeDots />);
+                            setTimeout(() => {
+                              if (sizeInp.current.value.length >= 1) {
+                                setSizeitBtn("bg-green-500");
+                                setSizeitBtnIcon(<BsCheckLg />);
+                              } else {
+                                setSizeitBtn("bg-black");
+                                setSizeitBtnIcon("Size it");
+                              }
+                            }, 2000);
+                          }}
+                          className={`${sizeitBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md`}
+                        >
+                          {sizeitBtnIcon}
                         </button>
                       </div>
 
@@ -470,7 +513,6 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               </motion.div>
             </div>
           </div>
-          // </div>
         )}
       </AnimatePresence>
     </>
