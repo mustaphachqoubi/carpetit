@@ -55,11 +55,11 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
     if (isLeftSwipe || isRightSwipe) {
       if (isRightSwipe) {
         products.map((carpet) => {
-          count == carpet.assets.length ? setCount(0) : setCount(count + 1);
+          count === carpet.assets.length ? setCount(0) : setCount(count + 1);
         });
       } else if (isLeftSwipe) {
         products.map((carpet) => {
-          count == 0 ? setCount(carpet.assets.length) : setCount(count - 1);
+          count === 0 ? setCount(carpet.assets.length) : setCount(count - 1);
         });
       }
     }
@@ -73,13 +73,13 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
     if (isLeftSwipe || isRightSwipe) {
       if (isRightSwipe) {
         products.map((carpet) => {
-          singleCount == carpet.assets.length
+          singleCount === carpet.assets.length
             ? setSingleCount(0)
             : setSingleCount(singleCount + 1);
         });
       } else if (isLeftSwipe) {
         products.map((carpet) => {
-          singleCount == 0
+          singleCount === 0
             ? setSingleCount(carpet.assets.length)
             : setSingleCount(singleCount - 1);
         });
@@ -106,11 +106,11 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const getFilteredList = () => {
     if (!selectedCategory) {
       return carpetList;
-    } else if (selectedCategory == "all") {
+    } else if (selectedCategory === "all") {
       return carpetList;
     }
     return carpetList.filter(
-      (item) => item.categories.map((c) => c.slug) == selectedCategory
+      (item) => item.categories.map((c) => c.slug) === selectedCategory
     );
   };
 
@@ -234,7 +234,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                     <div className="relative">
                       {products.map(
                         (carpet) =>
-                          carpet.id == selectedId && (
+                          carpet.id === selectedId && (
                             <div key={carpet.id}>
                               <div
                                 onClick={() => {
@@ -283,7 +283,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                       </div>
                       {products.map((c) => {
                         return (
-                          c.id == selectedId && (
+                          c.id === selectedId && (
                             <div
                               key={c.id}
                               className="flex justify-between items-center gap-5 overflow-x-auto"
@@ -312,7 +312,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                     <div className="w-80 space-y-4 text-center md:text-left">
                       <h3 className="font-bold text-2xl md:text-xl px-4 dark:text-white">
                         {products.map(
-                          (carpet) => carpet.id == selectedId && carpet.name
+                          (carpet) => carpet.id === selectedId && carpet.name
                         )}
                       </h3>
                       <div className="flex justify-evenly sm:justify-between items-center px-4 m-6 sm:m-0">
@@ -321,15 +321,15 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                             $
                             {products.map(
                               (carpet) =>
-                                carpet.id == selectedId &&
-                                carpet.price.formatted * 1.5
+                                carpet.id === selectedId &&
+                                carpet.price.raw * 1.5
                             )}
                           </h3>
                           <h3 className="text-green-500">
                             $
                             {products.map(
                               (carpet) =>
-                                carpet.id == selectedId &&
+                                carpet.id === selectedId &&
                                 carpet.price.formatted
                             )}
                           </h3>
@@ -338,12 +338,10 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                           -
                           {products.map(
                             (carpet) =>
-                              carpet.id == selectedId &&
+                              carpet.id === selectedId &&
                               String(
-                                (100 *
-                                  (carpet.price.formatted * 1.5 -
-                                    carpet.price.formatted)) /
-                                  (carpet.price.formatted * 1.5)
+                                100 * (carpet.price.raw * 1.5) -
+                                  carpet.price.raw / (carpet.price.raw * 1.5)
                               ).slice(0, 2)
                           )}
                           %
@@ -362,13 +360,13 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                             setTimeout(() => {
                               if (
                                 cuponInp.current.value.length >= 1 &&
-                                cuponInp.current.value == cupon
+                                cuponInp.current.value === cupon
                               ) {
                                 setCuponBtn("bg-green-500");
                                 setCuponBtnIcon(<BsCheckLg />);
                               } else if (
                                 cuponInp.current.value.length >= 1 &&
-                                cuponInp.current.value != cupon
+                                cuponInp.current.value !== cupon
                               ) {
                                 setCuponBtn("bg-red-500");
                                 setCuponBtnIcon(<CgClose />);
@@ -420,14 +418,14 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                       {products.map((carpet) => {
                         return (
                           <div key={carpet.id}>
-                            {carpet.id == selectedId &&
+                            {carpet.id === selectedId &&
                               carpet.variant_groups.map((variant) => {
                                 return (
                                   <div
                                     key={variant.id}
                                     className="flex items-center flex-wrap gap-2 justify-center dark:text-white mx-12 sm:mx-0"
                                   >
-                                    {variant.name == "size" &&
+                                    {variant.name === "size" &&
                                       variant.options.map((option) => {
                                         return (
                                           <div
@@ -485,7 +483,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                     <div className="w-80">
                       {products.map(
                         (carpet) =>
-                          carpet.id == selectedId && (
+                          carpet.id === selectedId && (
                             <p
                               key={carpet.id}
                               dangerouslySetInnerHTML={{

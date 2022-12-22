@@ -16,7 +16,9 @@ const HeroBanner = ({ handleAddToCart }) => {
   const [loading, setLoading] = useState(<FiShoppingCart />);
 
   const fetchProducts = async () => {
-    const products = await commerce.products.list({include: 'assets,variant_groups'});
+    const products = await commerce.products.list({
+      include: "assets,variant_groups",
+    });
     setProducts(products.data);
   };
 
@@ -88,23 +90,27 @@ const HeroBanner = ({ handleAddToCart }) => {
 
         <div className="col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]">
           <div className="">
-            <Similar products={products}/>
+            <Similar products={products} />
           </div>
-          {products.length > 0 ? (<img
-            src={products.at(0) ? products.at(0).image.url : Carpet}
-            alt="carpet"
-            className="w-80"
-          />) : <IntroImageSkeleton />}
+          {products.length > 0 ? (
+            <img
+              src={products.at(0) ? products.at(0).image.url : Carpet}
+              alt="carpet"
+              className="w-80"
+            />
+          ) : (
+            <IntroImageSkeleton />
+          )}
         </div>
 
         <div className="row-span-2 xl:grid content-end hidden dark:text-white">
           <Specification products={products} />
         </div>
-        <div
-          
-          className="dark:text-white flex items-center justify-center col-start-1 xl:col-start-2 xl:col-span-1 col-span-2 mt-8 md:mt-20"
-        >
-          <div className="border p-4 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 cursor-pointer" onClick={() => window.scrollTo({ top: 20000, behavior: "smooth" })}>
+        <div className="dark:text-white flex items-center justify-center col-start-1 xl:col-start-2 xl:col-span-1 col-span-2 mt-8 md:mt-20">
+          <div
+            className="border p-4 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 cursor-pointer"
+            onClick={() => window.scrollTo({ top: 20000, behavior: "smooth" })}
+          >
             <AiOutlineArrowDown />
           </div>
         </div>
