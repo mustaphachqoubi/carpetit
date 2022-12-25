@@ -17,13 +17,14 @@ import {
 import { CgClose } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import './Carpet.css'
 
 function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [loading, setLoading] = useState(-1);
   const [selectedId, setSelectedId] = useState(null);
   const [carpetList, setCarpetList] = useState([]);
   const [count, setCount] = useState(0);
-  const [singleCount, setSingleCount] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [scroll, setScroll] = useState("");
@@ -32,6 +33,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [sizeitBtnIcon, setSizeitBtnIcon] = useState("Size it");
   const [cuponBtn, setCuponBtn] = useState("bg-black");
   const [cuponBtnIcon, setCuponBtnIcon] = useState("check");
+  const [load, setLoad] = useState("");
 
   const sizeInp = useRef();
   const cuponInp = useRef();
@@ -54,38 +56,38 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
     const isLeftSwipe = distance < -minSwipeDistance;
     if (isLeftSwipe || isRightSwipe) {
       if (isRightSwipe) {
-        products.map((carpet) => {
-          count === carpet.assets.length ? setCount(0) : setCount(count + 1);
-        });
+        products.map((carpet) =>
+          count === carpet.assets.length ? setCount(0) : setCount(count + 1)
+        );
       } else if (isLeftSwipe) {
-        products.map((carpet) => {
-          count === 0 ? setCount(carpet.assets.length) : setCount(count - 1);
-        });
+        products.map((carpet) =>
+          count === 0 ? setCount(carpet.assets.length) : setCount(count - 1)
+        );
       }
     }
   };
 
-  const onOuterTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isRightSwipe = distance > minSwipeDistance;
-    const isLeftSwipe = distance < -minSwipeDistance;
-    if (isLeftSwipe || isRightSwipe) {
-      if (isRightSwipe) {
-        products.map((carpet) => {
-          singleCount === carpet.assets.length
-            ? setSingleCount(0)
-            : setSingleCount(singleCount + 1);
-        });
-      } else if (isLeftSwipe) {
-        products.map((carpet) => {
-          singleCount === 0
-            ? setSingleCount(carpet.assets.length)
-            : setSingleCount(singleCount - 1);
-        });
-      }
-    }
-  };
+  // const onOuterTouchEnd = () => {
+  //   if (!touchStart || !touchEnd) return;
+  //   const distance = touchStart - touchEnd;
+  //   const isRightSwipe = distance > minSwipeDistance;
+  //   const isLeftSwipe = distance < -minSwipeDistance;
+  //   if (isLeftSwipe || isRightSwipe) {
+  //     if (isRightSwipe) {
+  //       products.map((carpet) => {
+  //         singleCount === carpet.assets.length
+  //           ? setSingleCount(0)
+  //           : setSingleCount(singleCount + 1);
+  //       });
+  //     } else if (isLeftSwipe) {
+  //       products.map((carpet) => {
+  //         singleCount === 0
+  //           ? setSingleCount(carpet.assets.length)
+  //           : setSingleCount(singleCount - 1);
+  //       });
+  //     }
+  //   }
+  // };
 
   const handleSelectedSize = (id) => {
     setSelectedSize(id);
@@ -140,13 +142,10 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   -70%
                 </motion.h3>
                 <motion.img
-                  // onTouchStart={(e) => c.id && onTouchStart(e)}
-                  // onTouchMove={(e) => onTouchMove(e)}
-                  // onTouchEnd={() => onOuterTouchEnd()}
                   onClick={() => setSelectedId(c.id)}
-                  src={c.assets[singleCount].url}
+                  src={c.assets[0].url}
                   alt="carpet"
-                  className="object-cover h-[18em] w-80 rounded-xl"
+                  className="image-container object-cover h-[18em] w-80 rounded-xl"
                 />
                 <motion.div
                   onClick={() => handleClick(c.id)}

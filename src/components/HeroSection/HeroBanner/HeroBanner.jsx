@@ -10,6 +10,7 @@ import { commerce } from "../../../lib/commerce";
 // import at from "core-js/features/array/at";
 import "./styles.css";
 import IntroImageSkeleton from "../../Skeletons/IntroImageSkeleton";
+import '../../Carpets/Carpet/Carpet.css'
 
 const HeroBanner = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
@@ -89,14 +90,14 @@ const HeroBanner = ({ handleAddToCart }) => {
         </div>
 
         <div className="col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]">
-          <div className="">
+          <div className="z-50">
             <Similar products={products} />
           </div>
           {products.length > 0 ? (
             <img
               src={products.at(0) ? products.at(0).image.url : Carpet}
               alt="carpet"
-              className="w-80"
+              className="image-container w-80"
             />
           ) : (
             <IntroImageSkeleton />

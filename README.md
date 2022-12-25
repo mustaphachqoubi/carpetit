@@ -1,0 +1,1 @@
+i don't know why i can't do animation with tailwind that good, that's why i used a css file in carpet component to make the progressive image loading
