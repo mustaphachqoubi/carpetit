@@ -13,7 +13,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useForm, FormProvider } from "react-hook-form";
 import CustomTextField from "./CustomTextField";
 import { done, error, warning } from "../../assets/index";
-import { click } from "@testing-library/user-event/dist/click";
 
 const Shipping = ({ next, checkoutToken, commerce }) => {
   const [countries, setCountries] = useState([]);

@@ -11,6 +11,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const [coupon, setCoupon] = useState("");
 
 
   const fetchProducts = async () => {
@@ -24,6 +25,13 @@ function App() {
     const retrieve = await commerce.cart.retrieve();
     setCart(retrieve);
 
+  };
+
+  const fetchCoupon = async () => {
+    const c = await commerce.checkout.checkDiscount('hh', {
+      code: 'ABC123ZYX',
+    }).then((response) => console.log(response));
+    setCoupon(c)
   };
 
   const handleAddToCart = async (productId, quantity) => {
@@ -63,6 +71,7 @@ function App() {
   useEffect(() => {
     fetchProducts();
     fetchCart();
+    fetchCoupon()
   }, []);
 
   return (

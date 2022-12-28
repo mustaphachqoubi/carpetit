@@ -17,8 +17,7 @@ import {
 import { CgClose } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import './Carpet.css'
+import "./Carpet.css";
 
 function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [loading, setLoading] = useState(-1);
@@ -33,7 +32,6 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [sizeitBtnIcon, setSizeitBtnIcon] = useState("Size it");
   const [cuponBtn, setCuponBtn] = useState("bg-black");
   const [cuponBtnIcon, setCuponBtnIcon] = useState("check");
-  const [load, setLoad] = useState("");
 
   const sizeInp = useRef();
   const cuponInp = useRef();
@@ -66,28 +64,6 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
       }
     }
   };
-
-  // const onOuterTouchEnd = () => {
-  //   if (!touchStart || !touchEnd) return;
-  //   const distance = touchStart - touchEnd;
-  //   const isRightSwipe = distance > minSwipeDistance;
-  //   const isLeftSwipe = distance < -minSwipeDistance;
-  //   if (isLeftSwipe || isRightSwipe) {
-  //     if (isRightSwipe) {
-  //       products.map((carpet) => {
-  //         singleCount === carpet.assets.length
-  //           ? setSingleCount(0)
-  //           : setSingleCount(singleCount + 1);
-  //       });
-  //     } else if (isLeftSwipe) {
-  //       products.map((carpet) => {
-  //         singleCount === 0
-  //           ? setSingleCount(carpet.assets.length)
-  //           : setSingleCount(singleCount - 1);
-  //       });
-  //     }
-  //   }
-  // };
 
   const handleSelectedSize = (id) => {
     setSelectedSize(id);
@@ -137,15 +113,16 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               <motion.div className="relative">
                 <motion.h3
                   onClick={() => setSelectedId(c.id)}
-                  className="bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
+                  className="z-50 bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
                 >
                   -70%
                 </motion.h3>
                 <motion.img
+                loading="lazy"
                   onClick={() => setSelectedId(c.id)}
                   src={c.assets[0].url}
                   alt="carpet"
-                  className="image-container object-cover h-[18em] w-80 rounded-xl"
+                  className="object-cover h-[18em] w-80 rounded-xl"
                 />
                 <motion.div
                   onClick={() => handleClick(c.id)}
@@ -208,6 +185,8 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
             <div className="flex justify-center">
               <div
                 onClick={() => {
+                  setCuponBtn("bg-black");
+                  setCuponBtnIcon("check");
                   setSelectedId(null);
                   document.body.style.overflow = "visible";
                   setScroll("");
@@ -220,6 +199,8 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               >
                 <motion.button
                   onClick={() => {
+                    setCuponBtn("bg-black");
+                    setCuponBtnIcon("check");
                     setSelectedId(null);
                     document.body.style.overflow = "visible";
                     setScroll("");
@@ -274,9 +255,9 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                         onClick={() => HideScroll()}
                         className={`${scroll} w-full h-screen absolute flex justify-center items-center bg-slate/20 backdrop-blur-md cursor-pointer`}
                       >
-                        <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md">
-                          <AiOutlineDoubleLeft className="animate-bounce text-xl text-white front-bold" />{" "}
-                          Click & Scroll{" "}
+                        <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md justify-center items-center">
+                          <AiOutlineDoubleLeft className="animate-bounce text-xl text-white front-bold" />
+                          {" "}Click & Scroll{" "}
                           <AiOutlineDoubleRight className="text-xl text-white front-bold animate-bounce" />
                         </h1>
                       </div>
@@ -389,22 +370,24 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                           onClick={() => {
                             setCuponBtnIcon(<BsThreeDots />);
                             setTimeout(() => {
-                              if (
-                                cuponInp.current.value.length >= 1 &&
-                                cuponInp.current.value === cupon
-                              ) {
-                                setCuponBtn("bg-green-500");
-                                setCuponBtnIcon(<BsCheckLg />);
-                              } else if (
-                                cuponInp.current.value.length >= 1 &&
-                                cuponInp.current.value !== cupon
-                              ) {
-                                setCuponBtn("bg-red-500");
-                                setCuponBtnIcon(<CgClose />);
-                              } else {
-                                setCuponBtn("bg-black");
-                                setCuponBtnIcon("check");
-                              }
+                              products.map((c) => {
+                                if (
+                                  cuponInp.current.value.length >= 1 &&
+                                  cuponInp.current.value === c.sku
+                                ) { 
+                                  setCuponBtn("bg-green-500");
+                                  setCuponBtnIcon(<BsCheckLg />);
+                                } else if (
+                                  cuponInp.current.value.length >= 1 &&
+                                  cuponInp.current.value !== c.sku
+                                ) {
+                                  setCuponBtn("bg-red-500");
+                                  setCuponBtnIcon(<CgClose />);
+                                } else {
+                                  setCuponBtn("bg-black");
+                                  setCuponBtnIcon("check");
+                                }
+                              });
                             }, 2000);
                           }}
                           className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md`}

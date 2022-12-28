@@ -7,7 +7,6 @@ import { FaPlay } from "react-icons/fa";
 import Specification from "../Specification/Specification";
 import Carpets from "../../Carpets/Carpets";
 import { commerce } from "../../../lib/commerce";
-// import at from "core-js/features/array/at";
 import "./styles.css";
 import IntroImageSkeleton from "../../Skeletons/IntroImageSkeleton";
 import '../../Carpets/Carpet/Carpet.css'
