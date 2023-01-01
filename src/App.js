@@ -2,6 +2,7 @@ import { Navbar, HeroBanner, Footer, Cart, Checkout } from "./components";
 import { useState, useEffect } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CartItems from "./components/Cart/CartItems";
 
 function App() {
   const [dark, setdark] = useState(null);
@@ -21,18 +22,20 @@ function App() {
     setProducts(products.data);
   };
 
+
+
   const fetchCart = async () => {
     const retrieve = await commerce.cart.retrieve();
     setCart(retrieve);
 
   };
 
-  const fetchCoupon = async () => {
-    const c = await commerce.checkout.checkDiscount('hh', {
-      code: 'ABC123ZYX',
-    }).then((response) => console.log(response));
-    setCoupon(c)
-  };
+  // const fetchCoupon = async () => {
+  //   const c = await commerce.checkout.checkDiscount('hh', {
+  //     code: 'ABC123ZYX',
+  //   }).then((response) => console.log(response));
+  //   setCoupon(c)
+  // };
 
   const handleAddToCart = async (productId, quantity) => {
     setCart(await commerce.cart.add(productId, quantity));
@@ -71,8 +74,11 @@ function App() {
   useEffect(() => {
     fetchProducts();
     fetchCart();
-    fetchCoupon()
+    // fetchCoupon();
+    // console.log(products)
+  
   }, []);
+
 
   return (
     <div className={dark}>

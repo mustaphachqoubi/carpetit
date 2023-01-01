@@ -14,6 +14,9 @@ const Navbar = ({ pullDark, totalItems }) => {
     <div className="dark:text-white dark:bg-slate-800 py-4 px-10 w-full flex justify-between items-center bg-[#FAFCFC] z-50">
       <Link to="/">
         <div className="flex items-center cursor-pointer">
+          <div className="w-8">
+            <img src="https://i.pinimg.com/originals/8b/2f/04/8b2f042f2746d28297de313b1fec2ec4.png" alt="" />
+          </div>
           <h3 className="font-semibold text-xl md:text-xl">Carpetit</h3>
         </div>
       </Link>

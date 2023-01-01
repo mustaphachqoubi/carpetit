@@ -552,6 +552,9 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
 
+  const [coupon, setCoupon] = useState("");
+
+
   useEffect(() => {
     const generatetoken = async () => {
       try {
@@ -565,6 +568,12 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
     generatetoken();
   }, [cart]);
 
+  const fetchDiscounts = async () => {
+    const c = await commerce.checkout.checkDiscount(checkoutToken.id, {code: '6881C133B2',});
+    setCoupon(c);
+    console.log(c)
+  };
+
   const nextStep = () => setStep((step) => step + 1);
   const backStep = () => setStep((step) => step - 1);
 
@@ -572,6 +581,11 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
     setShippingData(data);
     nextStep();
   };
+
+  useEffect(() => {
+    checkoutToken ? fetchDiscounts() : console.log('hi')
+    // console.log(checkoutToken)
+  }, [checkoutToken])
 
   return (
     <div className="dark:text-white flex justify-center p-10">

@@ -32,6 +32,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const [sizeitBtnIcon, setSizeitBtnIcon] = useState("Size it");
   const [cuponBtn, setCuponBtn] = useState("bg-black");
   const [cuponBtnIcon, setCuponBtnIcon] = useState("check");
+  const [hideOpenedProduct, setHideOpenedProduct] = useState("");
 
   const sizeInp = useRef();
   const cuponInp = useRef();
@@ -98,19 +99,24 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
     setCarpetList(products.map((c) => c));
   }, [products]);
 
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
+
   return (
     <>
       {products.length > 0
         ? filteredList.map((c) => (
             <motion.div
               layoutId={c.id}
-              className="shrink-0 cursor-pointer w-[18rem] sm:max-w-sm "
+              className={`${hideOpenedProduct} shrink-0 cursor-pointer w-[18rem] sm:max-w-sm`}
               key={c.id}
               onClick={() => {
                 document.body.style.overflow = "hidden";
+                setHideOpenedProduct("hidden");
               }}
             >
-              <motion.div className="relative">
+              <motion.div className={` relative`}>
                 <motion.h3
                   onClick={() => setSelectedId(c.id)}
                   className="z-50 bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
@@ -118,7 +124,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   -70%
                 </motion.h3>
                 <motion.img
-                loading="lazy"
+                  loading="lazy"
                   onClick={() => setSelectedId(c.id)}
                   src={c.assets[0].url}
                   alt="carpet"
@@ -187,6 +193,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                 onClick={() => {
                   setCuponBtn("bg-black");
                   setCuponBtnIcon("check");
+                  setHideOpenedProduct("");
                   setSelectedId(null);
                   document.body.style.overflow = "visible";
                   setScroll("");
@@ -201,6 +208,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   onClick={() => {
                     setCuponBtn("bg-black");
                     setCuponBtnIcon("check");
+                    setHideOpenedProduct("");
                     setSelectedId(null);
                     document.body.style.overflow = "visible";
                     setScroll("");
@@ -256,8 +264,8 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                         className={`${scroll} w-full h-screen absolute flex justify-center items-center bg-slate/20 backdrop-blur-md cursor-pointer`}
                       >
                         <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md justify-center items-center">
-                          <AiOutlineDoubleLeft className="animate-bounce text-xl text-white front-bold" />
-                          {" "}Click & Scroll{" "}
+                          <AiOutlineDoubleLeft className="animate-bounce text-xl text-white front-bold" />{" "}
+                          Click & Scroll{" "}
                           <AiOutlineDoubleRight className="text-xl text-white front-bold animate-bounce" />
                         </h1>
                       </div>
@@ -374,7 +382,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                 if (
                                   cuponInp.current.value.length >= 1 &&
                                   cuponInp.current.value === c.sku
-                                ) { 
+                                ) {
                                   setCuponBtn("bg-green-500");
                                   setCuponBtnIcon(<BsCheckLg />);
                                 } else if (
