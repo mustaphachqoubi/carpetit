@@ -18,35 +18,59 @@ import { CgClose } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
 import "./Carpet.css";
+import { useDispatch, useSelector } from "react-redux";
+import { startLoad, endLoad } from "../../../redux/loading";
+import { selectedIdGetId, selectedIdNull } from "../../../redux/selectedId";
+import { carpetListGetProducts } from "../../../redux/carpetList";
+import { updateCount, countToZero } from "../../../redux/count";
+import { updateTouchStart } from "../../../redux/touchStart";
+import { updateTouchEnd, nullTouchEnd } from "../../../redux/touchEnd";
+import { hiddenScroll, backScroll } from "../../../redux/scroll";
+import {
+  selectedSizeId,
+  selectedSizeInitial,
+} from "../../../redux/selectedSize";
+import { sizeitBtnGreen, sizeitBtnBlack } from "../../../redux/sizeitBtn";
+import {
+  sizeitBtnIconInitial,
+  sizeitBtnIconValue,
+} from "../../../redux/sizeitBtnIcon";
+import { cuponBtnInitial, cuponBtnGreen } from "../../../redux/cuponBtn";
+import {
+  cuponBtnIconInitial,
+  cuponBtnIconValue,
+} from "../../../redux/cuponBtnIcon";
 
 function Carpet({ products, onAddToCart, selectedCategory, search }) {
-  const [loading, setLoading] = useState(-1);
-  const [selectedId, setSelectedId] = useState(null);
-  const [carpetList, setCarpetList] = useState([]);
-  const [count, setCount] = useState(0);
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-  const [scroll, setScroll] = useState("");
-  const [selectedSize, setSelectedSize] = useState(-1);
-  const [sizeitBtn, setSizeitBtn] = useState("bg-black");
-  const [sizeitBtnIcon, setSizeitBtnIcon] = useState("Size it");
-  const [cuponBtn, setCuponBtn] = useState("bg-black");
-  const [cuponBtnIcon, setCuponBtnIcon] = useState("check");
-  const [hideOpenedProduct, setHideOpenedProduct] = useState("");
+  const dispatch = useDispatch();
+
+  const { loading } = useSelector((state) => state.loader);
+  const { selectedId } = useSelector((state) => state.selector);
+  const { carpetList } = useSelector((state) => state.carpetlist);
+  const { count } = useSelector((state) => state.count);
+  const { touchStart } = useSelector((state) => state.touchStart);
+  const { touchEnd } = useSelector((state) => state.touchEnd);
+  const { scroll } = useSelector((state) => state.scroll);
+  const { selectedSize } = useSelector((state) => state.selectedSize);
+  const { sizeitBtn } = useSelector((state) => state.sizeitBtn);
+  const { sizeitBtnIcon } = useSelector((state) => state.sizeitBtnIcon);
+  const { cuponBtn } = useSelector((state) => state.cuponBtn);
+  const { cuponBtnIcon } = useSelector((state) => state.cuponBtnIcon);
+
+  // const [hideOpenedProduct, setHideOpenedProduct] = useState("");
 
   const sizeInp = useRef();
   const cuponInp = useRef();
 
-  const cupon = "hello";
-
   const minSwipeDistance = 50;
 
   const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+    dispatch(nullTouchEnd());
+    updateTouchStart(e.targetTouches[0].clientX);
   };
 
-  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+  const onTouchMove = (e) =>
+    dispatch(updateTouchEnd(e.targetTouches[0].clientX));
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
@@ -56,30 +80,34 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
     if (isLeftSwipe || isRightSwipe) {
       if (isRightSwipe) {
         products.map((carpet) =>
-          count === carpet.assets.length ? setCount(0) : setCount(count + 1)
+          count === carpet.assets.length
+            ? dispatch(countToZero(0))
+            : dispatch(updateCount(count + 1))
         );
       } else if (isLeftSwipe) {
         products.map((carpet) =>
-          count === 0 ? setCount(carpet.assets.length) : setCount(count - 1)
+          count === 0
+            ? dispatch(updateCount(carpet.assets.length))
+            : dispatch(updateCount(count - 1))
         );
       }
     }
   };
 
   const handleSelectedSize = (id) => {
-    setSelectedSize(id);
+    dispatch(selectedSizeId(id));
   };
 
   const handleClick = (id) => {
-    setLoading(id);
+    dispatch(startLoad(id));
     setTimeout(function () {
-      setLoading(-1);
+      dispatch(endLoad());
     }, 1000);
     onAddToCart(id, 1);
   };
 
   const HideScroll = () => {
-    setScroll("hidden");
+    dispatch(hiddenScroll());
   };
 
   const getFilteredList = () => {
@@ -96,11 +124,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
 
   useEffect(() => {
-    setCarpetList(products.map((c) => c));
-  }, [products]);
-
-  useEffect(() => {
-    console.log(products);
+    dispatch(carpetListGetProducts(products.map((c) => c)));
   }, [products]);
 
   return (
@@ -109,23 +133,23 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
         ? filteredList.map((c) => (
             <motion.div
               layoutId={c.id}
-              className={`${hideOpenedProduct} shrink-0 cursor-pointer w-[18rem] sm:max-w-sm`}
+              className={`shrink-0 cursor-pointer w-[18rem] sm:max-w-sm`}
               key={c.id}
               onClick={() => {
                 document.body.style.overflow = "hidden";
-                setHideOpenedProduct("hidden");
+                // setHideOpenedProduct("hidden");
               }}
             >
               <motion.div className={` relative`}>
                 <motion.h3
-                  onClick={() => setSelectedId(c.id)}
+                  onClick={() => dispatch(selectedIdGetId(c.id))}
                   className="z-50 bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
                 >
                   -70%
                 </motion.h3>
                 <motion.img
                   loading="lazy"
-                  onClick={() => setSelectedId(c.id)}
+                  onClick={() => dispatch(selectedIdGetId(c.id))}
                   src={c.assets[0].url}
                   alt="carpet"
                   className="object-cover h-[18em] w-80 rounded-xl"
@@ -160,7 +184,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               </motion.div>
               <motion.div
                 className="flex justify-between p-2 py-4"
-                onClick={() => setSelectedId(c.id)}
+                onClick={() => dispatch(selectedIdGetId(c.id))}
               >
                 <motion.div>
                   <h3 className="dark:text-white font-bold text-xl">
@@ -191,12 +215,12 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
             <div className="flex justify-center">
               <div
                 onClick={() => {
-                  setCuponBtn("bg-black");
-                  setCuponBtnIcon("check");
-                  setHideOpenedProduct("");
-                  setSelectedId(null);
+                  dispatch(cuponBtnInitial());
+                  dispatch(cuponBtnIconInitial());
+                  // setHideOpenedProduct("");
+                  dispatch(selectedIdNull());
                   document.body.style.overflow = "visible";
-                  setScroll("");
+                  dispatch(backScroll());
                 }}
                 className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0"
               ></div>
@@ -206,12 +230,12 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               >
                 <motion.button
                   onClick={() => {
-                    setCuponBtn("bg-black");
-                    setCuponBtnIcon("check");
-                    setHideOpenedProduct("");
-                    setSelectedId(null);
+                    dispatch(cuponBtnInitial());
+                    dispatch(cuponBtnIconInitial());
+                    // setHideOpenedProduct("");
+                    dispatch(selectedIdNull());
                     document.body.style.overflow = "visible";
-                    setScroll("");
+                    dispatch(backScroll());
                   }}
                   className="bg-white/30 backdrop-blur-sm dark:md:text-white dark:md:border-slate-500 m-2 absolute z-50 top-5 right-5 md:right-0 md:border md:border-black md:top-0 md:hover:bg-black md:hover:text-white w-8 h-8 rounded-full flex justify-center items-center cursur-pointer hover:backdrop-blur-xl dark:text-white"
                 >
@@ -227,8 +251,10 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                               <div
                                 onClick={() => {
                                   count <= 0
-                                    ? setCount(carpet.assets.length - 1)
-                                    : setCount(count - 1);
+                                    ? dispatch(
+                                        updateCount(carpet.assets.length - 1)
+                                      )
+                                    : dispatch(updateCount(count - 1));
                                 }}
                                 className="hidden md:flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] left-2 p-3 rounded-full cursor-pointer"
                               >
@@ -246,8 +272,8 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                               <div
                                 onClick={() => {
                                   count < carpet.assets.length - 1
-                                    ? setCount(count + 1)
-                                    : setCount(0);
+                                    ? dispatch(updateCount(count + 1))
+                                    : dispatch(countToZero(0));
                                 }}
                                 className="hidden md:flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] right-2 p-3 rounded-full cursor-pointer"
                               >
@@ -260,7 +286,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
 
                     <div className="h-20 sm:w-96 md:w-80 overflow-hidden flex items-center justify-center relative rounded-lg">
                       <div
-                        onClick={() => HideScroll()}
+                        onClick={() => hiddenScroll()}
                         className={`${scroll} w-full h-screen absolute flex justify-center items-center bg-slate/20 backdrop-blur-md cursor-pointer`}
                       >
                         <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md justify-center items-center">
@@ -280,7 +306,9 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                 return (
                                   <motion.img
                                     onClick={() => {
-                                      setCount(c.assets.indexOf(a));
+                                      dispatch(
+                                        updateCount(c.assets.indexOf(a))
+                                      );
                                     }}
                                     key={a.id}
                                     src={a.url}
@@ -376,24 +404,24 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                         />
                         <button
                           onClick={() => {
-                            setCuponBtnIcon(<BsThreeDots />);
+                            dispatch(cuponBtnIconValue(<BsThreeDots />));
                             setTimeout(() => {
                               products.map((c) => {
                                 if (
                                   cuponInp.current.value.length >= 1 &&
                                   cuponInp.current.value === c.sku
                                 ) {
-                                  setCuponBtn("bg-green-500");
-                                  setCuponBtnIcon(<BsCheckLg />);
+                                  dispatch(cuponBtnGreen());
+                                  dispatch(cuponBtnIconValue(<BsCheckLg />));
                                 } else if (
                                   cuponInp.current.value.length >= 1 &&
                                   cuponInp.current.value !== c.sku
                                 ) {
-                                  setCuponBtn("bg-red-500");
-                                  setCuponBtnIcon(<CgClose />);
+                                  dispatch(cuponBtnGreen());
+                                  dispatch(cuponBtnIconValue(<CgClose />));
                                 } else {
-                                  setCuponBtn("bg-black");
-                                  setCuponBtnIcon("check");
+                                  dispatch(cuponBtnInitial());
+                                  dispatch(cuponBtnIconInitial());
                                 }
                               });
                             }, 2000);
@@ -408,7 +436,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                     <div className="w-80 mt-4 space-y-4">
                       <div
                         onClick={() => {
-                          setSelectedSize(-1);
+                          dispatch(selectedSizeInitial());
                         }}
                         className="flex justify-center h-10 px-12 sm:px-4"
                       >
@@ -420,14 +448,14 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                         />
                         <button
                           onClick={() => {
-                            setSizeitBtnIcon(<BsThreeDots />);
+                            dispatch(sizeitBtnIconValue(<BsThreeDots />));
                             setTimeout(() => {
                               if (sizeInp.current.value.length >= 1) {
-                                setSizeitBtn("bg-green-500");
-                                setSizeitBtnIcon(<BsCheckLg />);
+                                dispatch(sizeitBtnGreen());
+                                dispatch(sizeitBtnIconValue(<BsCheckLg />));
                               } else {
-                                setSizeitBtn("bg-black");
-                                setSizeitBtnIcon("Size it");
+                                dispatch(sizeitBtnBlack());
+                                dispatch(sizeitBtnIconInitial());
                               }
                             }, 2000);
                           }}
@@ -453,8 +481,12 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                           <div
                                             onClick={() => {
                                               handleSelectedSize(option.id);
-                                              setCount(
-                                                variant.options.indexOf(option)
+                                              dispatch(
+                                                updateCount(
+                                                  variant.options.indexOf(
+                                                    option
+                                                  )
+                                                )
                                               );
                                             }}
                                             key={option.id}
