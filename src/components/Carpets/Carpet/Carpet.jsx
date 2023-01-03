@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import {
   AiOutlineClose,
@@ -40,6 +40,10 @@ import {
   cuponBtnIconInitial,
   cuponBtnIconValue,
 } from "../../../redux/cuponBtnIcon";
+import {
+  hideOpenedProductHidden,
+  hideOpenedProductInitial,
+} from "../../../redux/hideOpenedProduct";
 
 function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const dispatch = useDispatch();
@@ -56,8 +60,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const { sizeitBtnIcon } = useSelector((state) => state.sizeitBtnIcon);
   const { cuponBtn } = useSelector((state) => state.cuponBtn);
   const { cuponBtnIcon } = useSelector((state) => state.cuponBtnIcon);
-
-  // const [hideOpenedProduct, setHideOpenedProduct] = useState("");
+  const { hideOpenedProduct } = useSelector((state) => state.hideOpenedProduct);
 
   const sizeInp = useRef();
   const cuponInp = useRef();
@@ -66,7 +69,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
 
   const onTouchStart = (e) => {
     dispatch(nullTouchEnd());
-    updateTouchStart(e.targetTouches[0].clientX);
+    dispatch(updateTouchStart(e.targetTouches[0].clientX));
   };
 
   const onTouchMove = (e) =>
@@ -81,7 +84,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
       if (isRightSwipe) {
         products.map((carpet) =>
           count === carpet.assets.length
-            ? dispatch(countToZero(0))
+            ? dispatch(countToZero())
             : dispatch(updateCount(count + 1))
         );
       } else if (isLeftSwipe) {
@@ -137,7 +140,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
               key={c.id}
               onClick={() => {
                 document.body.style.overflow = "hidden";
-                // setHideOpenedProduct("hidden");
+                dispatch(hideOpenedProductHidden());
               }}
             >
               <motion.div className={` relative`}>
@@ -211,13 +214,13 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
           ))}
       <AnimatePresence>
         {selectedId && (
-          <div className="p-8 sm:p-0 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
+          <div className="z-50 p-8 sm:p-0 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
             <div className="flex justify-center">
               <div
                 onClick={() => {
                   dispatch(cuponBtnInitial());
                   dispatch(cuponBtnIconInitial());
-                  // setHideOpenedProduct("");
+                  dispatch(hideOpenedProductInitial());
                   dispatch(selectedIdNull());
                   document.body.style.overflow = "visible";
                   dispatch(backScroll());
@@ -232,7 +235,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   onClick={() => {
                     dispatch(cuponBtnInitial());
                     dispatch(cuponBtnIconInitial());
-                    // setHideOpenedProduct("");
+                    dispatch(hideOpenedProductInitial());
                     dispatch(selectedIdNull());
                     document.body.style.overflow = "visible";
                     dispatch(backScroll());
@@ -286,7 +289,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
 
                     <div className="h-20 sm:w-96 md:w-80 overflow-hidden flex items-center justify-center relative rounded-lg">
                       <div
-                        onClick={() => hiddenScroll()}
+                        onClick={() => HideScroll()}
                         className={`${scroll} w-full h-screen absolute flex justify-center items-center bg-slate/20 backdrop-blur-md cursor-pointer`}
                       >
                         <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md justify-center items-center">

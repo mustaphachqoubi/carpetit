@@ -7,10 +7,10 @@ const selectedIdSlice = createSlice({
     },
     reducers: {
         selectedIdGetId: (state, action) => {
-            state.loading = action.payload
+            state.selectedId = action.payload
         },
         selectedIdNull: (state) => {
-            state.loading = null
+            state.selectedId = null
         }
     }
 })

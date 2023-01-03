@@ -7,10 +7,10 @@ const countSlice = createSlice({
     },
     reducers: {
         updateCount: (state, action) => {
-            state.carpetList = action.payload
+            state.count = action.payload
         },
         countToZero: (state) => {
-            state.carpetList = 0
+            state.count = 0
         }
     }
 })

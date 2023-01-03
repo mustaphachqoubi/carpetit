@@ -11,6 +11,7 @@ import sizeitBtnSlice from "./sizeitBtn";
 import sizeitBtnIconSlice from "./sizeitBtnIcon";
 import cuponBtnSlice from "./cuponBtn";
 import cuponBtnIconSlice from "./cuponBtnIcon";
+import hideOpenedProductSlice from "./hideOpenedProduct";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     sizeitBtnIcon: sizeitBtnIconSlice.reducer,
     cuponBtn: cuponBtnSlice.reducer,
     cuponBtnIcon: cuponBtnIconSlice.reducer,
+    hideOpenedProduct: hideOpenedProductSlice.reducer,
   },
 });
 
