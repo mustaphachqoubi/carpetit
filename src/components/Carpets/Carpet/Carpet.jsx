@@ -19,31 +19,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
 import "./Carpet.css";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoad, endLoad } from "../../../redux/loading";
-import { selectedIdGetId, selectedIdNull } from "../../../redux/selectedId";
-import { carpetListGetProducts } from "../../../redux/carpetList";
-import { updateCount, countToZero } from "../../../redux/count";
-import { updateTouchStart } from "../../../redux/touchStart";
-import { updateTouchEnd, nullTouchEnd } from "../../../redux/touchEnd";
-import { hiddenScroll, backScroll } from "../../../redux/scroll";
+import { startLoad, endLoad } from "../../../redux/CarpetReducers/loading";
+import {
+  selectedIdGetId,
+  selectedIdNull,
+} from "../../../redux/CarpetReducers/selectedId";
+import { carpetListGetProducts } from "../../../redux/CarpetReducers/carpetList";
+import { updateCount, countToZero } from "../../../redux/CarpetReducers/count";
+import { updateTouchStart } from "../../../redux/CarpetReducers/touchStart";
+import {
+  updateTouchEnd,
+  nullTouchEnd,
+} from "../../../redux/CarpetReducers/touchEnd";
+import { hiddenScroll, backScroll } from "../../../redux/CarpetReducers/scroll";
 import {
   selectedSizeId,
   selectedSizeInitial,
-} from "../../../redux/selectedSize";
-import { sizeitBtnGreen, sizeitBtnBlack } from "../../../redux/sizeitBtn";
+} from "../../../redux/CarpetReducers/selectedSize";
+import {
+  sizeitBtnGreen,
+  sizeitBtnBlack,
+} from "../../../redux/CarpetReducers/sizeitBtn";
 import {
   sizeitBtnIconInitial,
   sizeitBtnIconValue,
-} from "../../../redux/sizeitBtnIcon";
-import { cuponBtnInitial, cuponBtnGreen } from "../../../redux/cuponBtn";
+} from "../../../redux/CarpetReducers/sizeitBtnIcon";
+import {
+  cuponBtnInitial,
+  cuponBtnGreen,
+  cuponBtnRed,
+} from "../../../redux/CarpetReducers/cuponBtn";
 import {
   cuponBtnIconInitial,
   cuponBtnIconValue,
-} from "../../../redux/cuponBtnIcon";
+} from "../../../redux/CarpetReducers/cuponBtnIcon";
 import {
   hideOpenedProductHidden,
   hideOpenedProductInitial,
-} from "../../../redux/hideOpenedProduct";
+} from "../../../redux/CarpetReducers/hideOpenedProduct";
 
 function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const dispatch = useDispatch();
@@ -60,7 +73,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const { sizeitBtnIcon } = useSelector((state) => state.sizeitBtnIcon);
   const { cuponBtn } = useSelector((state) => state.cuponBtn);
   const { cuponBtnIcon } = useSelector((state) => state.cuponBtnIcon);
-  const { hideOpenedProduct } = useSelector((state) => state.hideOpenedProduct);
+  // const { hideOpenedProduct } = useSelector((state) => state.hideOpenedProduct);
 
   const sizeInp = useRef();
   const cuponInp = useRef();
@@ -128,7 +141,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
 
   useEffect(() => {
     dispatch(carpetListGetProducts(products.map((c) => c)));
-  }, [products]);
+  }, [products, dispatch]);
 
   return (
     <>
@@ -158,7 +171,9 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                   className="object-cover h-[18em] w-80 rounded-xl"
                 />
                 <motion.div
-                  onClick={() => handleClick(c.id)}
+                  onClick={() => {
+                    handleClick(c.id);
+                  }}
                   className={
                     "absolute bg-white text-slate-500 hover:bg-slate-200 right-[1rem] bottom-[1rem] p-4 text-xl rounded-full"
                   }
@@ -420,7 +435,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                                   cuponInp.current.value.length >= 1 &&
                                   cuponInp.current.value !== c.sku
                                 ) {
-                                  dispatch(cuponBtnGreen());
+                                  dispatch(cuponBtnRed());
                                   dispatch(cuponBtnIconValue(<CgClose />));
                                 } else {
                                   dispatch(cuponBtnInitial());

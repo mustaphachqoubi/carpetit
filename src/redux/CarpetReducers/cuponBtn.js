@@ -12,8 +12,11 @@ const cuponBtnSlice = createSlice({
     cuponBtnGreen: (state) => {
       state.cuponBtn = "bg-green-500";
     },
+    cuponBtnRed: (state) => {
+      state.cuponBtn = "bg-red-500";
+    },
   },
 });
 
-export const { cuponBtnInitial, cuponBtnGreen } = cuponBtnSlice.actions;
+export const { cuponBtnInitial, cuponBtnGreen, cuponBtnRed } = cuponBtnSlice.actions;
 export default cuponBtnSlice;

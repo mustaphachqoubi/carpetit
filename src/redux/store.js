@@ -1,17 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loadingSlice from "./loading";
-import selectedIdSlice from "./selectedId";
-import carpetListSlice from "./carpetList";
-import countSlice from "./count";
-import touchStartSlice from "./touchStart";
-import touchEndSlice from "./touchEnd";
-import scrollSlice from "./scroll";
-import selectedSizeSlice from "./selectedSize";
-import sizeitBtnSlice from "./sizeitBtn";
-import sizeitBtnIconSlice from "./sizeitBtnIcon";
-import cuponBtnSlice from "./cuponBtn";
-import cuponBtnIconSlice from "./cuponBtnIcon";
-import hideOpenedProductSlice from "./hideOpenedProduct";
+import loadingSlice from "./CarpetReducers/loading";
+import selectedIdSlice from "./CarpetReducers/selectedId";
+import carpetListSlice from "./CarpetReducers/carpetList";
+import countSlice from "./CarpetReducers/count";
+import touchStartSlice from "./CarpetReducers/touchStart";
+import touchEndSlice from "./CarpetReducers/touchEnd";
+import scrollSlice from "./CarpetReducers/scroll";
+import selectedSizeSlice from "./CarpetReducers/selectedSize";
+import sizeitBtnSlice from "./CarpetReducers/sizeitBtn";
+import sizeitBtnIconSlice from "./CarpetReducers/sizeitBtnIcon";
+import cuponBtnSlice from "./CarpetReducers/cuponBtn";
+import cuponBtnIconSlice from "./CarpetReducers/cuponBtnIcon";
+import hideOpenedProductSlice from "./CarpetReducers/hideOpenedProduct";
+
+import checkoutTokenSlice from "./CheckoutReducers/checkoutToken";
 
 const store = configureStore({
   reducer: {
@@ -28,6 +30,7 @@ const store = configureStore({
     cuponBtn: cuponBtnSlice.reducer,
     cuponBtnIcon: cuponBtnIconSlice.reducer,
     hideOpenedProduct: hideOpenedProductSlice.reducer,
+    checkoutToken: checkoutTokenSlice.reducer,
   },
 });
 
