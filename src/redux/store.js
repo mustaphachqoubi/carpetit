@@ -22,7 +22,7 @@ import discountSlice from "./CarpetReducers/discount";
 import codeSlice from "./AppReducers/code";
 
 // import logger from 'redux-logger'
-import thunk from 'redux-thunk'
+import thunk from "redux-thunk";
 
 const store = configureStore({
   reducer: {
@@ -44,7 +44,7 @@ const store = configureStore({
     discount: discountSlice.reducer,
     code: codeSlice.reducer,
   },
-  middleware: [thunk]
+  middleware: [thunk],
 });
 
 export default store;
