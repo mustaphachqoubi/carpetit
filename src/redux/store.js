@@ -15,6 +15,15 @@ import hideOpenedProductSlice from "./CarpetReducers/hideOpenedProduct";
 
 import checkoutTokenSlice from "./CheckoutReducers/checkoutToken";
 
+import productsSlice from "./AppReducers/products";
+
+import discountSlice from "./CarpetReducers/discount";
+
+import codeSlice from "./AppReducers/code";
+
+// import logger from 'redux-logger'
+import thunk from 'redux-thunk'
+
 const store = configureStore({
   reducer: {
     loader: loadingSlice.reducer,
@@ -31,7 +40,11 @@ const store = configureStore({
     cuponBtnIcon: cuponBtnIconSlice.reducer,
     hideOpenedProduct: hideOpenedProductSlice.reducer,
     checkoutToken: checkoutTokenSlice.reducer,
+    products: productsSlice.reducer,
+    discount: discountSlice.reducer,
+    code: codeSlice.reducer,
   },
+  middleware: [thunk]
 });
 
 export default store;

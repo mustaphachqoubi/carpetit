@@ -58,6 +58,11 @@ import {
   hideOpenedProductInitial,
 } from "../../../redux/CarpetReducers/hideOpenedProduct";
 
+import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
+
+import { commerce } from "../../../lib/commerce";
+import { useState } from "react";
+
 function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const dispatch = useDispatch();
 
@@ -73,6 +78,9 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const { sizeitBtnIcon } = useSelector((state) => state.sizeitBtnIcon);
   const { cuponBtn } = useSelector((state) => state.cuponBtn);
   const { cuponBtnIcon } = useSelector((state) => state.cuponBtnIcon);
+  const { checkoutToken } = useSelector((state) => state.checkoutToken);
+  const { discount } = useSelector((state) => state.discount);
+  const { code } = useSelector((state) => state.code);
   // const { hideOpenedProduct } = useSelector((state) => state.hideOpenedProduct);
 
   const sizeInp = useRef();
@@ -142,6 +150,18 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   useEffect(() => {
     dispatch(carpetListGetProducts(products.map((c) => c)));
   }, [products, dispatch]);
+
+  const the_code = code;
+
+  useEffect(() => {
+    const fetchDiscounts = async () => {
+      const c = await commerce.checkout.checkDiscount(checkoutToken.id, {
+        code: the_code,
+      });
+      dispatch(getDiscountCode(c));
+    };
+    checkoutToken && fetchDiscounts();
+  }, [checkoutToken]);
 
   return (
     <>
@@ -419,6 +439,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                           type="text"
                           className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-sm p-2 rounded-l-md w-full"
                           placeholder="You have a Cupon !"
+                          disabled={!discount.discount}
                         />
                         <button
                           onClick={() => {
@@ -427,13 +448,15 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
                               products.map((c) => {
                                 if (
                                   cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value === c.sku
+                                  cuponInp.current.value ===
+                                    discount.discount.code
                                 ) {
                                   dispatch(cuponBtnGreen());
                                   dispatch(cuponBtnIconValue(<BsCheckLg />));
                                 } else if (
                                   cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value !== c.sku
+                                  cuponInp.current.value !==
+                                    discount.discount.code
                                 ) {
                                   dispatch(cuponBtnRed());
                                   dispatch(cuponBtnIconValue(<CgClose />));

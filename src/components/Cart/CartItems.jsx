@@ -31,10 +31,6 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
     handleUpdateQt(id, quantity - 1);
   };
 
-  useEffect(() => {
-    console.log(cart)
-  }, [cart])
-
   return (
     <>
       {cart.line_items.map((Product) => (
@@ -44,7 +40,7 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
               {Product.price.formatted_with_symbol}
             </div>
             <img
-              src={Product.image.url}
+              src={Product.image.url ? Product.image.url : ''}
               className="object-cover h-[18em] w-80 rounded-xl"
             />
             <div

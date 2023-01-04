@@ -7,32 +7,28 @@ import Shipping from './Shipping'
 import Payment from './Payment'
 import Confirmation from './Confirmation'
 import { useDispatch, useSelector } from "react-redux";
-import {getToken} from '../../redux/CheckoutReducers/checkoutToken'
+// import {getToken} from '../../redux/CheckoutReducers/checkoutToken'
 
 
 const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
   const [step, setStep] = useState(1);
-  const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
 
   // const [coupon, setCoupon] = useState("");
 
-  // const {checkoutToken} = useSelector(state => state.checkoutToken)
-  // const dispatch = useDispatch()
-
-  useEffect(() => {
-    const generatetoken = async () => {
-      try {
-        let c = await cart;
-        const token = await commerce.checkout.generateToken(c.id, {
-          type: "cart",
-        });
-        setCheckoutToken(token);
-        // dispatch(getToken(token))
-      } catch (error) {}
-    };
-    generatetoken();
-  }, [cart]);
+  const {checkoutToken} = useSelector(state => state.checkoutToken)
+  // useEffect(() => {
+  //   const generatetoken = async () => {
+  //     try {
+  //       let c = await cart;
+  //       const token = await commerce.checkout.generateToken(c.id, {
+  //         type: "cart",
+  //       });
+  //       dispatch(getToken(token))
+  //     } catch (error) {}
+  //   };
+  //   generatetoken();
+  // }, [cart]);
 
   // const fetchDiscounts = async () => {
   //   const c = await commerce.checkout.checkDiscount(checkoutToken.id, {code: '6881C133B2',});
@@ -48,10 +44,10 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
     nextStep();
   };
 
-  // useEffect(() => {
-  //   // checkoutToken ? fetchDiscounts() : console.log('hi')
-  //   console.log(checkoutToken)
-  // }, [checkoutToken])
+  useEffect(() => {
+    // checkoutToken ? fetchDiscounts() : console.log('hi')
+    console.log(checkoutToken)
+  }, [checkoutToken])
 
   return (
     <div className="dark:text-white flex justify-center p-10">
@@ -112,8 +108,8 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
           <Shipping
             setStep={setStep}
             checkoutToken={checkoutToken}
-            // setCheckoutToken={getToken}
-            setCheckoutToken={setCheckoutToken}
+            // getToken={getToken}
+            // setCheckoutToken={setCheckoutToken}
             next={next}
             commerce={commerce}
             cart={cart}
