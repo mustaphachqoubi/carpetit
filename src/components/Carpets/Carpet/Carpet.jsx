@@ -442,26 +442,24 @@ function Carpet({ onAddToCart, selectedCategory }) {
                           onClick={() => {
                             dispatch(cuponBtnIconValue(<BsThreeDots />));
                             setTimeout(() => {
-                              products.map((c) => {
-                                if (
-                                  cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value ===
-                                    discount.discount.code
-                                ) {
-                                  dispatch(cuponBtnGreen());
-                                  dispatch(cuponBtnIconValue(<BsCheckLg />));
-                                } else if (
-                                  cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value !==
-                                    discount.discount.code
-                                ) {
-                                  dispatch(cuponBtnRed());
-                                  dispatch(cuponBtnIconValue(<CgClose />));
-                                } else {
-                                  dispatch(cuponBtnInitial());
-                                  dispatch(cuponBtnIconInitial());
-                                }
-                              });
+                              if (
+                                cuponInp.current.value.length >= 1 &&
+                                cuponInp.current.value ===
+                                  discount.discount.code
+                              ) {
+                                dispatch(cuponBtnGreen());
+                                dispatch(cuponBtnIconValue(<BsCheckLg />));
+                              } else if (
+                                cuponInp.current.value.length >= 1 &&
+                                cuponInp.current.value !==
+                                  discount.discount.code
+                              ) {
+                                dispatch(cuponBtnRed());
+                                dispatch(cuponBtnIconValue(<CgClose />));
+                              } else {
+                                dispatch(cuponBtnInitial());
+                                dispatch(cuponBtnIconInitial());
+                              }
                             }, 2000);
                           }}
                           className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md`}

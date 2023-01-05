@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CartItems from "./CartItems";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const EmptyCart = () => {
   return (
@@ -26,12 +27,12 @@ const EmptyCart = () => {
 };
 
 const Cart = ({
-  cart,
   handleUpdateQt,
   handleRemoveFromCart,
   handleEmptyCart,
 }) => {
   const [empty, setDelete] = useState("Delete all");
+  const {cart} = useSelector(state => state.cart)
 
   return cart.length >= 0 ? (
     <h1 className="font-bold dark:text-white text-2xl flex justify-center items-center p-10 h-screen">

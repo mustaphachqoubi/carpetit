@@ -34,13 +34,16 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
   return (
     <>
       {cart.line_items.map((Product) => (
-        <div className="shrink-0 cursor-pointer w-[18rem] sm:max-w-sm" key={Product.id}>
+        <div
+          className="shrink-0 cursor-pointer w-[18rem] sm:max-w-sm"
+          key={Product.id}
+        >
           <div className="relative">
             <div className="absolute bottom-[1.2rem] text-white left-[1rem] bg-gradient-to-r from-green-500 to-green-600 self-start flex items-center justify-center h-10 px-5 rounded-lg font-bold ">
               {Product.price.formatted_with_symbol}
             </div>
             <img
-              src={Product.image.url ? Product.image.url : ''}
+              src={Product.image.url ? Product.image.url : ""}
               className="object-cover h-[18em] w-80 rounded-xl"
             />
             <div

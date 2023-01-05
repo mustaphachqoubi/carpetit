@@ -1,40 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { MdDone } from "react-icons/md";
 import { commerce } from "../../lib/commerce";
-// import { data } from "autoprefixer";
 
 import Shipping from './Shipping'
 import Payment from './Payment'
 import Confirmation from './Confirmation'
-import { useDispatch, useSelector } from "react-redux";
-// import {getToken} from '../../redux/CheckoutReducers/checkoutToken'
+import { useSelector } from "react-redux";
 
 
-const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
+const Checkout = ({ handleCaptureCheckout }) => {
   const [step, setStep] = useState(1);
   const [shippingData, setShippingData] = useState({});
-
-  // const [coupon, setCoupon] = useState("");
-
   const {checkoutToken} = useSelector(state => state.checkoutToken)
-  // useEffect(() => {
-  //   const generatetoken = async () => {
-  //     try {
-  //       let c = await cart;
-  //       const token = await commerce.checkout.generateToken(c.id, {
-  //         type: "cart",
-  //       });
-  //       dispatch(getToken(token))
-  //     } catch (error) {}
-  //   };
-  //   generatetoken();
-  // }, [cart]);
-
-  // const fetchDiscounts = async () => {
-  //   const c = await commerce.checkout.checkDiscount(checkoutToken.id, {code: '6881C133B2',});
-  //   setCoupon(c);
-  //   console.log(c)
-  // };
+  const {cart} = useSelector(state => state.cart)
+  const {order} = useSelector(state => state.order)
 
   const nextStep = () => setStep((step) => step + 1);
   const backStep = () => setStep((step) => step - 1);
@@ -43,11 +22,6 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
     setShippingData(data);
     nextStep();
   };
-
-  useEffect(() => {
-    // checkoutToken ? fetchDiscounts() : console.log('hi')
-    console.log(checkoutToken)
-  }, [checkoutToken])
 
   return (
     <div className="dark:text-white flex justify-center p-10">
@@ -108,8 +82,6 @@ const Checkout = ({ cart, order, handleCaptureCheckout, error, setCart }) => {
           <Shipping
             setStep={setStep}
             checkoutToken={checkoutToken}
-            // getToken={getToken}
-            // setCheckoutToken={setCheckoutToken}
             next={next}
             commerce={commerce}
             cart={cart}

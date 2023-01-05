@@ -1,19 +1,28 @@
-import { Navbar, HeroBanner, Footer, Cart, Checkout } from "./components";
-import { useState, useEffect } from "react";
+import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
+import React, { useEffect } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
 import { getCode } from "./redux/AppReducers/code";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "./redux/AppReducers/products";
+import { switchDark } from "./redux/AppReducers/dark";
+import {
+  cartRetrieve,
+  cartAdd,
+  cartUpdateQT,
+  cartRemove,
+  cartEmpty,
+  cartRefresh,
+} from "./redux/AppReducers/cart";
+import { setOrder } from "./redux/AppReducers/order";
+import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 
 function App() {
-  const [dark, setdark] = useState(null);
-  const pullDark = (darkit) => setdark(darkit);
-  const [cart, setCart] = useState([]);
-  const [order, setOrder] = useState({});
-  const [errorMessage, setErrorMessage] = useState("");
+  const { dark } = useSelector((state) => state.dark);
+  const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const pullDark = (darkit) => dispatch(switchDark(darkit));
 
   const fetchProducts = async () => {
     const p = await commerce.products.list({
@@ -24,28 +33,28 @@ function App() {
 
   const fetchCart = async () => {
     const retrieve = await commerce.cart.retrieve();
-    setCart(retrieve);
+    dispatch(cartRetrieve(retrieve));
   };
 
   const handleAddToCart = async (productId, quantity) => {
-    setCart(await commerce.cart.add(productId, quantity));
+    dispatch(cartAdd(await commerce.cart.add(productId, quantity)));
   };
 
   const handleUpdateQt = async (productId, quantity) => {
-    setCart(await commerce.cart.update(productId, { quantity }));
+    dispatch(cartUpdateQT(await commerce.cart.update(productId, { quantity })));
   };
 
   const handleRemoveFromCart = async (productId) => {
-    setCart(await commerce.cart.remove(productId));
+    dispatch(cartRemove(await commerce.cart.remove(productId)));
   };
 
   const handleEmptyCart = async (productId) => {
-    setCart(await commerce.cart.empty(productId));
+    dispatch(cartEmpty(await commerce.cart.empty(productId)));
   };
 
   const refreshCart = async () => {
     const newCart = await commerce.cart.refresh();
-    setCart(newCart);
+    dispatch(cartRefresh(newCart));
   };
 
   const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
@@ -68,17 +77,17 @@ function App() {
           type: "cart",
         });
         dispatch(getToken(token));
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
-
-    generatetoken();
-  }, [cart]);
+    cart.id && generatetoken();
+  });
 
   useEffect(() => {
     fetchProducts();
     fetchCart();
-  }, []);
-
+  });
 
   useEffect(() => {
     fetch("https://api.chec.io/v1/discounts", {
@@ -92,51 +101,41 @@ function App() {
       .then((response) => response.json())
       .then((dt) => {
         dispatch(getCode(dt.data[0].code));
-        // console.log(dt.data[0].code);
       });
-  }, [process.env.REACT_APP_CHEC_PUBLIC_KEY]);
+  });
 
   return (
     <div className={dark}>
       <div className="bg-[#FAFCFC] dark:bg-slate-800">
         <BrowserRouter>
           <Navbar pullDark={pullDark} totalItems={cart.total_unique_items} />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <HeroBanner
-                  cart={cart}
-                  totalItems={cart.total_unique_items}
-                  onAddToCart={handleAddToCart}
-                  handleAddToCart={handleAddToCart}
-                />
-              }
-            />
-            <Route
-              path="/cart"
-              element={
-                <Cart
-                  cart={cart}
-                  handleUpdateQt={handleUpdateQt}
-                  handleRemoveFromCart={handleRemoveFromCart}
-                  handleEmptyCart={handleEmptyCart}
-                />
-              }
-            />
-            <Route
-              path="/checkout"
-              element={
-                <Checkout
-                  cart={cart}
-                  commerce={commerce}
-                  handleCaptureCheckout={handleCaptureCheckout}
-                  order={order}
-                  error={errorMessage}
-                />
-              }
-            />
-          </Routes>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <HeroBanner
+                    onAddToCart={handleAddToCart}
+                    handleAddToCart={handleAddToCart}
+                  />
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <Cart
+                    handleUpdateQt={handleUpdateQt}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleEmptyCart={handleEmptyCart}
+                  />
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <Checkout handleCaptureCheckout={handleCaptureCheckout} />
+                }
+              />
+            </Routes>
           <Footer />
         </BrowserRouter>
       </div>

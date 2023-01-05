@@ -12,14 +12,14 @@ import sizeitBtnIconSlice from "./CarpetReducers/sizeitBtnIcon";
 import cuponBtnSlice from "./CarpetReducers/cuponBtn";
 import cuponBtnIconSlice from "./CarpetReducers/cuponBtnIcon";
 import hideOpenedProductSlice from "./CarpetReducers/hideOpenedProduct";
-
 import checkoutTokenSlice from "./CheckoutReducers/checkoutToken";
-
 import productsSlice from "./AppReducers/products";
-
 import discountSlice from "./CarpetReducers/discount";
-
 import codeSlice from "./AppReducers/code";
+import darkSlice from "./AppReducers/dark";
+import cartSlice from "./AppReducers/cart";
+import orderSlice from "./AppReducers/order";
+import errorMessageSlice from "./AppReducers/errorMessage";
 
 import logger from "redux-logger";
 import thunk from "redux-thunk";
@@ -43,6 +43,10 @@ const store = configureStore({
     products: productsSlice.reducer,
     discount: discountSlice.reducer,
     code: codeSlice.reducer,
+    dark: darkSlice.reducer,
+    cart: cartSlice.reducer,
+    order: orderSlice.reducer,
+    errorMessage: errorMessageSlice.reducer,
   },
   middleware: [thunk],
 });
