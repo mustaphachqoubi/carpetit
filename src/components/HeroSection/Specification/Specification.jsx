@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { RiStarSFill } from "react-icons/ri";
-// import at from "core-js/features/array/at";
 
 const Specification = ({ products }) => {
   return (
@@ -17,7 +16,7 @@ const Specification = ({ products }) => {
       <p
         className="max-w-xs"
         dangerouslySetInnerHTML={{
-          __html: products.at(0) && products.at(0).description
+          __html: products[0] && products[0].description,
         }}
       />
       <hr className="mt-5" />
@@ -25,7 +24,7 @@ const Specification = ({ products }) => {
         <div className="flex justify-start justify-between items-center p-4">
           <h3 className="text-slate-400 font-semibold">Carpet ID</h3>
           <h3 className="font-medium">
-            {products.at(0) ? products.at(0).id : "Loading..."}
+            {products[0] ? products[0].id : "Loading..."}
           </h3>
         </div>
         <div className="flex justify-start justify-between items-center p-4">

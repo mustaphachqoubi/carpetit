@@ -2,26 +2,24 @@ import { Navbar, HeroBanner, Footer, Cart, Checkout } from "./components";
 import { useState, useEffect } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CartItems from "./components/Cart/CartItems";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
 import { getCode } from "./redux/AppReducers/code";
 import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "./redux/AppReducers/products";
 
 function App() {
   const [dark, setdark] = useState(null);
   const pullDark = (darkit) => setdark(darkit);
-
-  const [products, setProducts] = useState({ data: [] });
   const [cart, setCart] = useState([]);
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
   const fetchProducts = async () => {
-    const products = await commerce.products.list({
+    const p = await commerce.products.list({
       include: "assets,variant_groups",
     });
-    setProducts(products.data);
+    dispatch(getProducts(p.data));
   };
 
   const fetchCart = async () => {
@@ -81,37 +79,22 @@ function App() {
     fetchCart();
   }, []);
 
-  useEffect(() => {
-  fetch("https://api.chec.io/v1/discounts", {
-            method: "GET",
-            headers: {
-              "X-Authorization": `sk_4660823b096d2de8f657d61dbf6d84d5a484a6be4c8a1`,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          })
-            .then((response) => response.json())
-            .then((dt) => {
-              dispatch(getCode(dt.data[0].code));
-              console.log(dt.data[0].code);
-            });
-  }, [process.env.REACT_APP_CHEC_PUBLIC_KEY]);
 
-  // useEffect(() => {
-  //   fetch("https://api.chec.io/v1/discounts", {
-  //     method: "GET",
-  //     headers: {
-  //       "X-Authorization": `sk_4660823b096d2de8f657d61dbf6d84d5a484a6be4c8a1`,
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((dt) => {
-  //       dispatch(getCode(dt.data[0].code));
-  //       console.log(dt.data[0].code);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch("https://api.chec.io/v1/discounts", {
+      method: "GET",
+      headers: {
+        "X-Authorization": `sk_4660823b096d2de8f657d61dbf6d84d5a484a6be4c8a1`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((dt) => {
+        dispatch(getCode(dt.data[0].code));
+        // console.log(dt.data[0].code);
+      });
+  }, [process.env.REACT_APP_CHEC_PUBLIC_KEY]);
 
   return (
     <div className={dark}>
@@ -124,7 +107,6 @@ function App() {
               element={
                 <HeroBanner
                   cart={cart}
-                  products={products}
                   totalItems={cart.total_unique_items}
                   onAddToCart={handleAddToCart}
                   handleAddToCart={handleAddToCart}

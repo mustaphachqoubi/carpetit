@@ -9,36 +9,25 @@ import Carpets from "../../Carpets/Carpets";
 import { commerce } from "../../../lib/commerce";
 import "./styles.css";
 import IntroImageSkeleton from "../../Skeletons/IntroImageSkeleton";
-import '../../Carpets/Carpet/Carpet.css'
+import "../../Carpets/Carpet/Carpet.css";
+import { useSelector } from "react-redux";
 
 const HeroBanner = ({ handleAddToCart }) => {
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(<FiShoppingCart />);
-
-  const fetchProducts = async () => {
-    const products = await commerce.products.list({
-      include: "assets,variant_groups",
-    });
-    setProducts(products.data);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
+  const { products } = useSelector((state) => state.products);
   return (
     <>
       <div className="grid grid-cols-2 xl:grid-cols-3 gap-2">
         <div className="dark:text-white col-span-2 md:col-span-1 py-10 pb-0 md:pb-4 px-10 flex flex-col items-center text-center md:text-left md:flex-row md:justify-between">
           <div className=" space-y-4 mb-12 space-y-7 md:mt-20">
             <h1 className="text-4xl md:text-5xl font-bold">
-              {products.at(0) ? products.at(0).name : "Loading..."}
+              {products[0] ? products[0].name : "Loading..."}
             </h1>
             <p className="text-lg text-slate-500 dark:text-slate-400">
               115 <span className="font-bold">x</span> 115 cm
             </p>
             <h1 className="font-bold text-4xl">
-              ${products.at(0) ? products.at(0).price.formatted : "Loading..."}
+              ${products[0] ? products[0].price.formatted : "Loading..."}
             </h1>
 
             <div className="flex flex-col md:flex-row md:gap-20 md:items-center">
@@ -65,7 +54,7 @@ const HeroBanner = ({ handleAddToCart }) => {
                   setTimeout(function () {
                     setLoading(<FiShoppingCart />);
                   }, 1000);
-                  handleAddToCart(products.at(0).id, 1);
+                  handleAddToCart(products[0].id, 1);
                 }}
                 className="flex items-center justify-center gap-2 bg-orange-500 text-white md:text-sm lg:text-md font-semibold py-3 px-6 rounded-full hover:bg-orange-700 cursor-pointer transition ease-in-out duration-300"
               >
@@ -94,7 +83,7 @@ const HeroBanner = ({ handleAddToCart }) => {
           </div>
           {products.length > 0 ? (
             <img
-              src={products.at(0) ? products.at(0).image.url : Carpet}
+              src={products[0] ? products[0].image.url : Carpet}
               alt="carpet"
               className="image-container w-80"
             />
@@ -116,7 +105,7 @@ const HeroBanner = ({ handleAddToCart }) => {
         </div>
       </div>
 
-      <Carpets products={products} onAddToCart={handleAddToCart} />
+      <Carpets onAddToCart={handleAddToCart} />
     </>
   );
 };

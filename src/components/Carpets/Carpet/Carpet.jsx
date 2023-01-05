@@ -61,9 +61,8 @@ import {
 import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
 
 import { commerce } from "../../../lib/commerce";
-import { useState } from "react";
 
-function Carpet({ products, onAddToCart, selectedCategory, search }) {
+function Carpet({ onAddToCart, selectedCategory }) {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loader);
@@ -81,7 +80,7 @@ function Carpet({ products, onAddToCart, selectedCategory, search }) {
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const { discount } = useSelector((state) => state.discount);
   const { code } = useSelector((state) => state.code);
-  // const { hideOpenedProduct } = useSelector((state) => state.hideOpenedProduct);
+  const { products } = useSelector((state) => state.products);
 
   const sizeInp = useRef();
   const cuponInp = useRef();
