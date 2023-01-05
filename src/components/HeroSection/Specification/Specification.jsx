@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { RiStarSFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 
-const Specification = ({ products }) => {
+const Specification = ({ }) => {
+
+  const { products } = useSelector((state) => state.products);
+
   return (
     <div className="mr-5 w-96 space-y-2">
       <h1 className="font-bold text-xl">Specification</h1>

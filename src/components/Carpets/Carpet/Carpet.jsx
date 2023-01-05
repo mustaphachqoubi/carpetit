@@ -57,9 +57,7 @@ import {
   hideOpenedProductHidden,
   hideOpenedProductInitial,
 } from "../../../redux/CarpetReducers/hideOpenedProduct";
-
 import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
-
 import { commerce } from "../../../lib/commerce";
 
 function Carpet({ onAddToCart, selectedCategory }) {

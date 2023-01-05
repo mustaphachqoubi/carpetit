@@ -93,7 +93,7 @@ const HeroBanner = ({ handleAddToCart }) => {
         </div>
 
         <div className="row-span-2 xl:grid content-end hidden dark:text-white">
-          <Specification products={products} />
+          <Specification />
         </div>
         <div className="dark:text-white flex items-center justify-center col-start-1 xl:col-start-2 xl:col-span-1 col-span-2 mt-8 md:mt-20">
           <div
