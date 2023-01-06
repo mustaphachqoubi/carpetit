@@ -5,18 +5,20 @@ import { commerce } from "../../lib/commerce";
 import Shipping from './Shipping'
 import Payment from './Payment'
 import Confirmation from './Confirmation'
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import {getStep} from '../../redux/CheckoutReducers/step'
 
 const Checkout = ({ handleCaptureCheckout }) => {
-  const [step, setStep] = useState(1);
   const [shippingData, setShippingData] = useState({});
   const {checkoutToken} = useSelector(state => state.checkoutToken)
   const {cart} = useSelector(state => state.cart)
   const {order} = useSelector(state => state.order)
+  const {step} = useSelector(state => state.step)
 
-  const nextStep = () => setStep((step) => step + 1);
-  const backStep = () => setStep((step) => step - 1);
+  const dispatch = useDispatch()
+
+  const nextStep = () => dispatch(getStep((step) => step + 1));
+  const backStep = () => dispatch(getStep((step) => step - 1));
 
   const next = (data) => {
     setShippingData(data);
@@ -80,7 +82,6 @@ const Checkout = ({ handleCaptureCheckout }) => {
 
         {step === 1 ? (
           <Shipping
-            setStep={setStep}
             checkoutToken={checkoutToken}
             next={next}
             commerce={commerce}

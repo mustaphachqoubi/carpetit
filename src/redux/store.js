@@ -20,6 +20,8 @@ import darkSlice from "./AppReducers/dark";
 import cartSlice from "./AppReducers/cart";
 import orderSlice from "./AppReducers/order";
 import errorMessageSlice from "./AppReducers/errorMessage";
+import stepSlice from './CheckoutReducers/step'
+import shippingDataSlice from "./CheckoutReducers/shippingData";
 
 import logger from "redux-logger";
 import thunk from "redux-thunk";
@@ -47,6 +49,8 @@ const store = configureStore({
     cart: cartSlice.reducer,
     order: orderSlice.reducer,
     errorMessage: errorMessageSlice.reducer,
+    step: stepSlice.reducer,
+    shippingData: shippingDataSlice.reducer,
   },
   middleware: [thunk],
 });
