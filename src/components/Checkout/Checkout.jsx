@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 import { MdDone } from "react-icons/md";
-import { commerce } from "../../lib/commerce";
-
-import Shipping from './Shipping'
-import Payment from './Payment'
-import Confirmation from './Confirmation'
+import Shipping from "./Shipping";
+import Payment from "./Payment";
+import Confirmation from "./Confirmation";
 import { useSelector, useDispatch } from "react-redux";
-import {getStep} from '../../redux/CheckoutReducers/step'
+import { getStep } from "../../redux/CheckoutReducers/step";
+import { getShippingData } from "../../redux/CheckoutReducers/shippingData";
 
 const Checkout = ({ handleCaptureCheckout }) => {
-  const [shippingData, setShippingData] = useState({});
-  const {checkoutToken} = useSelector(state => state.checkoutToken)
-  const {cart} = useSelector(state => state.cart)
-  const {order} = useSelector(state => state.order)
-  const {step} = useSelector(state => state.step)
+  const { step } = useSelector((state) => state.step);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const nextStep = () => dispatch(getStep((step) => step + 1));
   const backStep = () => dispatch(getStep((step) => step - 1));
 
   const next = (data) => {
-    setShippingData(data);
+    dispatch(getShippingData(data));
     nextStep();
   };
 
@@ -81,26 +76,15 @@ const Checkout = ({ handleCaptureCheckout }) => {
         </div>
 
         {step === 1 ? (
-          <Shipping
-            checkoutToken={checkoutToken}
-            next={next}
-            commerce={commerce}
-            cart={cart}
-            nextStep={nextStep}
-          />
+          <Shipping next={next} />
         ) : step === 2 ? (
           <Payment
-            cart={cart}
-            checkoutToken={checkoutToken}
-            commerce={commerce}
             backStep={backStep}
             handleCaptureCheckout={handleCaptureCheckout}
-            shippingData={shippingData}
             nextStep={nextStep}
-            order={order}
           />
         ) : (
-          <Confirmation shippingData={shippingData} order={order} />
+          <Confirmation />
         )}
       </div>
     </div>

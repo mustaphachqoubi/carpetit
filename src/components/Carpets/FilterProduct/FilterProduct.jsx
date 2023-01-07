@@ -147,7 +147,7 @@ const FilterProduct = ({ SelectedCat, SearchedCarpet }) => {
         </button>
       </div>
 
-      <div className="py-4 px-10 w-96">
+      <div className="py-4 px-10 w-[100%]">
         <div
           className={`${filter} flex dark:bg-slate-500 bg-gray-200 shadow-md text-slate-500 dark:text-white w-full h-48 rounded-xl flex-wrap justify-evenly items-center`}
         >

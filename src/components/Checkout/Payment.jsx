@@ -6,16 +6,19 @@ import {
   } from "@stripe/react-stripe-js";
   import { loadStripe } from "@stripe/stripe-js";
   import { FaLock } from "react-icons/fa";
+  import { useSelector } from "react-redux";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
 
 const Payment = ({
-  checkoutToken,
   backStep,
-  shippingData,
   nextStep,
   handleCaptureCheckout,
  }) => {
+
+  const { shippingData } = useSelector(state => state.shippingData)
+  const {checkoutToken} = useSelector(state => state.checkoutToken)
+
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
     if (!stripe || !elements) return;

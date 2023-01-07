@@ -3,14 +3,14 @@ import {createSlice} from '@reduxjs/toolkit'
 const shippingDataSlice = createSlice({
     name: 'shippingData',
     initialState: {
-        shippingData: 1
+        shippingData: {},
     },
     reducers: {
-        getStep: (state, action) => {
+        getShippingData: (state, action) => {
             state.shippingData = action.payload
         }
     }
 })
 
-export const {getStep} = shippingDataSlice.actions
+export const {getShippingData} = shippingDataSlice.actions
 export default shippingDataSlice

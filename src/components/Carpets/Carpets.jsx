@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carpet from "./Carpet/Carpet";
 import FilterProduct from "./FilterProduct/FilterProduct";
 
-const Carpets = ({ products, onAddToCart }) => {
+const Carpets = ({ onAddToCart }) => {
   const [search, setSearch] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
 
@@ -22,8 +22,6 @@ const Carpets = ({ products, onAddToCart }) => {
         className=" flex flex-wrap justify-center gap-[2rem] py-20 px-5 items-center"
       >
         <Carpet
-          search={search}
-          products={products}
           onAddToCart={onAddToCart}
           selectedCategory={selectedCategory}
         />

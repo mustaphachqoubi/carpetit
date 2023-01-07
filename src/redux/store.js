@@ -22,6 +22,15 @@ import orderSlice from "./AppReducers/order";
 import errorMessageSlice from "./AppReducers/errorMessage";
 import stepSlice from './CheckoutReducers/step'
 import shippingDataSlice from "./CheckoutReducers/shippingData";
+import confirmationLoadingSlice from "./CheckoutReducers/confirmationLoading";
+import referenceLoadingSlice from "./CheckoutReducers/referenceLoading";
+import thankMessageLoadingSlice from "./CheckoutReducers/thankMessageLoading";
+import countriesSlice from "./CheckoutReducers/countries";
+import countrySlice from "./CheckoutReducers/country";
+import subdivisionsSlice from "./CheckoutReducers/subdivisions";
+import subdivisionSlice from "./CheckoutReducers/subdivision";
+import optionsSlice from "./CheckoutReducers/options";
+import optionSlice from "./CheckoutReducers/option";
 
 import logger from "redux-logger";
 import thunk from "redux-thunk";
@@ -51,6 +60,15 @@ const store = configureStore({
     errorMessage: errorMessageSlice.reducer,
     step: stepSlice.reducer,
     shippingData: shippingDataSlice.reducer,
+    confirmationLoading: confirmationLoadingSlice.reducer,
+    referenceLoading: referenceLoadingSlice.reducer,
+    thankMessageLoading: thankMessageLoadingSlice.reducer,
+    countries: countriesSlice.reducer,
+    country: countrySlice.reducer,
+    subdivisions: subdivisionsSlice.reducer,
+    subdivision: subdivisionSlice.reducer,
+    options: optionsSlice.reducer,
+    option: optionSlice.reducer,
   },
   middleware: [thunk],
 });
