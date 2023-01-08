@@ -1,7 +1,6 @@
 import React from "react";
 import { Carpet } from "../../../assets";
 import { AiOutlineRight } from "react-icons/ai";
-import SimilarSkeleton from "../../Skeletons/SimilarSkeleton";
 
 const Similar = () => {
   return (

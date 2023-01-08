@@ -38,6 +38,7 @@ import emptySlice from "./CartReducers/empty";
 import trashSlice from "./CartReducers/trash";
 import plusSlice from "./CartReducers/plus";
 import minesSlice from "./CartReducers/mines";
+import loadingHSlice from "./HeroBannerReducers/loading";
 
 const store = configureStore({
   reducer: {
@@ -77,6 +78,7 @@ const store = configureStore({
     trash: trashSlice.reducer,
     plus: plusSlice.reducer,
     mines: minesSlice.reducer,
+    loading: loadingHSlice.reducer
   },
   middleware: [thunk],
 });

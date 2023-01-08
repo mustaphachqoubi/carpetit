@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { RiStarSFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Specification = ({ }) => {
 
