@@ -1,4 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
+
 import loadingSlice from "./CarpetReducers/loading";
 import selectedIdSlice from "./CarpetReducers/selectedId";
 import carpetListSlice from "./CarpetReducers/carpetList";
@@ -20,7 +23,7 @@ import darkSlice from "./AppReducers/dark";
 import cartSlice from "./AppReducers/cart";
 import orderSlice from "./AppReducers/order";
 import errorMessageSlice from "./AppReducers/errorMessage";
-import stepSlice from './CheckoutReducers/step'
+import stepSlice from "./CheckoutReducers/step";
 import shippingDataSlice from "./CheckoutReducers/shippingData";
 import confirmationLoadingSlice from "./CheckoutReducers/confirmationLoading";
 import referenceLoadingSlice from "./CheckoutReducers/referenceLoading";
@@ -31,9 +34,10 @@ import subdivisionsSlice from "./CheckoutReducers/subdivisions";
 import subdivisionSlice from "./CheckoutReducers/subdivision";
 import optionsSlice from "./CheckoutReducers/options";
 import optionSlice from "./CheckoutReducers/option";
-
-import logger from "redux-logger";
-import thunk from "redux-thunk";
+import emptySlice from "./CartReducers/empty";
+import trashSlice from "./CartReducers/trash";
+import plusSlice from "./CartReducers/plus";
+import minesSlice from "./CartReducers/mines";
 
 const store = configureStore({
   reducer: {
@@ -69,6 +73,10 @@ const store = configureStore({
     subdivision: subdivisionSlice.reducer,
     options: optionsSlice.reducer,
     option: optionSlice.reducer,
+    empty: emptySlice.reducer,
+    trash: trashSlice.reducer,
+    plus: plusSlice.reducer,
+    mines: minesSlice.reducer,
   },
   middleware: [thunk],
 });

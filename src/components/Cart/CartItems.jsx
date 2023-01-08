@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FiTrash } from "react-icons/fi";
-import ProductSkeleton from "../Skeletons/ProductSkeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { setTrashId, setTrashInitial } from "../../redux/CartReducers/trash";
+import { setPlusId, setPlusInitial } from "../../redux/CartReducers/plus";
+import { setMinesId, setMinesInitial } from "../../redux/CartReducers/mines";
 
 const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
-  const [trash, setTrash] = useState(-1);
-  const [plus, setPlus] = useState(-1);
-  const [mines, setMines] = useState(-1);
+  const { trash } = useSelector((state) => state.trash);
+  const { plus } = useSelector((state) => state.plus);
+  const { mines } = useSelector((state) => state.mines);
+
+  const dispatch = useDispatch();
 
   const handleClickedTrash = (id) => {
-    setTrash(id);
+    dispatch(setTrashId(id));
     setTimeout(function () {
-      setTrash(-1);
+      dispatch(setTrashInitial());
     }, 2000);
     handleRemoveFromCart(id);
   };
 
   const handleClickedPlus = (id, quantity) => {
-    setPlus(id);
+    dispatch(setPlusId(id));
     setTimeout(function () {
-      setPlus(-1);
+      dispatch(setPlusInitial());
     }, 1600);
     handleUpdateQt(id, quantity + 1);
   };
 
   const handleClickedMines = (id, quantity) => {
-    setMines(id);
+    dispatch(setMinesId(id));
     setTimeout(function () {
-      setMines(-1);
+      dispatch(setMinesInitial());
     }, 1600);
     handleUpdateQt(id, quantity - 1);
   };
