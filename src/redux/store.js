@@ -78,7 +78,7 @@ const store = configureStore({
     trash: trashSlice.reducer,
     plus: plusSlice.reducer,
     mines: minesSlice.reducer,
-    loading: loadingHSlice.reducer
+    loading: loadingHSlice.reducer,
   },
   middleware: [thunk],
 });

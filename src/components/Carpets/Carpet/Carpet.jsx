@@ -85,35 +85,35 @@ function Carpet({ onAddToCart, selectedCategory }) {
 
   const minSwipeDistance = 50;
 
-  const onTouchStart = (e) => {
-    dispatch(nullTouchEnd());
-    dispatch(updateTouchStart(e.targetTouches[0].clientX));
-  };
+  // const onTouchStart = (e) => {
+  //   dispatch(nullTouchEnd());
+  //   dispatch(updateTouchStart(e.targetTouches[0].clientX));
+  // };
 
-  const onTouchMove = (e) =>
-    dispatch(updateTouchEnd(e.targetTouches[0].clientX));
+  // const onTouchMove = (e) =>
+  //   dispatch(updateTouchEnd(e.targetTouches[0].clientX));
 
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isRightSwipe = distance > minSwipeDistance;
-    const isLeftSwipe = distance < -minSwipeDistance;
-    if (isLeftSwipe || isRightSwipe) {
-      if (isRightSwipe) {
-        products.map((carpet) =>
-          count === carpet.assets.length
-            ? dispatch(countToZero())
-            : dispatch(updateCount(count + 1))
-        );
-      } else if (isLeftSwipe) {
-        products.map((carpet) =>
-          count === 0
-            ? dispatch(updateCount(carpet.assets.length))
-            : dispatch(updateCount(count - 1))
-        );
-      }
-    }
-  };
+  // const onTouchEnd = () => {
+  //   if (!touchStart || !touchEnd) return;
+  //   const distance = touchStart - touchEnd;
+  //   const isRightSwipe = distance > minSwipeDistance;
+  //   const isLeftSwipe = distance < -minSwipeDistance;
+  //   if (isLeftSwipe || isRightSwipe) {
+  //     if (isRightSwipe) {
+  //       products.map((carpet) =>
+  //         count === carpet.assets.length
+  //           ? dispatch(countToZero())
+  //           : dispatch(updateCount(count + 1))
+  //       );
+  //     } else if (isLeftSwipe) {
+  //       products.map((carpet) =>
+  //         count === 0
+  //           ? dispatch(updateCount(carpet.assets.length))
+  //           : dispatch(updateCount(count - 1))
+  //       );
+  //     }
+  //   }
+  // };
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -292,14 +292,14 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                         )
                                       : dispatch(updateCount(count - 1));
                                   }}
-                                  className="hidden md:flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] left-2 p-3 rounded-full cursor-pointer"
+                                  className="flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] left-2 p-3 rounded-full cursor-pointer"
                                 >
                                   <AiOutlineArrowLeft />
                                 </div>
                                 <motion.img
-                                  onTouchStart={(e) => onTouchStart(e)}
-                                  onTouchMove={(e) => onTouchMove(e)}
-                                  onTouchEnd={() => onTouchEnd()}
+                                  // onTouchStart={(e) => onTouchStart(e)}
+                                  // onTouchMove={(e) => onTouchMove(e)}
+                                  // onTouchEnd={() => onTouchEnd()}
                                   key={carpet.id}
                                   src={carpet.assets[count].url}
                                   alt="carpet"
@@ -311,7 +311,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                       ? dispatch(updateCount(count + 1))
                                       : dispatch(countToZero(0));
                                   }}
-                                  className="hidden md:flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] right-2 p-3 rounded-full cursor-pointer"
+                                  className="flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] right-2 p-3 rounded-full cursor-pointer"
                                 >
                                   <AiOutlineArrowRight />
                                 </div>

@@ -67,8 +67,7 @@ const Shipping = ({ next }) => {
 
   useEffect(() => {
     const token = async () => {
-      let ch = await checkoutToken;
-      !ch ? setWait("Loading...") : fetchCountries(ch.id);
+      checkoutToken ? fetchCountries(checkoutToken.id) : setWait("Loading...")
     };
     token();
   }, [checkoutToken]);

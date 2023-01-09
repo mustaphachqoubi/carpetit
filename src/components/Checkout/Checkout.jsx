@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { MdDone } from "react-icons/md";
 import Shipping from "./Shipping";
 import Payment from "./Payment";

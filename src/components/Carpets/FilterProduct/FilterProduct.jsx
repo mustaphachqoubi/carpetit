@@ -2,11 +2,11 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { Filtering } from "../../../dummy";
 
-const FilterProduct = ({ SelectedCat, SearchedCarpet }) => {
-  const [filter, setFilter] = useState("hidden");
+const FilterProduct = ({ SelectedCat }) => {
   const [choosenBg, setChoosenBg] = useState("bg-orange-500 text-white");
-  const [allBg, setAllBg] = useState("bg-orange-500 text-white");
   const [isAllBg, setIsAllBg] = useState(false);
+  const [filter, setFilter] = useState("hidden");
+  const [allBg, setAllBg] = useState("bg-orange-500 text-white");
   const [ispopularBg, setPopularBg] = useState(false);
   const [ishotBg, setHotBg] = useState(false);
   const [ismoroccanBg, setMoroccanBg] = useState(false);
