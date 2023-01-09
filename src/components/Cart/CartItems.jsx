@@ -38,24 +38,24 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
 
   return (
     <>
-      {cart.line_items.map((Product) => (
+      {cart?.line_items?.map((Product) => (
         <div
           className="shrink-0 cursor-pointer w-[18rem] sm:max-w-sm"
           key={Product.id}
         >
           <div className="relative">
             <div className="absolute bottom-[1.2rem] text-white left-[1rem] bg-gradient-to-r from-green-500 to-green-600 self-start flex items-center justify-center h-10 px-5 rounded-lg font-bold ">
-              {Product.price.formatted_with_symbol}
+              {Product?.price?.formatted_with_symbol}
             </div>
             <img
-              src={Product.image.url ? Product.image.url : ""}
+              src={Product?.image?.url ? Product?.image?.url : ""}
               className="object-cover h-[18em] w-80 rounded-xl"
             />
             <div
-              onClick={() => handleClickedTrash(Product.id)}
+              onClick={() => handleClickedTrash(Product?.id)}
               className={`absolute bg-red-500 text-white hover:bg-red-700 right-[1rem] bottom-[1rem] p-4 text-xl rounded-full`}
             >
-              {trash === Product.id ? (
+              {trash === Product?.id ? (
                 <svg
                   aria-hidden="true"
                   className="w-6 h-6 animate-spin text-slate-300 fill-blue-500"
@@ -81,16 +81,16 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
           <div className="flex justify-between p-2 py-4 ">
             <div>
               <h3 className="dark:text-white font-bold text-xl">
-                {Product.name}
+                {Product?.name}
               </h3>
             </div>
 
             <div className="flex w-[8rem] justify-around items-center text-slate-700 dark:text-white">
               <button
-                onClick={() => handleClickedPlus(Product.id, Product.quantity)}
+                onClick={() => handleClickedPlus(Product?.id, Product?.quantity)}
                 className="font-semibold text-slate-400 hover:text-white hover:text-slate-500 hover:bg-slate-200 hover:dark:bg-slate-700 hover:dark:text-white px-4 rounded-sm "
               >
-                {plus === Product.id ? (
+                {plus === Product?.id ? (
                   <svg
                     aria-hidden="true"
                     className="w-6 h-6 animate-spin text-slate-300 fill-blue-500"
@@ -111,9 +111,9 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
                   "+"
                 )}
               </button>
-              <h3 className="font-semibold">{Product.quantity}</h3>
+              <h3 className="font-semibold">{Product?.quantity}</h3>
               <button
-                onClick={() => handleClickedMines(Product.id, Product.quantity)}
+                onClick={() => handleClickedMines(Product?.id, Product?.quantity)}
                 className="font-semibold text-slate-400 hover:text-white hover:text-slate-500 hover:bg-slate-200 hover:dark:bg-slate-700 hover:dark:text-white px-4 rounded-sm "
               >
                 {mines === Product.id ? (

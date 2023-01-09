@@ -6,6 +6,7 @@ import {
   setDeleteSpinner,
   setDeleteInitial,
 } from "../../redux/CartReducers/empty";
+import { useEffect } from "react";
 
 const EmptyCart = () => {
   return (
@@ -35,11 +36,11 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
 
   const dispatch = useDispatch();
 
-  return cart.length >= 0 ? (
+  return cart?.length >= 0 ? (
     <h1 className="font-bold dark:text-white text-2xl flex justify-center items-center p-10 h-screen">
       Loading...
     </h1>
-  ) : cart.line_items.length <= 0 ? (
+  ) : cart?.line_items.length <= 0 ? (
     <EmptyCart />
   ) : (
     <div className="dark:text-white">
@@ -47,7 +48,7 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
         <h1 className="font-bold text-2xl">
           You Have{" "}
           <span className="text-orange-500">{cart.total_unique_items}</span>{" "}
-          carpet{cart.total_unique_items > 1 ? "s" : ""} in your cart
+          carpet{cart?.total_unique_items > 1 ? "s" : ""} in your cart
         </h1>
       </div>
       <div className="flex flex-wrap justify-center gap-[2rem] py-20 px-5 items-center">
@@ -89,7 +90,7 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
               setTimeout(function () {
                 dispatch(setDeleteInitial());
               }, 2000);
-              handleEmptyCart(cart.id);
+              handleEmptyCart(cart?.id);
             }}
             className="font-semibold flex items-center justify-center bg-red-500 hover:bg-red-700 w-[7.3rem] h-[3rem] rounded-md text-white"
           >
@@ -100,7 +101,7 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
         <h3 className="text-md font-bold ">
           Total:{" "}
           <span className="text-slate-400 dark:text-slate-500">
-            {cart.subtotal.formatted_with_symbol}
+            {cart?.subtotal?.formatted_with_symbol}
           </span>
         </h3>
       </div>
