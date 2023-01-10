@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const selectedSizeSlice = createSlice({
     name: 'selectedSize',
     initialState: {
-        selectedSize: -1
+        selectedSize: null
     },
     reducers: {
         selectedSizeId: (state, action) => {
             state.selectedSize = action.payload
         },
-        selectedSizeInitial: (state) => {
-            state.selectedSize = -1
+        selectedSizeInitial: (state, action) => {
+            state.selectedSize = action.payload
         },
     }
 })

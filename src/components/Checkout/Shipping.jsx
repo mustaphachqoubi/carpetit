@@ -24,7 +24,7 @@ const Shipping = ({ next }) => {
   const methods = useForm();
 
   const fetchCountries = async (checkoutTokenId) => {
-    const { countries } = await commerce?.services?.localeListShippingCountries(
+    const { countries } = await commerce.services.localeListShippingCountries(
       checkoutTokenId
     );
     dispatch(setCountries(countries));
@@ -63,11 +63,30 @@ const Shipping = ({ next }) => {
   }));
 
   useEffect(() => {
-    checkoutToken && fetchCountries(checkoutToken.id);
-    if (country) fetchSubdivisions(country)
-    if (subdivision) fetchOptions(checkoutToken?.id, country, subdivision)
+    const token = async () => {
+      let ch = await checkoutToken;
+      ch && fetchCountries(ch.id);
+    };
+    token();
   }, [checkoutToken]);
 
+  useEffect(() => {
+    if (country) fetchSubdivisions(country);
+  }, [country]);
+
+  useEffect(() => {
+    const token = async () => {
+      let ch = await checkoutToken;
+      if (subdivision) fetchOptions(ch.id, country, subdivision);
+    };
+    token();
+  }, [subdivision]);
+
+  useEffect(() => {
+    console.log(country)
+  }, [country])
+
+  
   return (
     <>
       <FormProvider {...methods}>
@@ -140,7 +159,7 @@ const Shipping = ({ next }) => {
               required
               title="country"
               value={country}
-              onChange={(e) => setCountry(e.target.value)}
+              onChange={(e) => dispatch(setCountry(e.target.value))}
               name="country"
               className="dark:bg-slate-700 bg-gray-100 border-b border-gray-600 dark:border-slate-300 w-48 md:w-[20rem] py-4 outline-none"
             >

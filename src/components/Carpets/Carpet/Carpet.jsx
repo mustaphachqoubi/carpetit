@@ -159,7 +159,6 @@ function Carpet({ onAddToCart, selectedCategory }) {
     };
     checkoutToken && fetchDiscounts();
   }, [checkoutToken]);
-
   return (
     <>
       {products.length > 0
@@ -473,7 +472,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                       <div className="w-80 mt-4 space-y-4">
                         <div
                           onClick={() => {
-                            dispatch(selectedSizeInitial());
+                           dispatch(selectedSizeInitial());
                           }}
                           className="flex justify-center h-10 px-12 sm:px-4"
                         >
