@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import CustomTextField from "./CustomTextField";
 import { Link } from "react-router-dom";
@@ -32,15 +32,15 @@ const Shipping = ({ next }) => {
   };
 
   const fetchSubdivisions = async (countryCode) => {
-    const { subdivisions } = await commerce?.services?.localeListSubdivisions(
+    const { subdivisions } = await commerce.services.localeListSubdivisions(
       countryCode
     );
     dispatch(setSubdivisions(subdivisions));
-    dispatch(setSubdivision(Object.keys(subdivisions || {})[0]));
+    dispatch(setSubdivision(Object.keys(subdivisions)[0]));
   };
 
   const fetchOptions = async (checkoutTokenId, country, region = null) => {
-    const options = await commerce?.checkout?.getShippingOptions(
+    const options = await commerce.checkout.getShippingOptions(
       checkoutTokenId,
       { country, region }
     );
@@ -59,7 +59,7 @@ const Shipping = ({ next }) => {
 
   const opt_ions = options.map((sO) => ({
     id: sO.id,
-    label: `${sO?.description} - (${sO?.price?.formatted_with_symbol})`,
+    label: `${sO.description} - (${sO.price.formatted_with_symbol})`,
   }));
 
   useEffect(() => {
@@ -71,22 +71,17 @@ const Shipping = ({ next }) => {
   }, [checkoutToken]);
 
   useEffect(() => {
-    if (country) fetchSubdivisions(country);
+    country && fetchSubdivisions(country);
   }, [country]);
 
   useEffect(() => {
     const token = async () => {
       let ch = await checkoutToken;
-      if (subdivision) fetchOptions(ch.id, country, subdivision);
+      subdivision && fetchOptions(ch.id, country, subdivision);
     };
     token();
   }, [subdivision]);
 
-  useEffect(() => {
-    console.log(country)
-  }, [country])
-
-  
   return (
     <>
       <FormProvider {...methods}>
@@ -159,7 +154,9 @@ const Shipping = ({ next }) => {
               required
               title="country"
               value={country}
-              onChange={(e) => dispatch(setCountry(e.target.value))}
+              onChange={(e) => {
+                dispatch(setCountry(e.target.value));
+              }}
               name="country"
               className="dark:bg-slate-700 bg-gray-100 border-b border-gray-600 dark:border-slate-300 w-48 md:w-[20rem] py-4 outline-none"
             >
@@ -196,7 +193,7 @@ const Shipping = ({ next }) => {
               required
               title="subdivision"
               value={subdivision}
-              onChange={(e) => setSubdivision(e.target.value)}
+              onChange={(e) => dispatch(setSubdivision(e.target.value))}
               name="subdivision"
               className="dark:bg-slate-700 bg-gray-100 border-b border-gray-600 dark:border-slate-300 w-48 md:w-[20rem] py-4 outline-none"
             >
@@ -233,7 +230,7 @@ const Shipping = ({ next }) => {
               required
               title="shipping options"
               value={option}
-              onChange={(e) => setOption(e.target.value)}
+              onChange={(e) => dispatch(setOption(e.target.value))}
               name="option"
               className="dark:bg-slate-700 bg-gray-100 border-b border-gray-600 dark:border-slate-300 w-48 md:w-[20rem] py-4 outline-none"
             >

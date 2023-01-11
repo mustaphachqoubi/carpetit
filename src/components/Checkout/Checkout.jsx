@@ -58,7 +58,7 @@ const Checkout = ({ handleCaptureCheckout }) => {
                   ? "bg-blue-400 py-[0.2rem] px-[0.6rem]"
                   : step > 2
                   ? "bg-blue-400 py-2"
-                  : "bg-blue-500 py-[0.2rem] px-[0.7rem]"
+                  : "bg-blue-500 py-[0.2rem] px-[0.6rem]"
               } px-2 rounded-full`}
             >
               {step > 2 ? <MdDone /> : "2"}

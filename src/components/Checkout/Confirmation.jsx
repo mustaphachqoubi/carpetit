@@ -21,7 +21,7 @@ const Confirmation = ({ }) => {
         dispatch(setConfirmationLoading(
           <img
             className="w-12"
-            src={or && shippingData.firstName ? done : error}
+            src={or && referenceLoading.length >= 1 ? done : error}
             alt="done"
           />
         ));
@@ -43,7 +43,7 @@ const Confirmation = ({ }) => {
       const or = await order
       setTimeout(function () {
         dispatch(setThankMessageLoading(
-          or && shippingData.firstName ? (
+          referenceLoading.length >= 1 && shippingData.firstName ? (
             <h1 className="text-sm">Thank you Mr. {shippingData.firstName}</h1>
           ) : (
             <h1 className="text-sm">There is an error, Please try again !</h1>
@@ -77,7 +77,7 @@ const Confirmation = ({ }) => {
             <button
               type="submit"
               className="text-white rounded-md bg-blue-500 w-[10rem] h-10 hover:bg-blue-700 cursor-pointer"
-              disabled={!order.customer_reference}
+              // disabled={!order.customer_reference}
             >
               Back Home
             </button>
