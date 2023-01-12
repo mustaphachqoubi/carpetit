@@ -13,7 +13,7 @@ import { setOption } from "../../redux/CheckoutReducers/option";
 
 const Shipping = ({ next }) => {
   const dispatch = useDispatch();
-  const { countries } = useSelector((state) => state.countries);
+  const { c_ountries } = useSelector((state) => state.c_ountries);
   const { country } = useSelector((state) => state.country);
   const { subdivisions } = useSelector((state) => state.subdivisions);
   const { subdivision } = useSelector((state) => state.subdivision);
@@ -48,7 +48,7 @@ const Shipping = ({ next }) => {
     dispatch(setOption(options[0].id));
   };
 
-  const coun_tries = Object.entries(countries).map(([code, name]) => ({
+  const coun_tries = Object.entries(c_ountries).map(([code, name]) => ({
     id: code,
     label: name,
   }));

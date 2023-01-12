@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const countriesSlice = createSlice({
     name: 'countries',
     initialState: {
-        countries: []
+        c_ountries: []
     },
     reducers: {
         setCountries: (state, action) => {
-            state.countries = action.payload
+            state.c_ountries = action.payload
         }
     }
 })

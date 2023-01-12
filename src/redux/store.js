@@ -68,7 +68,7 @@ const store = configureStore({
     confirmationLoading: confirmationLoadingSlice.reducer,
     referenceLoading: referenceLoadingSlice.reducer,
     thankMessageLoading: thankMessageLoadingSlice.reducer,
-    countries: countriesSlice.reducer,
+    c_ountries: countriesSlice.reducer,
     country: countrySlice.reducer,
     subdivisions: subdivisionsSlice.reducer,
     subdivision: subdivisionSlice.reducer,
