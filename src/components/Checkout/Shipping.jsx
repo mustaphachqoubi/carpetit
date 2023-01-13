@@ -63,11 +63,7 @@ const Shipping = ({ next }) => {
   }));
 
   useEffect(() => {
-    const token = async () => {
-      let ch = await checkoutToken;
-      ch && fetchCountries(ch.id);
-    };
-    token();
+      checkoutToken && fetchCountries(checkoutToken.id);
   }, [checkoutToken]);
 
   useEffect(() => {
@@ -80,7 +76,7 @@ const Shipping = ({ next }) => {
       subdivision && fetchOptions(ch.id, country, subdivision);
     };
     token();
-  }, [subdivision]);
+  }, [subdivisions]);
 
   return (
     <>
