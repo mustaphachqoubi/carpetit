@@ -33,7 +33,7 @@ const Checkout = ({ handleCaptureCheckout }) => {
               className={`text-white px-2 rounded-full ${
                 step > 1
                   ? "bg-blue-400 py-2" :
-                  step === 1 ? "bg-blue-500 py-[0.2rem] px-[0.7rem]" : "bg-blue-500 py-[0.4rem] px-[0.7rem]"
+                  step === 1 ? "bg-blue-500 py-[0.2rem] px-[0.7rem]" : "bg-blue-500 py-[0.5rem] px-[0.5rem]"
               }`}
             >
               {step !== 1 ? <MdDone /> : "1"}

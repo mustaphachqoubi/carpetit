@@ -15,7 +15,7 @@ const Shipping = ({ next }) => {
   const dispatch = useDispatch();
   const { c_ountries } = useSelector((state) => state.c_ountries);
   const { country } = useSelector((state) => state.country);
-  const { subdivisions } = useSelector((state) => state.subdivisions);
+  const { s_ubdivisions } = useSelector((state) => state.s_ubdivisions);
   const { subdivision } = useSelector((state) => state.subdivision);
   const { options } = useSelector((state) => state.options);
   const { option } = useSelector((state) => state.option);
@@ -52,7 +52,7 @@ const Shipping = ({ next }) => {
     id: code,
     label: name,
   }));
-  const sub_divisions = Object.entries(subdivisions).map(([code, name]) => ({
+  const sub_divisions = Object.entries(s_ubdivisions).map(([code, name]) => ({
     id: code,
     label: name,
   }));
@@ -71,12 +71,8 @@ const Shipping = ({ next }) => {
   }, [country]);
 
   useEffect(() => {
-    const token = async () => {
-      let ch = await checkoutToken;
-      subdivision && fetchOptions(ch.id, country, subdivision);
-    };
-    token();
-  }, [subdivisions]);
+      subdivision && fetchOptions(checkoutToken.id, country, subdivision);
+  }, [s_ubdivisions]);
 
   return (
     <>
@@ -149,7 +145,6 @@ const Shipping = ({ next }) => {
             <select
               required
               title="country"
-              value={country}
               onChange={(e) => {
                 dispatch(setCountry(e.target.value));
               }}

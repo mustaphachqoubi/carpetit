@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const subdivisionsSlice = createSlice({
     name: 'subdivisions',
     initialState: {
-        subdivisions: []
+        s_ubdivisions: []
     },
     reducers: {
         setSubdivisions: (state, action) => {
-            state.subdivisions = action.payload
+            state.s_ubdivisions = action.payload
         }
     }
 })

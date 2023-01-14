@@ -70,7 +70,7 @@ const store = configureStore({
     thankMessageLoading: thankMessageLoadingSlice.reducer,
     c_ountries: countriesSlice.reducer,
     country: countrySlice.reducer,
-    subdivisions: subdivisionsSlice.reducer,
+    s_ubdivisions: subdivisionsSlice.reducer,
     subdivision: subdivisionSlice.reducer,
     options: optionsSlice.reducer,
     option: optionSlice.reducer,
