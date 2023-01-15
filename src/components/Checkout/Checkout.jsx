@@ -4,7 +4,7 @@ import Shipping from "./Shipping";
 import Payment from "./Payment";
 import Confirmation from "./Confirmation";
 import { useSelector, useDispatch } from "react-redux";
-import { getStep } from "../../redux/CheckoutReducers/step";
+import { addStep, removeStep } from "../../redux/CheckoutReducers/step";
 import { getShippingData } from "../../redux/CheckoutReducers/shippingData";
 
 const Checkout = ({ handleCaptureCheckout }) => {
@@ -12,13 +12,14 @@ const Checkout = ({ handleCaptureCheckout }) => {
 
   const dispatch = useDispatch();
 
-  const nextStep = () => dispatch(getStep((step) => step + 1));
-  const backStep = () => dispatch(getStep((step) => step - 1));
+  const nextStep = () => dispatch(addStep());
+  const backStep = () => dispatch(removeStep());
 
   const next = (data) => {
     dispatch(getShippingData(data));
     nextStep();
   };
+
 
   return (
     <div className="dark:text-white flex justify-center p-10">
