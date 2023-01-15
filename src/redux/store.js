@@ -72,7 +72,7 @@ const store = configureStore({
     country: countrySlice.reducer,
     s_ubdivisions: subdivisionsSlice.reducer,
     subdivision: subdivisionSlice.reducer,
-    options: optionsSlice.reducer,
+    o_ptions: optionsSlice.reducer,
     option: optionSlice.reducer,
     empty: emptySlice.reducer,
     trash: trashSlice.reducer,

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import CustomTextField from "./CustomTextField";
 import { Link } from "react-router-dom";
@@ -17,9 +17,12 @@ const Shipping = ({ next }) => {
   const { country } = useSelector((state) => state.country);
   const { s_ubdivisions } = useSelector((state) => state.s_ubdivisions);
   const { subdivision } = useSelector((state) => state.subdivision);
-  const { options } = useSelector((state) => state.options);
+  const { o_ptions } = useSelector((state) => state.o_ptions);
   const { option } = useSelector((state) => state.option);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
+  const [selectedCountry, setSelectedCountry] = useState(
+    Object.keys(c_ountries)[0]
+  );
 
   const methods = useForm();
 
@@ -28,7 +31,10 @@ const Shipping = ({ next }) => {
       checkoutTokenId
     );
     dispatch(setCountries(countries));
-    dispatch(setCountry(Object.keys(countries)[0]));
+    if (!selectedCountry) {
+      setSelectedCountry(Object.keys(countries)[0]);
+      dispatch(setCountry(Object.keys(countries)[0]));
+    }
   };
 
   const fetchSubdivisions = async (countryCode) => {
@@ -57,22 +63,26 @@ const Shipping = ({ next }) => {
     label: name,
   }));
 
-  const opt_ions = options.map((sO) => ({
+  const opt_ions = o_ptions.map((sO) => ({
     id: sO.id,
     label: `${sO.description} - (${sO.price.formatted_with_symbol})`,
   }));
 
   useEffect(() => {
-      checkoutToken && fetchCountries(checkoutToken.id);
+    checkoutToken && fetchCountries(checkoutToken.id);
   }, [checkoutToken]);
 
   useEffect(() => {
-    country && fetchSubdivisions(country);
-  }, [country]);
+    if (selectedCountry) {
+      fetchSubdivisions(selectedCountry);
+    }
+  }, [selectedCountry]);
 
   useEffect(() => {
-      subdivision && fetchOptions(checkoutToken.id, country, subdivision);
-  }, [s_ubdivisions]);
+    if (subdivision && selectedCountry) {
+      fetchOptions(checkoutToken.id, selectedCountry, subdivision);
+    }
+  }, [subdivision, selectedCountry]);
 
   return (
     <>
@@ -145,7 +155,9 @@ const Shipping = ({ next }) => {
             <select
               required
               title="country"
+              value={selectedCountry}
               onChange={(e) => {
+                setSelectedCountry(e.target.value);
                 dispatch(setCountry(e.target.value));
               }}
               name="country"
