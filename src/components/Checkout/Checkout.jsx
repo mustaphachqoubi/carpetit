@@ -20,7 +20,6 @@ const Checkout = ({ handleCaptureCheckout }) => {
     nextStep();
   };
 
-
   return (
     <div className="dark:text-white flex justify-center p-10">
       <div className="rounded-md bg-gray-100 dark:bg-slate-700 w-[50rem]">
