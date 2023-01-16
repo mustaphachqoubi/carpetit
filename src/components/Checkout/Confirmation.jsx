@@ -68,6 +68,10 @@ const Confirmation = ({}) => {
     handlethankMessageLoad();
   }, [order]);
 
+  useEffect(() => {
+    console.log(order)
+  }, [order])
+
   return (
     <>
       <div className="flex justify-center">

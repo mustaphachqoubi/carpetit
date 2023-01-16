@@ -67,6 +67,7 @@ function App() {
       refreshCart();
     } catch (error) {
       setErrorMessage(error.data.error.message);
+      console.log(error)
     }
   };
 
@@ -109,33 +110,33 @@ function App() {
       <div className="bg-[#FAFCFC] dark:bg-slate-800">
         <BrowserRouter>
           <Navbar pullDark={pullDark} totalItems={cart.total_unique_items} />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <HeroBanner
-                    onAddToCart={handleAddToCart}
-                    handleAddToCart={handleAddToCart}
-                  />
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <Cart
-                    handleUpdateQt={handleUpdateQt}
-                    handleRemoveFromCart={handleRemoveFromCart}
-                    handleEmptyCart={handleEmptyCart}
-                  />
-                }
-              />
-              <Route
-                path="/checkout"
-                element={
-                  <Checkout handleCaptureCheckout={handleCaptureCheckout} />
-                }
-              />
-            </Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HeroBanner
+                  onAddToCart={handleAddToCart}
+                  handleAddToCart={handleAddToCart}
+                />
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  handleUpdateQt={handleUpdateQt}
+                  handleRemoveFromCart={handleRemoveFromCart}
+                  handleEmptyCart={handleEmptyCart}
+                />
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <Checkout handleCaptureCheckout={handleCaptureCheckout} />
+              }
+            />
+          </Routes>
           <Footer />
         </BrowserRouter>
       </div>
