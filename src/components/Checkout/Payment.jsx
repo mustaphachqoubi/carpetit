@@ -7,12 +7,13 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
+import { commerce } from "../../lib/commerce";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
 
 const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
+  const { products } = useSelector((state) => state.products);
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -27,61 +28,8 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
     if (error) {
       console.log(error);
     } else {
-      //   const lineItems = checkoutToken.line_items.map(item => ({
-      //     product_id: item.id,
-      //     quantity: item.quantity,
-      // }));
-
-      // line_items.item_7RyWOwmK5nEa2V.variants.vgrp_aZWNoyxV9w80JA
-
-      //   const lineItems = checkoutToken.line_items.map(item => ({
-      //     product_id: item.id,
-      //     quantity: item.quantity,
-      //     metadata: item.metadata,
-      //     price: item.price,
-      //     tax_rate: item.tax_rate,
-      //     // variant_id: item.variant.id
-      // }));
-
       const orderData = {
-        // line_items: {
-        //   item_7RyWOwmK5nEa2V: {
-        //     quantity: 1,
-        //     variants: {
-        //       vgrp_p6dP5g0M4ln7kA: 'optn_DeN1ql93doz3ym',
-        //     }
-        //   },
-        //   item_1ypbroE658n4ea: {
-        //     quantity: 1,
-        //     variants: {
-        //       vgrp_p6dP5g0M4ln7kA: 'optn_DeN1ql93doz3ym',
-        //     }
-        //   }
-        // },
-
-        line_items: [
-          {
-            id: checkoutToken.line_items.map((i) => i.id),
-            product_id: checkoutToken.line_items.map((i) => i.product_id),
-            product_name: checkoutToken.line_items.map((i) => i.name),
-            quantity: checkoutToken.line_items.map((i) => i.quantity),
-            variants: [
-              {
-                variant_id: checkoutToken.line_items.item_1ypbroE658n4ea.variants.vgrp_ZRjywMXWbl7Y8G,
-                option_id: "optn_PAYrQlWDbwnbR4",
-                variant_name: "Variant #2",
-                option_name: "Option 2",
-                price: {
-                  raw: 20,
-                  formatted: "20.00",
-                  formatted_with_symbol: "20.00",
-                  formatted_with_code: "20.00 ",
-                },
-              },
-            ],
-          },
-        ],
-
+        line_items: checkoutToken.line_items,
         customer: {
           firstname: shippingData.firstName,
           lastname: shippingData.lastName,
