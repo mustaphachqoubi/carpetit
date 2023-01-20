@@ -13,7 +13,29 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
 const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
-  const { products } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    const t = async () => {
+      const ch = await checkoutToken;
+      ch &&
+        commerce.checkout
+          .checkVariant(ch.id, ch.line_items.id, {
+            variant_id: ch.line_items.variant,
+          })
+          .then((response) => {
+            if (response.available) {
+              commerce.checkout
+                .updateLineItem(ch.id, ch.line_items.id, {
+                  variant_id: ch.line_items.variant,
+                })
+                .then((response) => console.log(response));
+            }
+          });
+    };
+    t();
+
+    console.log(checkoutToken, "dfdfdf");
+  });
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -84,9 +106,14 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
     );
   };
 
-  useEffect(() => {
-    console.log(checkoutToken.line_items);
-  }, []);
+  // useEffect(() => {
+  //   console.log(checkoutToken)
+  // }, [checkoutToken]);
+
+  // useEffect(() => {
+  //   addToItems()
+  //   CheckVariant()
+  // }, [])
 
   return (
     <>
