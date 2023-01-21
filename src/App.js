@@ -21,7 +21,6 @@ import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 function App() {
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
-  const {checkoutToken} = useDispatch(state => state.checkoutToken)
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
 
@@ -31,22 +30,6 @@ function App() {
     });
     dispatch(getProducts(p.data));
   };
-
-  // const t = async (ch) => {
-  //   commerce.checkout
-  //     .checkVariant(ch.id, ch.line_items.id, {
-  //       variant_id: ch.line_items.variant,
-  //     })
-  //     .then((response) => {
-  //       if (response.available) {
-  //         commerce.checkout
-  //           .updateLineItem(ch.id, ch.line_items.id, {
-  //             variant_id: ch.line_items.variant,
-  //           })
-  //           .then((response) => console.log(response));
-  //       }
-  //     });
-  // };
 
   const fetchCart = async () => {
     const retrieve = await commerce.cart.retrieve();
@@ -81,7 +64,7 @@ function App() {
         newOrder
       );
       setOrder(incommingOrder);
-      // refreshCart();
+      refreshCart();
     } catch (error) {
       setErrorMessage(error.data.error.message);
       console.log(error);
@@ -91,12 +74,11 @@ function App() {
   useEffect(() => {
     const generatetoken = async () => {
       try {
-        const token = await commerce.checkout.generateToken(cart.id, {
+        const token = await commerce.checkout.generateToken(cart?.id, {
           type: "cart",
         });
         dispatch(getToken(token));
       } catch (error) {
-        console.log(error);
       }
     };
     cart.id && generatetoken();

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Elements,
   CardElement,
@@ -7,35 +7,13 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { commerce } from "../../lib/commerce";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
 
 const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
+  const [payLoading, setPayLoading] = useState(<FaLock />);
+
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
-
-  useEffect(() => {
-    const t = async () => {
-      const ch = await checkoutToken;
-      ch &&
-        commerce.checkout
-          .checkVariant(ch.id, ch.line_items.id, {
-            variant_id: ch.line_items.variant,
-          })
-          .then((response) => {
-            if (response.available) {
-              commerce.checkout
-                .updateLineItem(ch.id, ch.line_items.id, {
-                  variant_id: ch.line_items.variant,
-                })
-                .then((response) => console.log(response));
-            }
-          });
-    };
-    t();
-
-    console.log(checkoutToken, "dfdfdf");
-  });
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -51,7 +29,14 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
       console.log(error);
     } else {
       const orderData = {
-        line_items: checkoutToken.line_items,
+        line_items: {
+          item_7RyWOwmK5nEa2V: {
+            quantity: 1,
+            variants: {
+              vgrp_Kvg9l66Bvl1bB7: "optn_RqEv5xzEPdwZz4",
+            },
+          },
+        },
         customer: {
           firstname: shippingData.firstName,
           lastname: shippingData.lastName,
@@ -83,8 +68,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
     }
   };
 
-  const [payLoading, setPayLoading] = useState(<FaLock />);
-
   const onClickPayHandler = () => {
     setPayLoading(
       <svg
@@ -105,16 +88,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
       </svg>
     );
   };
-
-  // useEffect(() => {
-  //   console.log(checkoutToken)
-  // }, [checkoutToken]);
-
-  // useEffect(() => {
-  //   addToItems()
-  //   CheckVariant()
-  // }, [])
-
   return (
     <>
       <div className="p-8">
