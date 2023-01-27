@@ -11,7 +11,6 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
 
 const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
   const [payLoading, setPayLoading] = useState(<FaLock />);
-
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
 
@@ -37,6 +36,14 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
             },
           },
         },
+        // line_items: {
+        //   item_1ypbroE658n4ea: {
+        //     quantity: 1,
+        //     variants: {
+        //       vgrp_Kvg9l66Bvl1bB7: "optn_RqEv5xzEPdwZz4",
+        //     },
+        //   },
+        // },
         customer: {
           firstname: shippingData.firstName,
           lastname: shippingData.lastName,

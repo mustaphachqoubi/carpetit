@@ -21,6 +21,7 @@ import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 function App() {
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
+  const { order } = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
 
@@ -103,6 +104,10 @@ function App() {
         dispatch(getCode(dt.data[0].code));
       });
   });
+
+  useEffect(() => {
+    console.log(order, 'order')
+  }, [order])
 
   return (
     <div className={dark}>

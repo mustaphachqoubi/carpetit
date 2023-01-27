@@ -171,7 +171,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                 dispatch(hideOpenedProductHidden());
               }}
             >
-              <motion.div className={` relative`}>
+              <motion.div className={`relative`}>
                 <motion.h3
                   onClick={() => dispatch(selectedIdGetId(c.id))}
                   className="z-50 bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
@@ -246,7 +246,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
         {selectedId &&
           ((document.body.style.overflow = "hidden"),
           (
-            <div className="z-50 p-8 sm:p-0 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
+            <div className="z-50 p-3 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
               <div className="flex justify-center">
                 <div
                   onClick={() => {
@@ -261,7 +261,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                 ></div>
                 <motion.div
                   layoutId={selectedId}
-                  className="w-full relative dark:bg-slate-600 bg-[#EFF0F0] rounded-xl p-6 m-2 md:m-0"
+                  className="overflow-hidden w-full relative dark:bg-slate-600 bg-[#EFF0F0] rounded-xl p-4 md:p-6 m-2 md:m-0"
                 >
                   <motion.button
                     onClick={() => {
@@ -272,7 +272,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                       document.body.style.overflow = "visible";
                       dispatch(backScroll());
                     }}
-                    className="bg-white/30 backdrop-blur-sm dark:md:text-white dark:md:border-slate-500 m-2 absolute z-50 top-5 right-5 md:right-0 md:border md:border-black md:top-0 md:hover:bg-black md:hover:text-white w-8 h-8 rounded-full flex justify-center items-center cursur-pointer hover:backdrop-blur-xl dark:text-white"
+                    className="bg-white/30 backdrop-blur-sm text-xs md:text-md dark:md:text-white dark:md:border-slate-500 m-2 absolute z-50 top-3 right-3 md:top-2 md:right-2 md:border md:border-black md:top-0 md:hover:bg-black md:hover:text-white w-8 h-8 rounded-full flex justify-center items-center cursur-pointer hover:backdrop-blur-xl dark:text-white"
                   >
                     <AiOutlineClose />
                   </motion.button>
@@ -291,14 +291,11 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                         )
                                       : dispatch(updateCount(count - 1));
                                   }}
-                                  className="flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] left-2 p-3 rounded-full cursor-pointer"
+                                  className="flex absolute text-xs md:text-md bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] left-2 p-3 rounded-full cursor-pointer"
                                 >
                                   <AiOutlineArrowLeft />
                                 </div>
                                 <motion.img
-                                  // onTouchStart={(e) => onTouchStart(e)}
-                                  // onTouchMove={(e) => onTouchMove(e)}
-                                  // onTouchEnd={() => onTouchEnd()}
                                   key={carpet.id}
                                   src={carpet.assets[count].url}
                                   alt="carpet"
@@ -310,7 +307,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                       ? dispatch(updateCount(count + 1))
                                       : dispatch(countToZero(0));
                                   }}
-                                  className="flex absolute bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] right-2 p-3 rounded-full cursor-pointer"
+                                  className="flex absolute text-xs md:text-md bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] right-2 p-3 rounded-full cursor-pointer"
                                 >
                                   <AiOutlineArrowRight />
                                 </div>
@@ -319,12 +316,12 @@ function Carpet({ onAddToCart, selectedCategory }) {
                         )}
                       </div>
 
-                      <div className="h-20 sm:w-96 md:w-80 overflow-hidden flex items-center justify-center relative rounded-lg">
+                      <div className="h-16 md:h-20 w-full overflow-hidden flex items-center justify-center relative rounded-lg">
                         <div
                           onClick={() => HideScroll()}
                           className={`${scroll} w-full h-screen absolute flex justify-center items-center bg-slate/20 backdrop-blur-md cursor-pointer`}
                         >
-                          <h1 className="font-bold cursor-pointer flex gap-4 text-white text-shadow-md justify-center items-center">
+                          <h1 className="font-bold cursor-pointer flex gap-4 text-xs md:text-md text-white text-shadow-md justify-center text-center items-center">
                             <AiOutlineDoubleLeft className="animate-bounce text-xl text-white front-bold" />{" "}
                             Click & Scroll{" "}
                             <AiOutlineDoubleRight className="text-xl text-white front-bold animate-bounce" />
@@ -359,54 +356,59 @@ function Carpet({ onAddToCart, selectedCategory }) {
                       </div>
                     </div>
 
-                    <motion.div className="flex flex-col p-2 py-4 col-span-2 md:col-span-1 items-center md:items-start">
+                    <motion.div className="flex flex-col p-2 py-4 col-span-2 md:col-span-1 items-center md:items-start ">
                       <div className="w-80 space-y-4 text-center md:text-left">
-                        <h3 className="font-bold text-2xl md:text-xl px-4 dark:text-white">
+                        <h3 className="font-bold text-md md:text-xl px-4 dark:text-white mx-20">
                           {products.map(
                             (carpet) => carpet.id === selectedId && carpet.name
                           )}
                         </h3>
                         <div className="flex justify-evenly sm:justify-between items-center px-4 m-6 sm:m-0">
-                          <div className="price flex gap-4 justify-center md:justify-start">
-                            <h3 className="text-red-500 line-through font-bold text-sm flex">
+                          <div className="price flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+                            <h3 className="text-red-500 line-through font-bold text-xs md:text-sm flex">
                               $
                               {products.map((carpet) => {
                                 return (
                                   <div key={carpet.id}>
                                     {carpet.id === selectedId &&
-                                      carpet.variant_groups.map((variant) => {
-                                        return (
-                                          <div key={variant.id}>
-                                            {variant.name === "size" &&
-                                              variant.options[count].price.raw *
-                                                1.5}
-                                          </div>
-                                        );
-                                      })}
+                                    !carpet.variant_group
+                                      ? carpet.price.formatted * 1.5
+                                      : carpet.variant_groups.map((variant) => {
+                                          return (
+                                            <div key={variant.id}>
+                                              {variant.name === "size" &&
+                                                variant.options[count].price
+                                                  .raw * 1.5}
+                                            </div>
+                                          );
+                                        })}
                                   </div>
                                 );
                               })}
                             </h3>
-                            <h3 className="text-green-500 flex">
+                            <h3 className="text-green-500 flex text-xs md:text-sm">
                               $
                               {products.map((carpet) => {
                                 return (
                                   <div key={carpet.id}>
                                     {carpet.id === selectedId &&
-                                      carpet.variant_groups.map((variant) => {
-                                        return (
-                                          <div key={variant.id}>
-                                            {variant.name === "size" &&
-                                              variant.options[count].price.raw}
-                                          </div>
-                                        );
-                                      })}
+                                    !carpet.variant_group
+                                      ? carpet.price.formatted
+                                      : carpet.variant_groups.map((variant) => {
+                                          return (
+                                            <div key={variant.id}>
+                                              {variant.name === "size" &&
+                                                variant.options[count].price
+                                                  .raw}
+                                            </div>
+                                          );
+                                        })}
                                   </div>
                                 );
                               })}
                             </h3>
                           </div>
-                          <div className="bg-red-200 flex justify-center items-center p-2 w-20 rounded-xl text-red-500 font-bold ">
+                          <div className="bg-red-200 flex justify-center items-center p-2 w-20 h-10 rounded-xl text-red-500 font-bold text-xs md:text-sm">
                             -
                             {products.map((carpet) => {
                               return (
@@ -430,11 +432,11 @@ function Carpet({ onAddToCart, selectedCategory }) {
                             %
                           </div>
                         </div>
-                        <div className="flex px-12 sm:px-4">
+                        <div className="flex px-12 sm:px-0 mx-5 md:mx-0">
                           <input
                             ref={cuponInp}
                             type="text"
-                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-sm p-2 rounded-l-md w-full"
+                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:text-sm p-2 rounded-l-md w-full"
                             placeholder="You have a Cupon !"
                             disabled={!discount.discount}
                           />
@@ -462,24 +464,24 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                 }
                               }, 2000);
                             }}
-                            className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md`}
+                            className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-xs md:text-sm rounded-r-md`}
                           >
                             {cuponBtnIcon}
                           </button>
                         </div>
                       </div>
 
-                      <div className="w-80 mt-4 space-y-4">
+                      <div className="w-80 mt-4 space-y-4 ">
                         <div
                           onClick={() => {
-                           dispatch(selectedSizeInitial());
+                            dispatch(selectedSizeInitial());
                           }}
-                          className="flex justify-center h-10 px-12 sm:px-4"
+                          className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0"
                         >
                           <input
                             ref={sizeInp}
                             type="text"
-                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-sm p-2 rounded-l-md w-full "
+                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-xs placeholder:text-sm p-2 rounded-l-md w-full "
                             placeholder="Put size in cm"
                           />
                           <button
@@ -495,7 +497,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                 }
                               }, 2000);
                             }}
-                            className={`${sizeitBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-sm rounded-r-md`}
+                            className={`${sizeitBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-xs md:text-sm rounded-r-md`}
                           >
                             {sizeitBtnIcon}
                           </button>
@@ -530,7 +532,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                                 selectedSize === option.id
                                                   ? "border-2 border-black"
                                                   : "border border-gray-300"
-                                              } p-2 w-20 rounded-md hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center`}
+                                              } p-2 w-20 rounded-md hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center text-xs md:text-md`}
                                             >
                                               {option.name}
                                             </div>
@@ -545,7 +547,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                       </div>
                       <div
                         onClick={() => handleClick(selectedId)}
-                        className="mt-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:bg-gradient-to-l from-orange-500 to-yellow-500 flex gap-4 items-center justify-center w-full h-10 px-5 rounded-lg font-bold text-white cursor-pointer"
+                        className="mt-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:bg-gradient-to-l from-orange-500 to-yellow-500 flex gap-4 items-center justify-center w-full h-10 md:px-5 rounded-lg font-bold text-white cursor-pointer"
                       >
                         {loading === selectedId ? (
                           <svg
@@ -565,9 +567,9 @@ function Carpet({ onAddToCart, selectedCategory }) {
                             />
                           </svg>
                         ) : (
-                          <div className="flex gap-4 items-center justify-center">
+                          <div className="flex gap-4 items-center justify-center text-center text-xs md:text-[1rem]">
                             Add to Cart{" "}
-                            <FiShoppingCart className="md:text-xl" />
+                            <FiShoppingCart className="text-lg md:text-xl" />
                           </div>
                         )}
                       </div>
@@ -583,7 +585,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                                 dangerouslySetInnerHTML={{
                                   __html: carpet.description,
                                 }}
-                                className="text-slate-400 text-sm"
+                                className="text-slate-400 text-xs md:text-sm"
                               />
                             )
                         )}
@@ -592,7 +594,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
 
                     <motion.div className="flex justify-between p-2 py-4 col-span-2 md:col-span-1">
                       <div className="w-80">
-                        <div className="flex text-xl text-yellow-500">
+                        <div className="flex text-md md:text-xl text-yellow-500">
                           <BsStarFill />
                           <BsStarFill />
                           <BsStarFill />

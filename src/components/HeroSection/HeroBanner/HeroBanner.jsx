@@ -83,15 +83,15 @@ const HeroBanner = ({ handleAddToCart }) => {
           </div>
         </div>
 
-        <div className="col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]">
-          <div className="z-50">
+        <div className="relative col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]">
+          <div className="z-50 absolute left-2 sm:left-10 top-20 ">
             <Similar products={products} />
           </div>
           {products.length > 0 ? (
             <img
               src={products[0] ? products[0].image.url : Carpet}
               alt="carpet"
-              className="image-container w-80"
+              className="image-container sm:w-80"
             />
           ) : (
             <IntroImageSkeleton />
