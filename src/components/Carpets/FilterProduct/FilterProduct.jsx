@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { Filtering } from "../../../dummy";
 
-const FilterProduct = ({ SelectedCat }) => {
+const FilterProduct = ({ SelectedCat, handleSearch }) => {
   const [choosenBg, setChoosenBg] = useState("bg-orange-500 text-white");
   const [isAllBg, setIsAllBg] = useState(false);
   const [filter, setFilter] = useState("hidden");
@@ -61,12 +61,14 @@ const FilterProduct = ({ SelectedCat }) => {
           id=""
           placeholder="white, moroccan..."
           ref={searchRef}
+          // onChange={(e) => handleSearch(e.target.value)}
         />
         <button
           className="text-xs ml-[-7rem] md:ml-[-10rem] h-12 w-[6.5rem] md:h-[3.5rem] md:w-[10rem] flex justify-center items-center bg-zinc-900 hover:bg-black text-white  font-bold rounded-lg md:rounded-sm"
           type="submit"
           onClick={() => {
-            SelectedCat(searchRef.current.value.toLowerCase());
+            // SelectedCat(searchRef.current.value.toLowerCase());
+            handleSearch(searchRef.current.value.toLowerCase());
           }}
         >
           Explore Now

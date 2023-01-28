@@ -26,11 +26,6 @@ import {
 } from "../../../redux/CarpetReducers/selectedId";
 import { carpetListGetProducts } from "../../../redux/CarpetReducers/carpetList";
 import { updateCount, countToZero } from "../../../redux/CarpetReducers/count";
-import { updateTouchStart } from "../../../redux/CarpetReducers/touchStart";
-import {
-  updateTouchEnd,
-  nullTouchEnd,
-} from "../../../redux/CarpetReducers/touchEnd";
 import { hiddenScroll, backScroll } from "../../../redux/CarpetReducers/scroll";
 import {
   selectedSizeId,
@@ -60,15 +55,13 @@ import {
 import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
 import { commerce } from "../../../lib/commerce";
 
-function Carpet({ onAddToCart, selectedCategory }) {
+function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loader);
   const { selectedId } = useSelector((state) => state.selector);
   const { carpetList } = useSelector((state) => state.carpetlist);
   const { count } = useSelector((state) => state.count);
-  const { touchStart } = useSelector((state) => state.touchStart);
-  const { touchEnd } = useSelector((state) => state.touchEnd);
   const { scroll } = useSelector((state) => state.scroll);
   const { selectedSize } = useSelector((state) => state.selectedSize);
   const { sizeitBtn } = useSelector((state) => state.sizeitBtn);
@@ -79,41 +72,8 @@ function Carpet({ onAddToCart, selectedCategory }) {
   const { discount } = useSelector((state) => state.discount);
   const { code } = useSelector((state) => state.code);
   const { products } = useSelector((state) => state.products);
-
   const sizeInp = useRef();
   const cuponInp = useRef();
-
-  const minSwipeDistance = 50;
-
-  // const onTouchStart = (e) => {
-  //   dispatch(nullTouchEnd());
-  //   dispatch(updateTouchStart(e.targetTouches[0].clientX));
-  // };
-
-  // const onTouchMove = (e) =>
-  //   dispatch(updateTouchEnd(e.targetTouches[0].clientX));
-
-  // const onTouchEnd = () => {
-  //   if (!touchStart || !touchEnd) return;
-  //   const distance = touchStart - touchEnd;
-  //   const isRightSwipe = distance > minSwipeDistance;
-  //   const isLeftSwipe = distance < -minSwipeDistance;
-  //   if (isLeftSwipe || isRightSwipe) {
-  //     if (isRightSwipe) {
-  //       products.map((carpet) =>
-  //         count === carpet.assets.length
-  //           ? dispatch(countToZero())
-  //           : dispatch(updateCount(count + 1))
-  //       );
-  //     } else if (isLeftSwipe) {
-  //       products.map((carpet) =>
-  //         count === 0
-  //           ? dispatch(updateCount(carpet.assets.length))
-  //           : dispatch(updateCount(count - 1))
-  //       );
-  //     }
-  //   }
-  // };
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -146,14 +106,15 @@ function Carpet({ onAddToCart, selectedCategory }) {
 
   useEffect(() => {
     dispatch(carpetListGetProducts(products.map((c) => c)));
+    console.log(products, 'p')
   }, [products, dispatch]);
 
-  const the_code = code;
+  // const the_code = code;
 
   useEffect(() => {
     const fetchDiscounts = async () => {
       const c = await commerce.checkout.checkDiscount(checkoutToken.id, {
-        code: the_code,
+        code: code,
       });
       dispatch(getDiscountCode(c));
     };
@@ -414,18 +375,25 @@ function Carpet({ onAddToCart, selectedCategory }) {
                               return (
                                 <div key={carpet.id}>
                                   {carpet.id === selectedId &&
-                                    carpet.variant_groups.map((variant) => {
-                                      return (
-                                        <div key={variant.id}>
-                                          {variant.name === "size" &&
-                                            String(
-                                              variant.options[count].price.raw *
-                                                1.5 -
-                                                variant.options[count].price.raw
-                                            ).slice(0, 2)}
-                                        </div>
-                                      );
-                                    })}
+                                  !carpet.variant_group
+                                    ? String(
+                                        carpet.price.formatted * 1.5 -
+                                          carpet.price.formatted
+                                      ).slice(0, 2)
+                                    : carpet.variant_groups.map((variant) => {
+                                        return (
+                                          <div key={variant.id}>
+                                            {variant.name === "size" &&
+                                              String(
+                                                variant.options[count].price
+                                                  .raw *
+                                                  1.5 -
+                                                  variant.options[count].price
+                                                    .raw
+                                              ).slice(0, 2)}
+                                          </div>
+                                        );
+                                      })}
                                 </div>
                               );
                             })}
@@ -436,7 +404,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                           <input
                             ref={cuponInp}
                             type="text"
-                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:text-sm p-2 rounded-l-md w-full"
+                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full"
                             placeholder="You have a Cupon !"
                             disabled={!discount.discount}
                           />
@@ -481,7 +449,7 @@ function Carpet({ onAddToCart, selectedCategory }) {
                           <input
                             ref={sizeInp}
                             type="text"
-                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-xs placeholder:text-sm p-2 rounded-l-md w-full "
+                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full "
                             placeholder="Put size in cm"
                           />
                           <button

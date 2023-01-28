@@ -105,10 +105,6 @@ function App() {
       });
   });
 
-  useEffect(() => {
-    console.log(order, 'order')
-  }, [order])
-
   return (
     <div className={dark}>
       <div className="bg-[#FAFCFC] dark:bg-slate-800">
