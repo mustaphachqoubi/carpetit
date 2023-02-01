@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { Filtering } from "../../../dummy";
+import { useSelector, useDispatch } from "react-redux";
+import {getSearchRef} from '../../../redux/CarpetReducers/searchInputReducer'
 
 const FilterProduct = ({ SelectedCat, handleSearch }) => {
   const [choosenBg, setChoosenBg] = useState("bg-orange-500 text-white");
@@ -13,6 +15,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
   const [isegyptiang, setEgyptianBg] = useState(false);
 
   const searchRef = useRef(null);
+  const dispatch = useDispatch()
 
   const handleAllBg = () => {
     setIsAllBg((current) => !current);
@@ -51,6 +54,10 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
     setAllBg("");
   };
 
+  useEffect(() => {
+    dispatch(getSearchRef(searchRef.current.value))
+  })
+
   return (
     <div className="flex flex-col items-center mt-20 md:mt-10">
       <div className="flex justify-center items-center p-4 md:p-10">
@@ -61,13 +68,12 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
           id=""
           placeholder="white, moroccan..."
           ref={searchRef}
-          // onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => handleSearch(e.target.value)}
         />
         <button
           className="text-xs ml-[-7rem] md:ml-[-10rem] h-12 w-[6.5rem] md:h-[3.5rem] md:w-[10rem] flex justify-center items-center bg-zinc-900 hover:bg-black text-white  font-bold rounded-lg md:rounded-sm"
           type="submit"
           onClick={() => {
-            // SelectedCat(searchRef.current.value.toLowerCase());
             handleSearch(searchRef.current.value.toLowerCase());
           }}
         >

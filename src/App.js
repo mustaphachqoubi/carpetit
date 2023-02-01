@@ -1,5 +1,5 @@
 import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
@@ -21,7 +21,6 @@ import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 function App() {
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
-  const { order } = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
 
@@ -80,9 +79,13 @@ function App() {
         });
         dispatch(getToken(token));
       } catch (error) {
+        console.log('your cart is empty, please fill it out')
       }
     };
-    cart.id && generatetoken();
+    if (cart?.line_items?.length >= 1) {
+      cart.id && generatetoken();
+    } else {
+    }
   });
 
   useEffect(() => {

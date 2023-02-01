@@ -24,9 +24,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="dark:text-white flex py-4 justify-center">
-        Copyright © 2022 &nbsp; <span className="font-bold">Carpetit</span>{" "}
-        &nbsp; | All Rights Reserved.
+      <div className="dark:text-white flex p-4 justify-center text-center">
+        Copyright © 2022 Carpetit | All Rights Reserved.
       </div>
     </>
   );

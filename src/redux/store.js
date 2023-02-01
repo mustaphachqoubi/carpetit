@@ -39,6 +39,7 @@ import trashSlice from "./CartReducers/trash";
 import plusSlice from "./CartReducers/plus";
 import minesSlice from "./CartReducers/mines";
 import loadingHSlice from "./HeroBannerReducers/loading";
+import searchRefSlice from "./CarpetReducers/searchInputReducer";
 
 const store = configureStore({
   reducer: {
@@ -79,6 +80,7 @@ const store = configureStore({
     plus: plusSlice.reducer,
     mines: minesSlice.reducer,
     loading: loadingHSlice.reducer,
+    searchRef: searchRefSlice.reducer,
   },
   middleware: [thunk],
 });

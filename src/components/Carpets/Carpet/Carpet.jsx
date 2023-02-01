@@ -72,6 +72,7 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
   const { discount } = useSelector((state) => state.discount);
   const { code } = useSelector((state) => state.code);
   const { products } = useSelector((state) => state.products);
+  const { searchRef } = useSelector((state) => state.searchRef);
   const sizeInp = useRef();
   const cuponInp = useRef();
 
@@ -105,20 +106,18 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
 
   useEffect(() => {
-    dispatch(carpetListGetProducts(products.map((c) => c)));
-    console.log(products, 'p')
+    searchRef === '' && dispatch(carpetListGetProducts(products.map((c) => c)))
   }, [products, dispatch]);
-
-  // const the_code = code;
 
   useEffect(() => {
     const fetchDiscounts = async () => {
+      const the_discount_code = await code;
       const c = await commerce.checkout.checkDiscount(checkoutToken.id, {
-        code: code,
+        code: the_discount_code,
       });
       dispatch(getDiscountCode(c));
     };
-    checkoutToken && fetchDiscounts();
+    checkoutToken && fetchDiscounts()
   }, [checkoutToken]);
   return (
     <>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Elements,
   CardElement,
@@ -13,6 +13,7 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
   const [payLoading, setPayLoading] = useState(<FaLock />);
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
+  const { products } = useSelector((state) => state.products);
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -28,14 +29,7 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
       console.log(error);
     } else {
       const orderData = {
-        line_items: {
-          item_7RyWOwmK5nEa2V: {
-            quantity: 1,
-            variants: {
-              vgrp_Kvg9l66Bvl1bB7: "optn_RqEv5xzEPdwZz4",
-            },
-          },
-        },
+        line_items: checkoutToken.line_items,
         // line_items: {
         //   item_1ypbroE658n4ea: {
         //     quantity: 1,
@@ -95,6 +89,8 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
       </svg>
     );
   };
+
+
   return (
     <>
       <div className="p-8">
@@ -183,15 +179,15 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
                 <CardElement />
                 <br />
                 <br />
-                <div className="flex justify-between">
+                <div className="flex justify-between flex-col md:flex-row gap-4">
                   <button
-                    className="px-8 rounded-md font-semibold bg-slate-300 text-gray-500 dark:text-gray-300 hover:bg-slate-400 dark:hover:text-white dark:hover:bg-slate-800 hover:text-white dark:bg-slate-600"
+                    className="flex justify-center h-10 items-center px-8 rounded-md font-semibold bg-slate-300 text-gray-500 dark:text-gray-300 hover:bg-slate-400 dark:hover:text-white dark:hover:bg-slate-800 hover:text-white dark:bg-slate-600"
                     onClick={() => backStep()}
                   >
                     back
                   </button>
                   <button
-                    className="text-white font-semibold flex gap-2 items-center px-6 py-2 rounded-md rounded-md bg-blue-500 hover:bg-blue-700"
+                    className="flex justify-center items-center text-white font-semibold flex gap-2 items-center px-6 h-10 rounded-md rounded-md bg-blue-500 hover:bg-blue-700"
                     disabled={!stripe}
                     onClick={() => onClickPayHandler()}
                   >
