@@ -38,10 +38,9 @@ function App() {
     dispatch(cartRetrieve(retrieve));
   };
 
-  const handleAddToCart = async (productId, quantity, variantID) => {
-    // console.log(checkoutToken, checkoutToken?.line_items, variantID);
-    console.log(variantID, 'hi')
-    dispatch(cartAdd(await commerce.cart.add(productId, quantity, variantID)));
+  const handleAddToCart = async (productId, quantity, variantDATA) => {
+    // console.log({[variantID[0].id]: variantID[0].options[1].id})
+    dispatch(cartAdd(await commerce.cart.add(productId, quantity, variantDATA)));
   };
 
   const handleUpdateQt = async (productId, quantity) => {

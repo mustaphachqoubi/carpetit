@@ -55,7 +55,7 @@ import {
 import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
 import { commerce } from "../../../lib/commerce";
 
-function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
+function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loader);
@@ -80,12 +80,13 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
     dispatch(selectedSizeId(id));
   };
 
-  const handleClick = (id, variantId) => {
+  const handleClick = (id, variantGRP) => {
     dispatch(startLoad(id));
     setTimeout(function () {
       dispatch(endLoad());
     }, 1000);
-    onAddToCart(id, 1, variantId);
+    handleAddToCart(id, 1, variantGRP);
+    // handleAddToCart(id, 1, variantId);
   };
 
   const HideScroll = () => {
@@ -106,7 +107,7 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
 
   useEffect(() => {
-    searchRef === '' && dispatch(carpetListGetProducts(products.map((c) => c)))
+    searchRef === "" && dispatch(carpetListGetProducts(products.map((c) => c)));
   }, [products, dispatch]);
 
   useEffect(() => {
@@ -117,8 +118,16 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
       });
       dispatch(getDiscountCode(c));
     };
-    checkoutToken && fetchDiscounts()
+    checkoutToken && fetchDiscounts();
   }, [checkoutToken]);
+
+  useEffect(() => {
+    products.map(
+      (c) =>
+        c.id === selectedId &&
+        dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id))
+    );
+  }, [products]);
   return (
     <>
       {products.length > 0
@@ -147,7 +156,10 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
                 />
                 <motion.div
                   onClick={() => {
-                    handleClick(c.id, c.variant_groups);
+                    handleClick(c.id, {
+                      [c.variant_groups[0].id]:
+                        c.variant_groups[0].options[0].id,
+                    });
                   }}
                   className={
                     "absolute bg-white text-slate-500 hover:bg-slate-200 right-[1rem] bottom-[1rem] p-4 text-xl rounded-full"
@@ -440,9 +452,9 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
 
                       <div className="w-80 mt-4 space-y-4 ">
                         <div
-                          onClick={() => {
-                            dispatch(selectedSizeInitial());
-                          }}
+                          // onClick={() => {
+                          //   dispatch(selectedSizeInitial());
+                          // }}
                           className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0"
                         >
                           <input
@@ -513,7 +525,16 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
                         })}
                       </div>
                       <div
-                        onClick={() => handleClick(selectedId)}
+                        onClick={() => {
+                          console.log(selectedSize);
+                          products.map(
+                            (c) =>
+                              c.id === selectedId &&
+                              handleClick(selectedId, {
+                                [c.variant_groups[0].id]: selectedSize,
+                              })
+                          );
+                        }}
                         className="mt-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:bg-gradient-to-l from-orange-500 to-yellow-500 flex gap-4 items-center justify-center w-full h-10 md:px-5 rounded-lg font-bold text-white cursor-pointer"
                       >
                         {loading === selectedId ? (

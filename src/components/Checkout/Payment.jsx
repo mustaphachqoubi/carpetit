@@ -23,13 +23,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const { cart } = useSelector((state) => state.cart);
-  // const { products } = useSelector((state) => state.products);
-
-  const checker = async () => {
-    console.log(checkoutToken?.id, checkoutToken?.line_items[0].id)
-    const c = await commerce.checkout.checkVariant(checkoutToken?.id, checkoutToken?.line_items[0].id, {variant_id: 'vgrp_Kvg9l66Bvl1bB7', options: 'optn_RqEv5xzEPdwZz4'})
-    console.log(c)
-  }
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -97,10 +90,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
       </svg>
     );
   };
-
-  useEffect(() => {
-    checkoutToken && checker()
-  }, [checkoutToken])
   
   return (
     <>
