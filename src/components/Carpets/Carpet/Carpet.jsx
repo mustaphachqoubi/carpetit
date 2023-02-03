@@ -80,12 +80,12 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
     dispatch(selectedSizeId(id));
   };
 
-  const handleClick = (id) => {
+  const handleClick = (id, variantId) => {
     dispatch(startLoad(id));
     setTimeout(function () {
       dispatch(endLoad());
     }, 1000);
-    onAddToCart(id, 1);
+    onAddToCart(id, 1, variantId);
   };
 
   const HideScroll = () => {
@@ -147,7 +147,7 @@ function Carpet({ onAddToCart, selectedCategory, handleSearch }) {
                 />
                 <motion.div
                   onClick={() => {
-                    handleClick(c.id);
+                    handleClick(c.id, c.variant_groups);
                   }}
                   className={
                     "absolute bg-white text-slate-500 hover:bg-slate-200 right-[1rem] bottom-[1rem] p-4 text-xl rounded-full"

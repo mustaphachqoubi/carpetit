@@ -1,5 +1,5 @@
 import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
@@ -21,6 +21,8 @@ import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 function App() {
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.products);
+  const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
 
@@ -36,8 +38,10 @@ function App() {
     dispatch(cartRetrieve(retrieve));
   };
 
-  const handleAddToCart = async (productId, quantity) => {
-    dispatch(cartAdd(await commerce.cart.add(productId, quantity)));
+  const handleAddToCart = async (productId, quantity, variantID) => {
+    // console.log(checkoutToken, checkoutToken?.line_items, variantID);
+    console.log(variantID, 'hi')
+    dispatch(cartAdd(await commerce.cart.add(productId, quantity, variantID)));
   };
 
   const handleUpdateQt = async (productId, quantity) => {
@@ -79,7 +83,6 @@ function App() {
         });
         dispatch(getToken(token));
       } catch (error) {
-        console.log('your cart is empty, please fill it out')
       }
     };
     if (cart?.line_items?.length >= 1) {
@@ -107,6 +110,10 @@ function App() {
         dispatch(getCode(dt.data[0].code));
       });
   });
+
+  // useEffect(() => {
+  //   console.log(cart)
+  // }, [cart])
 
   return (
     <div className={dark}>

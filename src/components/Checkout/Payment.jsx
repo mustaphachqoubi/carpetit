@@ -7,20 +7,36 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { commerce } from "../../lib/commerce";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
+// line_items: {
+//   item_1ypbroE658n4ea: {
+//     quantity: 1,
+//     variants: {
+//       vgrp_Kvg9l66Bvl1bB7: "optn_RqEv5xzEPdwZz4",
+//     },
+//   },
+// },
 
 const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
   const [payLoading, setPayLoading] = useState(<FaLock />);
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
-  const { products } = useSelector((state) => state.products);
+  const { cart } = useSelector((state) => state.cart);
+  // const { products } = useSelector((state) => state.products);
+
+  const checker = async () => {
+    console.log(checkoutToken?.id, checkoutToken?.line_items[0].id)
+    const c = await commerce.checkout.checkVariant(checkoutToken?.id, checkoutToken?.line_items[0].id, {variant_id: 'vgrp_Kvg9l66Bvl1bB7', options: 'optn_RqEv5xzEPdwZz4'})
+    console.log(c)
+  }
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
     if (!stripe || !elements) return;
     const card = elements.getElement(CardElement);
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: "card",
       card: card,
     });
@@ -30,14 +46,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
     } else {
       const orderData = {
         line_items: checkoutToken.line_items,
-        // line_items: {
-        //   item_1ypbroE658n4ea: {
-        //     quantity: 1,
-        //     variants: {
-        //       vgrp_Kvg9l66Bvl1bB7: "optn_RqEv5xzEPdwZz4",
-        //     },
-        //   },
-        // },
         customer: {
           firstname: shippingData.firstName,
           lastname: shippingData.lastName,
@@ -90,7 +98,10 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
     );
   };
 
-
+  useEffect(() => {
+    checkoutToken && checker()
+  }, [checkoutToken])
+  
   return (
     <>
       <div className="p-8">
@@ -160,7 +171,7 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
                 </svg>
                 <h3>Loading...</h3>
               </div>
-            ) : shippingData.country == "US" ? (
+            ) : shippingData.country === "US" ? (
               checkoutToken.total.formatted_with_symbol
             ) : (
               `$ ${
