@@ -60,7 +60,7 @@ const HeroBanner = ({ handleAddToCart }) => {
                   setTimeout(function () {
                     dispatch(setLoadingInitial());
                   }, 1000);
-                  products[0].variant_groups ? handleAddToCart(products[0].id, 1, {[products[0].variant_groups[0].id]: products[0].variant_groups[0].options[1].id}) : handleAddToCart(products[0].id, 1)
+                  products[0].variant_groups >= 1 ? handleAddToCart(products[0].id, 1, {[products[0].variant_groups[0].id]: products[0].variant_groups[0].options[1].id}) : handleAddToCart(products[0].id, 1)
                 }}
                 className="flex items-center justify-center gap-2 bg-orange-500 text-white md:text-sm lg:text-md font-semibold py-3 px-6 rounded-full hover:bg-orange-700 cursor-pointer transition ease-in-out duration-300"
               >
