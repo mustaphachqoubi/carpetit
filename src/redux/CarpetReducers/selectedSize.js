@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const selectedSizeSlice = createSlice({
   name: "selectedSize",
   initialState: {
-    selectedSize: {},
-    // selectedSize: c.variant_groups[0].options[0].id,
+    selectedSize: "",
   },
   reducers: {
     selectedSizeId: (state, action) => {

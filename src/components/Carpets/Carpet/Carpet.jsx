@@ -74,10 +74,12 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
   const { code } = useSelector((state) => state.code);
   const { products } = useSelector((state) => state.products);
   const { searchRef } = useSelector((state) => state.searchRef);
+  const { cart } = useSelector((state) => state.cart);
+
   const sizeInp = useRef();
   const cuponInp = useRef();
 
-  const [isFirst, setIsFirst] = useState(true);
+  // const [isFirst, setIsFirst] = useState(true);
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -89,7 +91,6 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
       dispatch(endLoad());
     }, 1000);
     handleAddToCart(id, 1, variantGRP);
-    // handleAddToCart(id, 1, variantId);
   };
 
   const HideScroll = () => {
@@ -124,21 +125,24 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
     checkoutToken && fetchDiscounts();
   }, [checkoutToken]);
 
-  useEffect(() => {
-    if (
-      isFirst &&
-      products.length >= 1 &&
-      selectedId &&
-      products.find((c) => c.id === selectedId && c.variant_groups.length)
-    ) {
-      products.map((c) => {
-        if (c.id === selectedId && c.variant_groups.length >= 1) {
-          dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id));
-        }
-      });
-      setIsFirst(false);
-    }
-  }, [products]);
+  // useEffect(() => {
+  //   if (
+  //     isFirst &&
+  //     products.length >= 1 && selectedId
+  //     // &&
+  //     // products.find((c) => c.id === selectedId && c.variant_groups.length)
+  //   ) {
+  //     products.map((c) => {
+  //       if (c.id === selectedId && c.variant_groups.length >= 1) {
+  //         dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id));
+  //       }
+  //       // if(c.id === selectedId && selectedSize){
+  //       //   dispatch(handleSelectedSize(selectedSize))
+  //       // }
+  //     });
+  //     setIsFirst(false);
+  //   }
+  // }, [products]);
 
   return (
     <>
@@ -168,12 +172,14 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                 />
                 <motion.div
                   onClick={() => {
-                    c.variant_groups
-                      ? handleClick(c.id, {
-                          [c.variant_groups[0].id]:
-                            c.variant_groups[0].options[0].id,
-                        })
-                      : handleClick(c.id);
+                    if (c.variant_groups.length >= 1) {
+                      handleClick(c.id, {
+                        [c.variant_groups[0].id]:
+                          c.variant_groups[0].options[0].id,
+                      });
+                    } else {
+                      handleClick(c.id);
+                    }
                   }}
                   className={
                     "absolute bg-white text-slate-500 hover:bg-slate-200 right-[1rem] bottom-[1rem] p-4 text-xl rounded-full"
@@ -465,9 +471,7 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                       </div>
 
                       <div className="w-80 mt-4 space-y-4 ">
-                        <div
-                          className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0"
-                        >
+                        <div className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0">
                           <input
                             ref={sizeInp}
                             type="text"
@@ -537,18 +541,18 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                       </div>
                       <div
                         onClick={() => {
-                          products.map(
-                            (c) => {
-                              if(c.id === selectedId && c.variant_groups.length >= 1){
-                                handleClick(selectedId, {
-                                  [c.variant_groups[0].id]: selectedSize,
-                                })
-                              }
-                              else{
-                                handleClick(selectedId)
-                              }
-                            }                              
-                          );
+                          products.map((c) => {
+                            if (
+                              c.id === selectedId &&
+                              c.variant_groups.length >= 1
+                            ) {
+                              handleClick(c.id, {
+                                [c.variant_groups[0].id]: selectedSize,
+                              });
+                            } else {
+                              handleClick(selectedId);
+                            }
+                          });
                         }}
                         className="mt-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:bg-gradient-to-l from-orange-500 to-yellow-500 flex gap-4 items-center justify-center w-full h-10 md:px-5 rounded-lg font-bold text-white cursor-pointer"
                       >
