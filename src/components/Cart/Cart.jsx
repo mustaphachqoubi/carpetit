@@ -37,12 +37,12 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('cart:', cart);
-  }, [cart]);
-  useEffect(() => {
-    console.log('checkout:', checkoutToken);
-  }, [checkoutToken]);
+  // useEffect(() => {
+  //   console.log('cart:', cart);
+  // }, [cart]);
+  // useEffect(() => {
+  //   console.log('checkout:', checkoutToken);
+  // }, [checkoutToken]);
 
   return cart?.length >= 0 ? (
     <h1 className="font-bold dark:text-white text-2xl flex justify-center items-center p-10 h-screen">

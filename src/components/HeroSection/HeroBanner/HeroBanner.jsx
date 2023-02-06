@@ -19,6 +19,11 @@ const HeroBanner = ({ handleAddToCart }) => {
   const { loading } = useSelector((state) => state.loading);
 
   const dispatch = useDispatch();
+
+  const handleClick = (id, variantGRP) => {
+    handleAddToCart(id, 1, variantGRP);
+  };
+
   return (
     <>
       <div className="grid grid-cols-2 xl:grid-cols-3 gap-2">
@@ -60,7 +65,12 @@ const HeroBanner = ({ handleAddToCart }) => {
                   setTimeout(function () {
                     dispatch(setLoadingInitial());
                   }, 1000);
-                  products[0].variant_groups >= 1 ? handleAddToCart(products[0].id, 1, {[products[0].variant_groups[0].id]: products[0].variant_groups[0].options[1].id}) : handleAddToCart(products[0].id, 1)
+                  products.map((c) => {
+                    handleClick(c.id, {
+                      [c.variant_groups[0]?.id]:
+                        c.variant_groups[0].options[0]?.id,
+                    });
+                  });
                 }}
                 className="flex items-center justify-center gap-2 bg-orange-500 text-white md:text-sm lg:text-md font-semibold py-3 px-6 rounded-full hover:bg-orange-700 cursor-pointer transition ease-in-out duration-300"
               >

@@ -76,8 +76,13 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
   const { searchRef } = useSelector((state) => state.searchRef);
   const { cart } = useSelector((state) => state.cart);
 
+  const [currentProductInTheCart, setCurrentProductInTheCart] = useState("");
+  const [previousProductInTheCart, setPreviousProductInTheCart] = useState("");
+  const [selectedVariantSizeBtn, setSelectedVariantSizeBtn] = useState("");
+
   const sizeInp = useRef();
   const cuponInp = useRef();
+  const selectedSizeValue = useRef();
 
   // const [isFirst, setIsFirst] = useState(true);
 
@@ -173,6 +178,7 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                 <motion.div
                   onClick={() => {
                     if (c.variant_groups.length >= 1) {
+                      setCurrentProductInTheCart(c.id);
                       handleClick(c.id, {
                         [c.variant_groups[0].id]:
                           c.variant_groups[0].options[0].id,
@@ -512,6 +518,9 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                                           return (
                                             <div
                                               onClick={() => {
+                                                setSelectedVariantSizeBtn(
+                                                  option.id
+                                                );
                                                 handleSelectedSize(option.id);
                                                 dispatch(
                                                   updateCount(
@@ -542,14 +551,15 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                       <div
                         onClick={() => {
                           products.map((c) => {
-                            if (
-                              c.id === selectedId &&
-                              c.variant_groups.length >= 1
-                            ) {
-                              handleClick(c.id, {
-                                [c.variant_groups[0].id]: selectedSize,
-                              });
-                            } else {
+                            c.variant_groups[0].options?.forEach((o) => {
+                              if (o.id === selectedVariantSizeBtn) {
+                                handleClick(c.id, {
+                                  [c.variant_groups[0]?.id]: o.id,
+                                });
+                              }
+                            });
+
+                            if (c.variant_groups.length < 1) {
                               handleClick(selectedId);
                             }
                           });
