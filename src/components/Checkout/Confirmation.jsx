@@ -13,6 +13,7 @@ const Confirmation = ({}) => {
     (state) => state.confirmationLoading
   );
   const { referenceLoading } = useSelector((state) => state.referenceLoading);
+  const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const { thankMessageLoading } = useSelector(
     (state) => state.thankMessageLoading
   );
@@ -63,6 +64,10 @@ const Confirmation = ({}) => {
     handleReferenceLoad();
     handlethankMessageLoad();
   }, [order]);
+
+  useEffect(() => {
+    console.log('checkout:', checkoutToken);
+  }, [checkoutToken]);
 
   return (
     <>

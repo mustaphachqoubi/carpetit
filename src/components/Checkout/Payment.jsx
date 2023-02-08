@@ -90,6 +90,10 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
       </svg>
     );
   };
+
+  useEffect(() => {
+    console.log('checkout:', checkoutToken);
+  }, [checkoutToken]);
   
   return (
     <>

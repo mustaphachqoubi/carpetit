@@ -84,6 +84,10 @@ const Shipping = ({ next }) => {
     }
   }, [subdivision, selectedCountry]);
 
+  useEffect(() => {
+    console.log('checkout:', checkoutToken);
+  }, [checkoutToken]);
+
   return (
     <>
       <FormProvider {...methods}>

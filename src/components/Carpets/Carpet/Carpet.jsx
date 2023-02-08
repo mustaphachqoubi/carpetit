@@ -84,7 +84,7 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
   const cuponInp = useRef();
   const selectedSizeValue = useRef();
 
-  // const [isFirst, setIsFirst] = useState(true);
+  const [isFirst, setIsFirst] = useState(true);
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -130,24 +130,25 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
     checkoutToken && fetchDiscounts();
   }, [checkoutToken]);
 
-  // useEffect(() => {
-  //   if (
-  //     isFirst &&
-  //     products.length >= 1 && selectedId
-  //     // &&
-  //     // products.find((c) => c.id === selectedId && c.variant_groups.length)
-  //   ) {
-  //     products.map((c) => {
-  //       if (c.id === selectedId && c.variant_groups.length >= 1) {
-  //         dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id));
-  //       }
-  //       // if(c.id === selectedId && selectedSize){
-  //       //   dispatch(handleSelectedSize(selectedSize))
-  //       // }
-  //     });
-  //     setIsFirst(false);
-  //   }
-  // }, [products]);
+  useEffect(() => {
+    if (
+      isFirst &&
+      products.length >= 1 &&
+      selectedId
+      // &&
+      // products.find((c) => c.id === selectedId && c.variant_groups.length)
+    ) {
+      products.map((c) => {
+        if (c.id === selectedId && c.variant_groups.length >= 1) {
+          dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id));
+        }
+        // if(c.id === selectedId && selectedSize){
+        //   dispatch(handleSelectedSize(selectedSize))
+        // }
+      });
+      setIsFirst(false);
+    }
+  }, [products]);
 
   return (
     <>
@@ -177,14 +178,13 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                 />
                 <motion.div
                   onClick={() => {
-                    if (c.variant_groups.length >= 1) {
-                      setCurrentProductInTheCart(c.id);
+                    if (c.variant_groups.length < 1) {
+                      handleClick(c.id);
+                    } else {
                       handleClick(c.id, {
                         [c.variant_groups[0].id]:
                           c.variant_groups[0].options[0].id,
                       });
-                    } else {
-                      handleClick(c.id);
                     }
                   }}
                   className={
@@ -551,16 +551,18 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                       <div
                         onClick={() => {
                           products.map((c) => {
-                            c.variant_groups[0].options?.forEach((o) => {
-                              if (o.id === selectedVariantSizeBtn) {
-                                handleClick(c.id, {
-                                  [c.variant_groups[0]?.id]: o.id,
+                            if (c.id === selectedId) {
+                              if (c.variant_groups.length < 1) {
+                                handleClick(c.id);
+                              } else {
+                                c.variant_groups[0].options.map((o) => {
+                                  if (o.id === selectedSize) {
+                                    handleClick(c.id, {
+                                      [c.variant_groups[0].id]: o.id,
+                                    });
+                                  }
                                 });
                               }
-                            });
-
-                            if (c.variant_groups.length < 1) {
-                              handleClick(selectedId);
                             }
                           });
                         }}

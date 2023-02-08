@@ -65,12 +65,15 @@ const HeroBanner = ({ handleAddToCart }) => {
                   setTimeout(function () {
                     dispatch(setLoadingInitial());
                   }, 1000);
-                  products.map((c) => {
-                    handleClick(c.id, {
-                      [c.variant_groups[0]?.id]:
-                        c.variant_groups[0].options[0]?.id,
+
+                  if (products[0].variant_groups.length < 1) {
+                    handleClick(products[0].id);
+                  } else {
+                    handleClick(products[0].id, {
+                      [products[0].variant_groups[0].id]:
+                        products[0].variant_groups[0].options[0].id,
                     });
-                  });
+                  }
                 }}
                 className="flex items-center justify-center gap-2 bg-orange-500 text-white md:text-sm lg:text-md font-semibold py-3 px-6 rounded-full hover:bg-orange-700 cursor-pointer transition ease-in-out duration-300"
               >
