@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addStep, removeStep } from "../../redux/CheckoutReducers/step";
 import { getShippingData } from "../../redux/CheckoutReducers/shippingData";
 
-const Checkout = ({ handleCaptureCheckout }) => {
+const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption }) => {
   const { step } = useSelector((state) => state.step);
 
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ const Checkout = ({ handleCaptureCheckout }) => {
     dispatch(getShippingData(data));
     nextStep();
   };
-
 
   return (
     <div className="dark:text-white flex justify-center p-10">
@@ -33,8 +32,10 @@ const Checkout = ({ handleCaptureCheckout }) => {
             <h4
               className={`text-white px-2 rounded-full ${
                 step > 1
-                  ? "bg-blue-400 py-2" :
-                  step === 1 ? "bg-blue-500 py-[0.2rem] px-[0.7rem]" : "bg-blue-500 py-[0.5rem] px-[0.5rem]"
+                  ? "bg-blue-400 py-2"
+                  : step === 1
+                  ? "bg-blue-500 py-[0.2rem] px-[0.7rem]"
+                  : "bg-blue-500 py-[0.5rem] px-[0.5rem]"
               }`}
             >
               {step !== 1 ? <MdDone /> : "1"}
@@ -77,15 +78,16 @@ const Checkout = ({ handleCaptureCheckout }) => {
         </div>
 
         {step === 1 ? (
-          <Shipping next={next} />
+          <Shipping next={next} CheckShippingOption={CheckShippingOption} />
         ) : step === 2 ? (
           <Payment
             backStep={backStep}
             handleCaptureCheckout={handleCaptureCheckout}
             nextStep={nextStep}
+            CheckShippingOption={CheckShippingOption}
           />
         ) : (
-          <Confirmation />
+          <Confirmation order={order} />
         )}
       </div>
     </div>

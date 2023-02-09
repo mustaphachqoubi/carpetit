@@ -15,13 +15,13 @@ import {
   cartEmpty,
   cartRefresh,
 } from "./redux/AppReducers/cart";
-import { setOrder } from "./redux/AppReducers/order";
 import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 
 function App() {
+  const [order, setOrder] = useState({});
+  const [shippingOption, setShippingOption] = useState({});
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.products);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
@@ -39,8 +39,9 @@ function App() {
   };
 
   const handleAddToCart = async (productId, quantity, variantDATA) => {
-    // console.log({[variantID[0].id]: variantID[0].options[1].id})
-    dispatch(cartAdd(await commerce.cart.add(productId, quantity, variantDATA)));
+    dispatch(
+      cartAdd(await commerce.cart.add(productId, quantity, variantDATA))
+    );
   };
 
   const handleUpdateQt = async (productId, quantity) => {
@@ -61,17 +62,35 @@ function App() {
   };
 
   const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+    const incommingOrder = await commerce.checkout.capture(
+      checkoutTokenId,
+      newOrder
+    );
     try {
-      const incommingOrder = await commerce.checkout.capture(
-        checkoutTokenId,
-        newOrder
-      );
       setOrder(incommingOrder);
       refreshCart();
     } catch (error) {
       setErrorMessage(error.data.error.message);
-      console.log(error);
     }
+  };
+
+  const CheckShippingOption = async (
+    checkoutTokenId,
+    shipping_option_id,
+    country,
+    region
+  ) => {
+    const shipping = await commerce.checkout.checkShippingOption(
+      checkoutTokenId,
+      {
+        shipping_option_id: shipping_option_id,
+        country: country,
+        region: region,
+      }
+    );
+    try {
+      setShippingOption(shipping);
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -81,8 +100,7 @@ function App() {
           type: "cart",
         });
         dispatch(getToken(token));
-      } catch (error) {
-      }
+      } catch (error) {}
     };
     if (cart?.line_items?.length >= 1) {
       cart.id && generatetoken();
@@ -109,10 +127,6 @@ function App() {
         dispatch(getCode(dt.data[0].code));
       });
   });
-
-  // useEffect(() => {
-  //   console.log(cart)
-  // }, [cart])
 
   return (
     <div className={dark}>
@@ -142,7 +156,11 @@ function App() {
             <Route
               path="/checkout"
               element={
-                <Checkout handleCaptureCheckout={handleCaptureCheckout} />
+                <Checkout
+                  CheckShippingOption={CheckShippingOption}
+                  handleCaptureCheckout={handleCaptureCheckout}
+                  order={order}
+                />
               }
             />
           </Routes>

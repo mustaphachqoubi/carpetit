@@ -9,20 +9,15 @@ import { FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { commerce } from "../../lib/commerce";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICHABLE_KEY);
-// line_items: {
-//   item_1ypbroE658n4ea: {
-//     quantity: 1,
-//     variants: {
-//       vgrp_Kvg9l66Bvl1bB7: "optn_RqEv5xzEPdwZz4",
-//     },
-//   },
-// },
 
-const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
+const Payment = ({ backStep, nextStep, handleCaptureCheckout, CheckShippingOption }) => {
   const [payLoading, setPayLoading] = useState(<FaLock />);
   const { shippingData } = useSelector((state) => state.shippingData);
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
-  const { cart } = useSelector((state) => state.cart);
+
+  const { country } = useSelector((state) => state.country);
+  const { subdivision } = useSelector((state) => state.subdivision);
+  const { option } = useSelector((state) => state.option);
 
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -64,7 +59,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
           },
         },
       };
-
       handleCaptureCheckout(checkoutToken.id, orderData);
       nextStep();
     }
@@ -91,10 +85,6 @@ const Payment = ({ backStep, nextStep, handleCaptureCheckout }) => {
     );
   };
 
-  useEffect(() => {
-    console.log('checkout:', checkoutToken);
-  }, [checkoutToken]);
-  
   return (
     <>
       <div className="p-8">
