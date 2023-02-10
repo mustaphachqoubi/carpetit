@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import { done, error, warning } from "../../assets/index";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -89,7 +89,9 @@ const Confirmation = ({ order }) => {
           <h1 className="text-sm flex items-center">
             order_reference: {referenceLoading}
           </h1>
-          <div className="text-center">{thankMessageLoading && referenceLoading && thankMessageLoading}</div>
+          <div className="text-center">
+            {thankMessageLoading && referenceLoading && thankMessageLoading}
+          </div>
         </div>
       </div>
       <div className="p-8 flex flex-col md:flex-row gap-4 md:gap-0 items-center md:justify-between">

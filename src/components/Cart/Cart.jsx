@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CartItems from "./CartItems";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -42,6 +42,8 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
     <EmptyCart />
   ) : (
     <div className="dark:text-white">
+       <div>
+      </div>
       <div className="flex justify-center p-10 text-center">
         <h1 className="font-bold text-2xl">
           You Have{" "}

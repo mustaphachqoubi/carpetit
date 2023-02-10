@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useReducer} from "react";
 import { MdDone } from "react-icons/md";
 import Shipping from "./Shipping";
 import Payment from "./Payment";
@@ -78,7 +78,7 @@ const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption }) => {
         </div>
 
         {step === 1 ? (
-          <Shipping next={next} CheckShippingOption={CheckShippingOption} />
+          <Shipping next={next} />
         ) : step === 2 ? (
           <Payment
             backStep={backStep}

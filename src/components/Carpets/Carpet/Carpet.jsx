@@ -56,7 +56,7 @@ import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
 import { commerce } from "../../../lib/commerce";
 import { useState } from "react";
 
-function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
+function Carpet({ handleAddToCart, selectedCategory }) {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loader);
@@ -74,17 +74,12 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
   const { code } = useSelector((state) => state.code);
   const { products } = useSelector((state) => state.products);
   const { searchRef } = useSelector((state) => state.searchRef);
-  const { cart } = useSelector((state) => state.cart);
-
-  const [currentProductInTheCart, setCurrentProductInTheCart] = useState("");
-  const [previousProductInTheCart, setPreviousProductInTheCart] = useState("");
-  const [selectedVariantSizeBtn, setSelectedVariantSizeBtn] = useState("");
 
   const sizeInp = useRef();
   const cuponInp = useRef();
-  const selectedSizeValue = useRef();
 
   const [isFirst, setIsFirst] = useState(true);
+
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -131,20 +126,11 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
   }, [checkoutToken]);
 
   useEffect(() => {
-    if (
-      isFirst &&
-      products.length >= 1 &&
-      selectedId
-      // &&
-      // products.find((c) => c.id === selectedId && c.variant_groups.length)
-    ) {
+    if (isFirst && products.length >= 1 && selectedId) {
       products.map((c) => {
         if (c.id === selectedId && c.variant_groups.length >= 1) {
           dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id));
         }
-        // if(c.id === selectedId && selectedSize){
-        //   dispatch(handleSelectedSize(selectedSize))
-        // }
       });
       setIsFirst(false);
     }
@@ -518,9 +504,6 @@ function Carpet({ handleAddToCart, selectedCategory, handleSearch }) {
                                           return (
                                             <div
                                               onClick={() => {
-                                                setSelectedVariantSizeBtn(
-                                                  option.id
-                                                );
                                                 handleSelectedSize(option.id);
                                                 dispatch(
                                                   updateCount(

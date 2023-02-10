@@ -1,5 +1,5 @@
 import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
@@ -25,6 +25,7 @@ function App() {
   const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
+
 
   const fetchProducts = async () => {
     const p = await commerce.products.list({

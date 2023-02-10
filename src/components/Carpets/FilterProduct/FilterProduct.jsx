@@ -68,7 +68,6 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
           id=""
           placeholder="white, moroccan..."
           ref={searchRef}
-          onChange={(e) => handleSearch(e.target.value)}
         />
         <button
           className="text-xs ml-[-7rem] md:ml-[-10rem] h-12 w-[6.5rem] md:h-[3.5rem] md:w-[10rem] flex justify-center items-center bg-zinc-900 hover:bg-black text-white  font-bold rounded-lg md:rounded-sm"
