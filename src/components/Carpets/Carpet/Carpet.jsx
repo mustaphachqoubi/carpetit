@@ -80,7 +80,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
 
   const [isFirst, setIsFirst] = useState(true);
 
-
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
   };
@@ -98,14 +97,13 @@ function Carpet({ handleAddToCart, selectedCategory }) {
   };
 
   const getFilteredList = () => {
-    if (!selectedCategory) {
+    if (selectedCategory === "") {
       return carpetList;
-    } else if (selectedCategory === "all") {
-      return carpetList;
+    } else {
+      return carpetList.filter((carpet) =>
+        carpet.categories.map((cat) => cat.name).includes(selectedCategory)
+      );
     }
-    return carpetList.filter(
-      (item) => item.categories.map((c) => c.slug) === selectedCategory
-    );
   };
 
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);

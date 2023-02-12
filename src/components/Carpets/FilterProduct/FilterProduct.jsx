@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { Filtering } from "../../../dummy";
-import { useSelector, useDispatch } from "react-redux";
-import {getSearchRef} from '../../../redux/CarpetReducers/searchInputReducer'
+import { useDispatch } from "react-redux";
+import { getSearchRef } from "../../../redux/CarpetReducers/searchInputReducer";
 
 const FilterProduct = ({ SelectedCat, handleSearch }) => {
   const [choosenBg, setChoosenBg] = useState("bg-orange-500 text-white");
@@ -15,7 +15,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
   const [isegyptiang, setEgyptianBg] = useState(false);
 
   const searchRef = useRef(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleAllBg = () => {
     setIsAllBg((current) => !current);
@@ -55,8 +55,8 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
   };
 
   useEffect(() => {
-    dispatch(getSearchRef(searchRef.current.value))
-  })
+    dispatch(getSearchRef(searchRef.current.value));
+  });
 
   return (
     <div className="flex flex-col items-center mt-20 md:mt-10">
@@ -68,6 +68,9 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
           id=""
           placeholder="white, moroccan..."
           ref={searchRef}
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
         />
         <button
           className="text-xs ml-[-7rem] md:ml-[-10rem] h-12 w-[6.5rem] md:h-[3.5rem] md:w-[10rem] flex justify-center items-center bg-zinc-900 hover:bg-black text-white  font-bold rounded-lg md:rounded-sm"
@@ -84,7 +87,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
         <button
           title="all"
           onClick={(e) => {
-            SelectedCat(e.target.title);
+            SelectedCat("");
             handleAllBg();
           }}
           className={`${allBg} py-2 px-4 rounded-md font-medium m-2`}
@@ -97,7 +100,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
             ispopularBg ? choosenBg : ""
           } py-2 px-4 rounded-md font-medium m-2`}
           onClick={(e) => {
-            SelectedCat(e.target.title);
+            SelectedCat(e.target.title.toLowerCase());
             handlePopularBg();
           }}
         >
@@ -106,7 +109,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
         <button
           title="hot"
           onClick={(e) => {
-            SelectedCat(e.target.title);
+            SelectedCat(e.target.title.toLowerCase());
             handleHotBg();
           }}
           className={`${
@@ -119,7 +122,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
           title="moroccan"
           onClick={(e) => {
             handleMoroccanBg();
-            SelectedCat(e.target.title);
+            SelectedCat(e.target.title.toLowerCase());
           }}
           className={`${
             ismoroccanBg ? choosenBg : ""
@@ -131,7 +134,7 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
           title="egyptian"
           onClick={(e) => {
             handleEgyptianBg();
-            SelectedCat(e.target.title);
+            SelectedCat(e.target.title.toLowerCase());
           }}
           className={`${
             isegyptiang ? choosenBg : ""
