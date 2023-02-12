@@ -1,5 +1,5 @@
 import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
@@ -19,10 +19,9 @@ import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 
 function App() {
   const [order, setOrder] = useState({});
-  const [shippingOption, setShippingOption] = useState({});
+  const [newCheckoutToken, setNewCheckoutToken] = useState([]);
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
-  const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
 
@@ -75,23 +74,24 @@ function App() {
     }
   };
 
-  const CheckShippingOption = async (
+  const checkShippingOption = async (
     checkoutTokenId,
     shipping_option_id,
     country,
     region
   ) => {
-    const shipping = await commerce.checkout.checkShippingOption(
+    await commerce.checkout.checkShippingOption(
       checkoutTokenId,
       {
         shipping_option_id: shipping_option_id,
         country: country,
         region: region,
       }
-    );
-    try {
-      setShippingOption(shipping);
-    } catch (err) {}
+    ).then(function(data) {
+      setNewCheckoutToken(data)
+    }).catch(function(error) {
+      console.error( error);
+    });
   };
 
   useEffect(() => {
@@ -158,7 +158,8 @@ function App() {
               path="/checkout"
               element={
                 <Checkout
-                  CheckShippingOption={CheckShippingOption}
+                  CheckShippingOption={checkShippingOption}
+                  newCheckoutToken={newCheckoutToken}
                   handleCaptureCheckout={handleCaptureCheckout}
                   order={order}
                 />

@@ -1,4 +1,4 @@
-import React, {useReducer} from "react";
+import React, {useEffect} from "react";
 import { MdDone } from "react-icons/md";
 import Shipping from "./Shipping";
 import Payment from "./Payment";
@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addStep, removeStep } from "../../redux/CheckoutReducers/step";
 import { getShippingData } from "../../redux/CheckoutReducers/shippingData";
 
-const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption }) => {
+const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption, newCheckoutToken }) => {
   const { step } = useSelector((state) => state.step);
 
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption }) => {
     dispatch(getShippingData(data));
     nextStep();
   };
-
+  
   return (
     <div className="dark:text-white flex justify-center p-10">
       <div className="rounded-md bg-gray-100 dark:bg-slate-700 w-[50rem]">
@@ -78,13 +78,13 @@ const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption }) => {
         </div>
 
         {step === 1 ? (
-          <Shipping next={next} />
+          <Shipping next={next} CheckShippingOption={CheckShippingOption}/>
         ) : step === 2 ? (
           <Payment
             backStep={backStep}
             handleCaptureCheckout={handleCaptureCheckout}
             nextStep={nextStep}
-            CheckShippingOption={CheckShippingOption}
+            newCheckoutToken={newCheckoutToken}
           />
         ) : (
           <Confirmation order={order} />

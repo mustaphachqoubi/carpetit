@@ -11,7 +11,7 @@ import { setSubdivision } from "../../redux/CheckoutReducers/subdivision";
 import { setOptions } from "../../redux/CheckoutReducers/options";
 import { setOption } from "../../redux/CheckoutReducers/option";
 
-const Shipping = ({ next }) => {
+const Shipping = ({ next, CheckShippingOption }) => {
   const dispatch = useDispatch();
   const { c_ountries } = useSelector((state) => state.c_ountries);
   const { country } = useSelector((state) => state.country);
@@ -255,6 +255,12 @@ const Shipping = ({ next }) => {
               type="submit"
               className="rounded-md bg-blue-500 w-[10rem] h-10 hover:bg-blue-700 cursor-pointer"
               disabled={!option}
+              onClick={() => {
+                CheckShippingOption(checkoutToken.id,
+                  option,
+                  country,
+                  subdivision)
+              }}
             >
               Next
             </button>
