@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { RiStarSFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 
-const Specification = ({ }) => {
+const Specification = () => {
 
   const { products } = useSelector((state) => state.products);
 

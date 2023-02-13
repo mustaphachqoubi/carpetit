@@ -7,7 +7,6 @@ import Specification from "../Specification/Specification";
 import Carpets from "../../Carpets/Carpets";
 import "./styles.css";
 import IntroImageSkeleton from "../../Skeletons/IntroImageSkeleton";
-import "../../Carpets/Carpet/Carpet.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setLoading,

@@ -17,7 +17,6 @@ import {
 import { CgClose } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
-import "./Carpet.css";
 import { useDispatch, useSelector } from "react-redux";
 import { startLoad, endLoad } from "../../../redux/CarpetReducers/loading";
 import {
@@ -369,7 +368,26 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                               })}
                             </h3>
                             <h3 className="text-green-500 flex text-xs md:text-sm">
-                              $
+                            $
+                              {products.map((carpet) => {
+                                return (
+                                  <div key={carpet.id}>
+                                    {carpet.id === selectedId &&
+                                    !carpet.variant_group
+                                      ? carpet.price.formatted * 1.5
+                                      : carpet.variant_groups.map((variant) => {
+                                          return (
+                                            <div key={variant.id}>
+                                              {variant.name === "size" &&
+                                                variant.options[0].price
+                                                  .raw}
+                                            </div>
+                                          );
+                                        })}
+                                  </div>
+                                );
+                              })}
+                              {/* $
                               {products.map((carpet) => {
                                 return (
                                   <div key={carpet.id}>
@@ -387,7 +405,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                         })}
                                   </div>
                                 );
-                              })}
+                              })} */}
                             </h3>
                           </div>
                           <div className="bg-red-200 flex justify-center items-center p-2 w-20 h-10 rounded-xl text-red-500 font-bold text-xs md:text-sm">
@@ -510,6 +528,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                                     )
                                                   )
                                                 );
+                                                console.log(count)
                                               }}
                                               key={option.id}
                                               className={`${
