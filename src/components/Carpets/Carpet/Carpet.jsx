@@ -146,12 +146,12 @@ function Carpet({ handleAddToCart, selectedCategory }) {
               }}
             >
               <motion.div className={`relative`}>
-                <motion.h3
+                {/* <motion.h3
                   onClick={() => dispatch(selectedIdGetId(c.id))}
                   className="z-50 bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
                 >
                   -70%
-                </motion.h3>
+                </motion.h3> */}
                 <motion.img
                   loading="lazy"
                   onClick={() => dispatch(selectedIdGetId(c.id))}
@@ -348,94 +348,36 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                           <div className="price flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                             <h3 className="text-red-500 line-through font-bold text-xs md:text-sm flex">
                               $
-                              {products.map((carpet) => {
-                                return (
-                                  <div key={carpet.id}>
-                                    {carpet.id === selectedId &&
-                                    !carpet.variant_group
-                                      ? carpet.price.formatted * 1.5
-                                      : carpet.variant_groups.map((variant) => {
-                                          return (
-                                            <div key={variant.id}>
-                                              {variant.name === "size" &&
-                                                variant.options[count].price
-                                                  .raw * 1.5}
-                                            </div>
-                                          );
-                                        })}
-                                  </div>
-                                );
-                              })}
+                              {products.map(
+                                (carpet) =>
+                                  carpet.id === selectedId &&
+                                  carpet.variant_groups[0].options[count].price
+                                    .raw * 1.5
+                              )}
                             </h3>
                             <h3 className="text-green-500 flex text-xs md:text-sm">
-                            $
-                              {products.map((carpet) => {
-                                return (
-                                  <div key={carpet.id}>
-                                    {carpet.id === selectedId &&
-                                    !carpet.variant_group
-                                      ? carpet.price.formatted * 1.5
-                                      : carpet.variant_groups.map((variant) => {
-                                          return (
-                                            <div key={variant.id}>
-                                              {variant.name === "size" &&
-                                                variant.options[0].price
-                                                  .raw}
-                                            </div>
-                                          );
-                                        })}
-                                  </div>
-                                );
-                              })}
-                              {/* $
-                              {products.map((carpet) => {
-                                return (
-                                  <div key={carpet.id}>
-                                    {carpet.id === selectedId &&
-                                    !carpet.variant_group
-                                      ? carpet.price.formatted
-                                      : carpet.variant_groups.map((variant) => {
-                                          return (
-                                            <div key={variant.id}>
-                                              {variant.name === "size" &&
-                                                variant.options[count].price
-                                                  .raw}
-                                            </div>
-                                          );
-                                        })}
-                                  </div>
-                                );
-                              })} */}
+                              $
+                              {products.map(
+                                (carpet) =>
+                                  carpet.id === selectedId &&
+                                  carpet.variant_groups[0].options[count].price
+                                    .raw
+                              )}
                             </h3>
                           </div>
                           <div className="bg-red-200 flex justify-center items-center p-2 w-20 h-10 rounded-xl text-red-500 font-bold text-xs md:text-sm">
                             -
-                            {products.map((carpet) => {
-                              return (
-                                <div key={carpet.id}>
-                                  {carpet.id === selectedId &&
-                                  !carpet.variant_group
-                                    ? String(
-                                        carpet.price.formatted * 1.5 -
-                                          carpet.price.formatted
-                                      ).slice(0, 2)
-                                    : carpet.variant_groups.map((variant) => {
-                                        return (
-                                          <div key={variant.id}>
-                                            {variant.name === "size" &&
-                                              String(
-                                                variant.options[count].price
-                                                  .raw *
-                                                  1.5 -
-                                                  variant.options[count].price
-                                                    .raw
-                                              ).slice(0, 2)}
-                                          </div>
-                                        );
-                                      })}
-                                </div>
-                              );
-                            })}
+                            {products.map(
+                              (carpet) =>
+                                carpet.id === selectedId &&
+                                String(
+                                  carpet.variant_groups[0].options[count].price
+                                    .raw *
+                                    1.5 -
+                                    carpet.variant_groups[0].options[count]
+                                      .price.raw
+                                ).slice(0, 2)
+                            )}
                             %
                           </div>
                         </div>
@@ -528,7 +470,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                                     )
                                                   )
                                                 );
-                                                console.log(count)
+                                                console.log(count);
                                               }}
                                               key={option.id}
                                               className={`${
