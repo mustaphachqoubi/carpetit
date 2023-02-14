@@ -339,11 +339,13 @@ function Carpet({ handleAddToCart, selectedCategory }) {
 
                     <motion.div className="flex flex-col p-2 py-4 col-span-2 md:col-span-1 items-center md:items-start ">
                       <div className="w-80 space-y-4 text-center md:text-left">
-                        <h3 className="font-bold text-md md:text-xl px-4 dark:text-white mx-20">
+                        <div className="flex justify-center align-center w-full">
+                        <h3 className="font-bold text-md md:text-xl px-4 dark:text-white">
                           {products.map(
                             (carpet) => carpet.id === selectedId && carpet.name
                           )}
                         </h3>
+                        </div>
                         <div className="flex justify-evenly sm:justify-between items-center px-4 m-6 sm:m-0">
                           <div className="price flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                             <h3 className="text-red-500 line-through font-bold text-xs md:text-sm flex">
@@ -421,7 +423,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                       </div>
 
                       <div className="w-80 mt-4 space-y-4 ">
-                        <div className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0">
+                        {/* <div className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0">
                           <input
                             ref={sizeInp}
                             type="text"
@@ -445,7 +447,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                           >
                             {sizeitBtnIcon}
                           </button>
-                        </div>
+                        </div> */}
 
                         {products.map((carpet) => {
                           return (
