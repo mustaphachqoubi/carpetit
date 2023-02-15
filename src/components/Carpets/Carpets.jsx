@@ -4,7 +4,7 @@ import FilterProduct from "./FilterProduct/FilterProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { carpetListGetProducts } from "../../redux/CarpetReducers/carpetList";
 
-const Carpets = ({ handleAddToCart }) => {
+const Carpets = ({ handleAddToCart, handleDiscounts }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const { carpetList } = useSelector((state) => state.carpetlist);
   const dispatch = useDispatch();
@@ -33,6 +33,7 @@ const Carpets = ({ handleAddToCart }) => {
         <Carpet
           handleAddToCart={handleAddToCart}
           selectedCategory={selectedCategory}
+          handleDiscounts={handleDiscounts}
         />
       </div>
     </div>

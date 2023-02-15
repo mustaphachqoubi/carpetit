@@ -78,16 +78,18 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
             </div>
           </div>
 
-          <div className="flex justify-between p-2 py-4 ">
+          <div className="flex justify-between py-4">
             <div>
               <h3 className="dark:text-white font-bold text-xl">
-                {Product?.name}
+                {Product?.selected_options.map((option) => option.option_name)}
               </h3>
             </div>
 
-            <div className="flex w-[8rem] justify-around items-center text-slate-700 dark:text-white">
+            <div className="flex justify-around items-center text-slate-700 dark:text-white">
               <button
-                onClick={() => handleClickedPlus(Product?.id, Product?.quantity)}
+                onClick={() =>
+                  handleClickedPlus(Product?.id, Product?.quantity)
+                }
                 className="font-semibold text-slate-400 hover:text-white hover:text-slate-500 hover:bg-slate-200 hover:dark:bg-slate-700 hover:dark:text-white px-4 rounded-sm "
               >
                 {plus === Product?.id ? (
@@ -111,9 +113,11 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
                   "+"
                 )}
               </button>
-              <h3 className="font-semibold">{Product?.quantity}</h3>
+              <h3 className="font-semibold px-2">{Product?.quantity}</h3>
               <button
-                onClick={() => handleClickedMines(Product?.id, Product?.quantity)}
+                onClick={() =>
+                  handleClickedMines(Product?.id, Product?.quantity)
+                }
                 className="font-semibold text-slate-400 hover:text-white hover:text-slate-500 hover:bg-slate-200 hover:dark:bg-slate-700 hover:dark:text-white px-4 rounded-sm "
               >
                 {mines === Product.id ? (

@@ -13,7 +13,7 @@ import {
   setLoadingInitial,
 } from "../../../redux/HeroBannerReducers/loading";
 
-const HeroBanner = ({ handleAddToCart }) => {
+const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
   const { products } = useSelector((state) => state.products);
   const { loading } = useSelector((state) => state.loading);
 
@@ -123,7 +123,7 @@ const HeroBanner = ({ handleAddToCart }) => {
         </div>
       </div>
 
-      <Carpets handleAddToCart={handleAddToCart} />
+      <Carpets handleAddToCart={handleAddToCart} handleDiscounts={handleDiscounts}/>
     </>
   );
 };

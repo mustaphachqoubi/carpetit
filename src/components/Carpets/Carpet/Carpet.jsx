@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import {
   AiOutlineClose,
@@ -53,9 +53,8 @@ import {
 } from "../../../redux/CarpetReducers/hideOpenedProduct";
 import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
 import { commerce } from "../../../lib/commerce";
-import { useState } from "react";
 
-function Carpet({ handleAddToCart, selectedCategory }) {
+function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loader);
@@ -73,6 +72,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
   const { code } = useSelector((state) => state.code);
   const { products } = useSelector((state) => state.products);
   const { searchRef } = useSelector((state) => state.searchRef);
+  const [assetsCount, setAssetsCount] = useState(0);
 
   const sizeInp = useRef();
   const cuponInp = useRef();
@@ -112,17 +112,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
   }, [products, dispatch]);
 
   useEffect(() => {
-    const fetchDiscounts = async () => {
-      const the_discount_code = await code;
-      const c = await commerce.checkout.checkDiscount(checkoutToken.id, {
-        code: the_discount_code,
-      });
-      dispatch(getDiscountCode(c));
-    };
-    checkoutToken && fetchDiscounts();
-  }, [checkoutToken]);
-
-  useEffect(() => {
     if (isFirst && products.length >= 1 && selectedId) {
       products.map((c) => {
         if (c.id === selectedId && c.variant_groups.length >= 1) {
@@ -132,6 +121,10 @@ function Carpet({ handleAddToCart, selectedCategory }) {
       setIsFirst(false);
     }
   }, [products]);
+
+  // useEffect(() => {
+  //   checkoutToken && handleDiscounts(checkoutToken?.id, {code: 'hello'})
+  // }, [checkoutToken])
 
   return (
     <>
@@ -146,12 +139,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
               }}
             >
               <motion.div className={`relative`}>
-                {/* <motion.h3
-                  onClick={() => dispatch(selectedIdGetId(c.id))}
-                  className="z-50 bg-red-200 px-3 py-1 rounded-md text-red-500 absolute top-4 left-4 font-semibold shadow-lg text-lg"
-                >
-                  -70%
-                </motion.h3> */}
                 <motion.img
                   loading="lazy"
                   onClick={() => dispatch(selectedIdGetId(c.id))}
@@ -197,7 +184,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                 </motion.div>
               </motion.div>
               <motion.div
-                className="flex justify-between p-2 py-4"
+                className="flex justify-between py-4"
                 onClick={() => dispatch(selectedIdGetId(c.id))}
               >
                 <motion.div>
@@ -266,11 +253,9 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                               <div key={carpet.id}>
                                 <div
                                   onClick={() => {
-                                    count <= 0
-                                      ? dispatch(
-                                          updateCount(carpet.assets.length - 1)
-                                        )
-                                      : dispatch(updateCount(count - 1));
+                                    assetsCount <= 0
+                                      ? setAssetsCount(carpet.assets.length - 1)
+                                      : setAssetsCount(assetsCount - 1);
                                   }}
                                   className="flex absolute text-xs md:text-md bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] left-2 p-3 rounded-full cursor-pointer"
                                 >
@@ -278,15 +263,15 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                 </div>
                                 <motion.img
                                   key={carpet.id}
-                                  src={carpet.assets[count].url}
+                                  src={carpet.assets[assetsCount].url}
                                   alt="carpet"
                                   className="object-cover w-full h-[12em] sm:h-[18em] rounded-lg"
                                 />
                                 <div
                                   onClick={() => {
-                                    count < carpet.assets.length - 1
-                                      ? dispatch(updateCount(count + 1))
-                                      : dispatch(countToZero(0));
+                                    assetsCount < carpet.assets.length - 1
+                                      ? setAssetsCount(assetsCount + 1)
+                                      : setAssetsCount(0);
                                   }}
                                   className="flex absolute text-xs md:text-md bg-white/30 backdrop-blur-sm hover:backdrop-blur-xl top-[40%] right-2 p-3 rounded-full cursor-pointer"
                                 >
@@ -319,9 +304,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                   return (
                                     <motion.img
                                       onClick={() => {
-                                        dispatch(
-                                          updateCount(c.assets.indexOf(a))
-                                        );
+                                        setAssetsCount(c.assets.indexOf(a));
                                       }}
                                       key={a.id}
                                       src={a.url}
@@ -340,11 +323,12 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                     <motion.div className="flex flex-col p-2 py-4 col-span-2 md:col-span-1 items-center md:items-start ">
                       <div className="w-80 space-y-4 text-center md:text-left">
                         <div className="flex justify-center align-center w-full">
-                        <h3 className="font-bold text-md md:text-xl px-4 dark:text-white">
-                          {products.map(
-                            (carpet) => carpet.id === selectedId && carpet.name
-                          )}
-                        </h3>
+                          <h3 className="font-bold text-md md:text-xl px-4 dark:text-white">
+                            {products.map(
+                              (carpet) =>
+                                carpet.id === selectedId && carpet.name
+                            )}
+                          </h3>
                         </div>
                         <div className="flex justify-evenly sm:justify-between items-center px-4 m-6 sm:m-0">
                           <div className="price flex flex-col md:flex-row gap-4 justify-center md:justify-start">
@@ -388,7 +372,11 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                             ref={cuponInp}
                             type="text"
                             className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full"
-                            placeholder="You have a Cupon !"
+                            placeholder={
+                              !discount.discount
+                                ? "Cupon is Loading..."
+                                : "You have a Cupon !"
+                            }
                             disabled={!discount.discount}
                           />
                           <button
@@ -423,32 +411,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                       </div>
 
                       <div className="w-80 mt-4 space-y-4 ">
-                        {/* <div className="flex h-10 px-12 sm:px-0 mx-5 md:mx-0">
-                          <input
-                            ref={sizeInp}
-                            type="text"
-                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none mb-4 h-10 bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full "
-                            placeholder="Put size in cm"
-                          />
-                          <button
-                            onClick={() => {
-                              dispatch(sizeitBtnIconValue(<BsThreeDots />));
-                              setTimeout(() => {
-                                if (sizeInp.current.value.length >= 1) {
-                                  dispatch(sizeitBtnGreen());
-                                  dispatch(sizeitBtnIconValue(<BsCheckLg />));
-                                } else {
-                                  dispatch(sizeitBtnBlack());
-                                  dispatch(sizeitBtnIconInitial());
-                                }
-                              }, 2000);
-                            }}
-                            className={`${sizeitBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-xs md:text-sm rounded-r-md`}
-                          >
-                            {sizeitBtnIcon}
-                          </button>
-                        </div> */}
-
                         {products.map((carpet) => {
                           return (
                             <div key={carpet.id}>
@@ -472,7 +434,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                                     )
                                                   )
                                                 );
-                                                console.log(count);
                                               }}
                                               key={option.id}
                                               className={`${
