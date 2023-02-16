@@ -54,7 +54,7 @@ import {
 import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
 import { commerce } from "../../../lib/commerce";
 
-function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
+function Carpet({ handleAddToCart, selectedCategory }) {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loader);
@@ -78,6 +78,8 @@ function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
   const cuponInp = useRef();
 
   const [isFirst, setIsFirst] = useState(true);
+  const [discountCheckoutToken, setDiscountCheckoutToken] = useState("");
+  const [d, setD] = useState({});
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -107,6 +109,19 @@ function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
 
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
 
+  const handleDiscounts = async (checkoutTokenId, data) => {
+    const discounts = await commerce.checkout.checkDiscount(
+      checkoutTokenId,
+      data
+    );
+    try {
+      console.log(discounts);
+      setD(discounts);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     searchRef === "" && dispatch(carpetListGetProducts(products.map((c) => c)));
   }, [products, dispatch]);
@@ -122,9 +137,26 @@ function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
     }
   }, [products]);
 
+  useEffect(() => {
+    const generatetoken = async () => {
+      try {
+        const token = await commerce.checkout.generateToken(
+          products.map((c) => c.id === selectedId && c.id),
+          { type: "product_id" }
+        );
+        setDiscountCheckoutToken(token);
+      } catch (error) {}
+    };
+    selectedId && generatetoken();
+  });
+
   // useEffect(() => {
-  //   checkoutToken && handleDiscounts(checkoutToken?.id, {code: 'hello'})
-  // }, [checkoutToken])
+  //   // console.log(checkoutToken)
+  //   if(discountCheckoutToken && d) {
+  //     // console.log(d)
+  //     handleDiscounts(discountCheckoutToken?.id, {code: cuponInp.current.value})
+  //   }else{}
+  // }, [discountCheckoutToken])
 
   return (
     <>
@@ -245,7 +277,7 @@ function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
                     <AiOutlineClose />
                   </motion.button>
                   <div className="grid grid-cols-2">
-                    <div className="md:w-80 space-y-4 col-span-2 md:col-span-1">
+                    <div className="md:w-80 space-y-4 col-span-2 md:col-span-1 select-none">
                       <div className="relative">
                         {products.map(
                           (carpet) =>
@@ -373,27 +405,32 @@ function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
                             type="text"
                             className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full"
                             placeholder={
-                              !discount.discount
+                              !d.length >= 1
                                 ? "Cupon is Loading..."
                                 : "You have a Cupon !"
                             }
-                            disabled={!discount.discount}
+                            // disabled={!d.length >= 1}
                           />
                           <button
                             onClick={() => {
+                              handleDiscounts(discountCheckoutToken?.id, {
+                                code: cuponInp.current.value,
+                              });
+                              
                               dispatch(cuponBtnIconValue(<BsThreeDots />));
                               setTimeout(() => {
+                                // if(d?.discount?.code){
+                                
+                                // }
                                 if (
                                   cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value ===
-                                    discount.discount.code
+                                  cuponInp.current.value === d?.discount?.code
                                 ) {
                                   dispatch(cuponBtnGreen());
                                   dispatch(cuponBtnIconValue(<BsCheckLg />));
                                 } else if (
                                   cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value !==
-                                    discount.discount.code
+                                  cuponInp.current.value !== d?.discount?.code
                                 ) {
                                   dispatch(cuponBtnRed());
                                   dispatch(cuponBtnIconValue(<CgClose />));
@@ -439,7 +476,7 @@ function Carpet({ handleAddToCart, selectedCategory, handleDiscounts }) {
                                               className={`${
                                                 selectedSize === option.id
                                                   ? "border-2 border-black"
-                                                  : "border border-gray-300"
+                                                  : "border-2 border-gray-300"
                                               } p-2 w-20 rounded-md hover:bg-slate-200 dark:hover:bg-slate-500 cursor-pointer text-center text-xs md:text-md`}
                                             >
                                               {option.name}

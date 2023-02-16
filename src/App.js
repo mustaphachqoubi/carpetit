@@ -96,15 +96,15 @@ function App() {
       });
   };
 
-  const handleDiscounts = async (checkoutTokenId, data) => {
-    const discounts = await commerce.checkout.checkDiscount(checkoutTokenId, data)
-    try{
-      console.log(discounts)
-      getDiscountCode(discounts)
-    }catch (err){
-      console.log(err)
-    }
-  }
+  // const handleDiscounts = async (checkoutTokenId, data) => {
+  //   const discounts = await commerce.checkout.checkDiscount(checkoutTokenId, data)
+  //   try{
+  //     console.log(discounts)
+  //     getDiscountCode(discounts)
+  //   }catch (err){
+  //     console.log(err)
+  //   }
+  // }
 
   useEffect(() => {
     const generatetoken = async () => {
@@ -125,6 +125,10 @@ function App() {
     fetchProducts();
     fetchCart();
   });
+
+  // useEffect(() => {
+  //   console.log(checkoutToken, 'here')
+  // }, [checkoutToken])
 
 
 
@@ -158,7 +162,7 @@ function App() {
                 <HeroBanner
                   onAddToCart={handleAddToCart}
                   handleAddToCart={handleAddToCart}
-                  handleDiscounts={handleDiscounts}
+                  // handleDiscounts={handleDiscounts}
                 />
               }
             />

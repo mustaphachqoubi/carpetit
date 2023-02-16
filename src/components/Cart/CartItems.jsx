@@ -49,7 +49,7 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
             </div>
             <img
               src={Product?.image?.url ? Product?.image?.url : ""}
-              className="object-cover h-[18em] w-80 rounded-xl"
+              className="object-cover h-[18em] w-80 rounded-xl select-none"
             />
             <div
               onClick={() => handleClickedTrash(Product?.id)}

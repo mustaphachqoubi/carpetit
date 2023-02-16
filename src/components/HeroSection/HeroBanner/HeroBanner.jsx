@@ -103,7 +103,7 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
             <img
               src={products[0] ? products[0].image.url : Carpet}
               alt="carpet"
-              className="image-container sm:w-80"
+              className="image-container sm:w-80 select-none"
             />
           ) : (
             <IntroImageSkeleton />
