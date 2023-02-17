@@ -79,7 +79,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
 
   const [isFirst, setIsFirst] = useState(true);
   const [discountCheckoutToken, setDiscountCheckoutToken] = useState("");
-  const [d, setD] = useState({});
+  const [d, setD] = useState(false);
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -115,10 +115,14 @@ function Carpet({ handleAddToCart, selectedCategory }) {
       data
     );
     try {
-      console.log(discounts);
-      setD(discounts);
-    } catch (err) {
-      console.log(err);
+      dispatch(cuponBtnGreen());
+      dispatch(cuponBtnIconValue(<BsCheckLg />));
+    } 
+    catch {
+      // console.log('errordfsfgvggdfsgvdfbdfbgdf')
+    }
+    if(!discounts.code){
+      console.log('errordfsfgvggdfsgvdfbdfbgdf')
     }
   };
 
@@ -149,14 +153,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
     };
     selectedId && generatetoken();
   });
-
-  // useEffect(() => {
-  //   // console.log(checkoutToken)
-  //   if(discountCheckoutToken && d) {
-  //     // console.log(d)
-  //     handleDiscounts(discountCheckoutToken?.id, {code: cuponInp.current.value})
-  //   }else{}
-  // }, [discountCheckoutToken])
 
   return (
     <>
@@ -401,44 +397,55 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                         </div>
                         <div className="flex px-12 sm:px-0 mx-5 md:mx-0">
                           <input
+                            onChange={(e) => {
+                              if (e.target.value < 1) {
+                                dispatch(cuponBtnInitial());
+                                dispatch(cuponBtnIconInitial());
+                              }
+                            }}
                             ref={cuponInp}
                             type="text"
                             className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full"
                             placeholder={
-                              !d.length >= 1
-                                ? "Cupon is Loading..."
-                                : "You have a Cupon !"
+                              // !d.length >= 1
+                              //   ? "Cupon is Loading..."
+                              //   : "You have a Cupon !"
+                              "You have a Cupon !"
                             }
                             // disabled={!d.length >= 1}
                           />
                           <button
                             onClick={() => {
+                              dispatch(cuponBtnIconValue(<BsThreeDots />));
+
                               handleDiscounts(discountCheckoutToken?.id, {
                                 code: cuponInp.current.value,
                               });
-                              
-                              dispatch(cuponBtnIconValue(<BsThreeDots />));
-                              setTimeout(() => {
-                                // if(d?.discount?.code){
-                                
-                                // }
-                                if (
-                                  cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value === d?.discount?.code
-                                ) {
-                                  dispatch(cuponBtnGreen());
-                                  dispatch(cuponBtnIconValue(<BsCheckLg />));
-                                } else if (
-                                  cuponInp.current.value.length >= 1 &&
-                                  cuponInp.current.value !== d?.discount?.code
-                                ) {
-                                  dispatch(cuponBtnRed());
-                                  dispatch(cuponBtnIconValue(<CgClose />));
-                                } else {
+                              if (cuponInp.current.value < 1) {
+                                setTimeout(() => {
                                   dispatch(cuponBtnInitial());
                                   dispatch(cuponBtnIconInitial());
-                                }
-                              }, 2000);
+                                }, 2000);
+                              }
+
+                              // setTimeout(() => {
+                              //   if (
+                              //     cuponInp.current.value.length >= 1 &&
+                              //     cuponInp.current.value === d?.discount?.code
+                              //   ) {
+                              //     dispatch(cuponBtnGreen());
+                              //     dispatch(cuponBtnIconValue(<BsCheckLg />));
+                              //   } else if (
+                              //     cuponInp.current.value.length >= 1 &&
+                              //     cuponInp.current.value !== d?.discount?.code
+                              //   ) {
+                              //     dispatch(cuponBtnRed());
+                              //     dispatch(cuponBtnIconValue(<CgClose />));
+                              //   } else {
+                              //     dispatch(cuponBtnInitial());
+                              //     dispatch(cuponBtnIconInitial());
+                              //   }
+                              // }, 2000);
                             }}
                             className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-xs md:text-sm rounded-r-md`}
                           >

@@ -152,7 +152,7 @@ function App() {
 
   return (
     <div className={dark}>
-      <div className="bg-[#FAFCFC] dark:bg-slate-800">
+      <div className="bg-[#FAFCFC] dark:bg-slate-800 max-w-[1440px] m-auto">
         <BrowserRouter>
           <Navbar pullDark={pullDark} totalItems={cart.total_unique_items} />
           <Routes>
@@ -162,7 +162,6 @@ function App() {
                 <HeroBanner
                   onAddToCart={handleAddToCart}
                   handleAddToCart={handleAddToCart}
-                  // handleDiscounts={handleDiscounts}
                 />
               }
             />
