@@ -110,20 +110,16 @@ function Carpet({ handleAddToCart, selectedCategory }) {
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
 
   const handleDiscounts = async (checkoutTokenId, data) => {
-    const discounts = await commerce.checkout.checkDiscount(
-      checkoutTokenId,
-      data
-    );
-    try {
-      dispatch(cuponBtnGreen());
-      dispatch(cuponBtnIconValue(<BsCheckLg />));
-    } 
-    catch {
-      // console.log('errordfsfgvggdfsgvdfbdfbgdf')
-    }
-    if(!discounts.code){
-      console.log('errordfsfgvggdfsgvdfbdfbgdf')
-    }
+    const discounts = await commerce.checkout
+      .checkDiscount(checkoutTokenId, data)
+      .then(() => {
+        dispatch(cuponBtnGreen());
+        dispatch(cuponBtnIconValue(<BsCheckLg />));
+      })
+      .catch(() => {
+        dispatch(cuponBtnRed());
+        dispatch(cuponBtnIconValue(<CgClose />));
+      });
   };
 
   useEffect(() => {
@@ -406,18 +402,11 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                             ref={cuponInp}
                             type="text"
                             className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full"
-                            placeholder={
-                              // !d.length >= 1
-                              //   ? "Cupon is Loading..."
-                              //   : "You have a Cupon !"
-                              "You have a Cupon !"
-                            }
-                            // disabled={!d.length >= 1}
+                            placeholder={"You have a Cupon !"}
                           />
                           <button
                             onClick={() => {
                               dispatch(cuponBtnIconValue(<BsThreeDots />));
-
                               handleDiscounts(discountCheckoutToken?.id, {
                                 code: cuponInp.current.value,
                               });
@@ -427,25 +416,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                                   dispatch(cuponBtnIconInitial());
                                 }, 2000);
                               }
-
-                              // setTimeout(() => {
-                              //   if (
-                              //     cuponInp.current.value.length >= 1 &&
-                              //     cuponInp.current.value === d?.discount?.code
-                              //   ) {
-                              //     dispatch(cuponBtnGreen());
-                              //     dispatch(cuponBtnIconValue(<BsCheckLg />));
-                              //   } else if (
-                              //     cuponInp.current.value.length >= 1 &&
-                              //     cuponInp.current.value !== d?.discount?.code
-                              //   ) {
-                              //     dispatch(cuponBtnRed());
-                              //     dispatch(cuponBtnIconValue(<CgClose />));
-                              //   } else {
-                              //     dispatch(cuponBtnInitial());
-                              //     dispatch(cuponBtnIconInitial());
-                              //   }
-                              // }, 2000);
                             }}
                             className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-xs md:text-sm rounded-r-md`}
                           >
