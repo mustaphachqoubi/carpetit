@@ -20,7 +20,7 @@ const Specification = () => {
       <p
         className="max-w-xs"
         dangerouslySetInnerHTML={{
-          __html: products[0] && products[0].description,
+          __html: products[0] && String(products[0].description).slice(0, 50) + '...',
         }}
       />
       <hr className="mt-5" />

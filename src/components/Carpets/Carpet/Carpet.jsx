@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import {
   AiOutlineClose,
@@ -7,14 +7,6 @@ import {
   AiOutlineDoubleRight,
   AiOutlineDoubleLeft,
 } from "react-icons/ai";
-import {
-  BsStar,
-  BsStarHalf,
-  BsStarFill,
-  BsCheckLg,
-  BsThreeDots,
-} from "react-icons/bs";
-import { CgClose } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductSkeleton from "../../Skeletons/ProductSkeleton";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,35 +16,16 @@ import {
   selectedIdNull,
 } from "../../../redux/CarpetReducers/selectedId";
 import { carpetListGetProducts } from "../../../redux/CarpetReducers/carpetList";
-import { updateCount, countToZero } from "../../../redux/CarpetReducers/count";
+import { updateCount } from "../../../redux/CarpetReducers/count";
 import { hiddenScroll, backScroll } from "../../../redux/CarpetReducers/scroll";
 import {
   selectedSizeId,
   selectedSizeInitial,
 } from "../../../redux/CarpetReducers/selectedSize";
 import {
-  sizeitBtnGreen,
-  sizeitBtnBlack,
-} from "../../../redux/CarpetReducers/sizeitBtn";
-import {
-  sizeitBtnIconInitial,
-  sizeitBtnIconValue,
-} from "../../../redux/CarpetReducers/sizeitBtnIcon";
-import {
-  cuponBtnInitial,
-  cuponBtnGreen,
-  cuponBtnRed,
-} from "../../../redux/CarpetReducers/cuponBtn";
-import {
-  cuponBtnIconInitial,
-  cuponBtnIconValue,
-} from "../../../redux/CarpetReducers/cuponBtnIcon";
-import {
   hideOpenedProductHidden,
   hideOpenedProductInitial,
 } from "../../../redux/CarpetReducers/hideOpenedProduct";
-import { getDiscountCode } from "../../../redux/CarpetReducers/discount";
-import { commerce } from "../../../lib/commerce";
 
 function Carpet({ handleAddToCart, selectedCategory }) {
   const dispatch = useDispatch();
@@ -63,23 +36,11 @@ function Carpet({ handleAddToCart, selectedCategory }) {
   const { count } = useSelector((state) => state.count);
   const { scroll } = useSelector((state) => state.scroll);
   const { selectedSize } = useSelector((state) => state.selectedSize);
-  const { sizeitBtn } = useSelector((state) => state.sizeitBtn);
-  const { sizeitBtnIcon } = useSelector((state) => state.sizeitBtnIcon);
-  const { cuponBtn } = useSelector((state) => state.cuponBtn);
-  const { cuponBtnIcon } = useSelector((state) => state.cuponBtnIcon);
-  const { checkoutToken } = useSelector((state) => state.checkoutToken);
-  const { discount } = useSelector((state) => state.discount);
-  const { code } = useSelector((state) => state.code);
   const { products } = useSelector((state) => state.products);
   const { searchRef } = useSelector((state) => state.searchRef);
   const [assetsCount, setAssetsCount] = useState(0);
 
-  const sizeInp = useRef();
-  const cuponInp = useRef();
-
   const [isFirst, setIsFirst] = useState(true);
-  const [discountCheckoutToken, setDiscountCheckoutToken] = useState("");
-  const [d, setD] = useState(false);
 
   const handleSelectedSize = (id) => {
     dispatch(selectedSizeId(id));
@@ -109,19 +70,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
 
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
 
-  const handleDiscounts = async (checkoutTokenId, data) => {
-    const discounts = await commerce.checkout
-      .checkDiscount(checkoutTokenId, data)
-      .then(() => {
-        dispatch(cuponBtnGreen());
-        dispatch(cuponBtnIconValue(<BsCheckLg />));
-      })
-      .catch(() => {
-        dispatch(cuponBtnRed());
-        dispatch(cuponBtnIconValue(<CgClose />));
-      });
-  };
-
   useEffect(() => {
     searchRef === "" && dispatch(carpetListGetProducts(products.map((c) => c)));
   }, [products, dispatch]);
@@ -137,26 +85,13 @@ function Carpet({ handleAddToCart, selectedCategory }) {
     }
   }, [products]);
 
-  useEffect(() => {
-    const generatetoken = async () => {
-      try {
-        const token = await commerce.checkout.generateToken(
-          products.map((c) => c.id === selectedId && c.id),
-          { type: "product_id" }
-        );
-        setDiscountCheckoutToken(token);
-      } catch (error) {}
-    };
-    selectedId && generatetoken();
-  });
-
   return (
     <>
       {products.length > 0
         ? filteredList.map((c) => (
             <motion.div
               layoutId={c.id}
-              className={`shrink-0 cursor-pointer w-[18rem] sm:max-w-sm`}
+              className={`shrink-0 cursor-pointer w-[16rem] sm:w-[18rem] sm:max-w-sm`}
               key={c.id}
               onClick={() => {
                 dispatch(hideOpenedProductHidden());
@@ -208,7 +143,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                 </motion.div>
               </motion.div>
               <motion.div
-                className="flex justify-between py-4"
+                className="flex flex-col sm:flex-row text-center sm:text-left gap-2 sm:gap-0 justify-between py-4"
                 onClick={() => dispatch(selectedIdGetId(c.id))}
               >
                 <motion.div>
@@ -242,8 +177,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
               <div className="flex justify-center">
                 <div
                   onClick={() => {
-                    dispatch(cuponBtnInitial());
-                    dispatch(cuponBtnIconInitial());
                     dispatch(hideOpenedProductInitial());
                     dispatch(selectedIdNull());
                     document.body.style.overflow = "visible";
@@ -257,8 +190,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                 >
                   <motion.button
                     onClick={() => {
-                      dispatch(cuponBtnInitial());
-                      dispatch(cuponBtnIconInitial());
                       dispatch(hideOpenedProductInitial());
                       dispatch(selectedIdNull());
                       document.body.style.overflow = "visible";
@@ -344,7 +275,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                       </div>
                     </div>
 
-                    <motion.div className="flex flex-col p-2 py-4 col-span-2 md:col-span-1 items-center md:items-start ">
+                    <motion.div className="flex flex-col justify-between px-2 py-4 md:py-0 col-span-2 md:col-span-1 items-center md:items-start">
                       <div className="w-80 space-y-4 text-center md:text-left">
                         <div className="flex justify-center align-center w-full">
                           <h3 className="font-bold text-md md:text-xl px-4 dark:text-white">
@@ -390,37 +321,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                             )}
                             %
                           </div>
-                        </div>
-                        <div className="flex px-12 sm:px-0 mx-5 md:mx-0">
-                          <input
-                            onChange={(e) => {
-                              if (e.target.value < 1) {
-                                dispatch(cuponBtnInitial());
-                                dispatch(cuponBtnIconInitial());
-                              }
-                            }}
-                            ref={cuponInp}
-                            type="text"
-                            className="dark:text-white dark:bg-slate-500 dark:placeholder:text-white focus:outline-none bg-gray-200 placeholder:text-xs placeholder:md:text-sm p-2 rounded-l-md w-full"
-                            placeholder={"You have a Cupon !"}
-                          />
-                          <button
-                            onClick={() => {
-                              dispatch(cuponBtnIconValue(<BsThreeDots />));
-                              handleDiscounts(discountCheckoutToken?.id, {
-                                code: cuponInp.current.value,
-                              });
-                              if (cuponInp.current.value < 1) {
-                                setTimeout(() => {
-                                  dispatch(cuponBtnInitial());
-                                  dispatch(cuponBtnIconInitial());
-                                }, 2000);
-                              }
-                            }}
-                            className={`${cuponBtn} flex justify-center items-center text-white font-bold p-2 h-10 w-[5.5em] sm:w-[5em] text-xs md:text-sm rounded-r-md`}
-                          >
-                            {cuponBtnIcon}
-                          </button>
                         </div>
                       </div>
 
@@ -511,10 +411,8 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                           </div>
                         )}
                       </div>
-                    </motion.div>
 
-                    <motion.div className="flex justify-between p-2 py-4 col-span-2 md:col-span-1">
-                      <div className="w-80">
+                      <div className="w-full md:w-80 mt-4">
                         {products.map(
                           (carpet) =>
                             carpet.id === selectedId && (
@@ -527,18 +425,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
                               />
                             )
                         )}
-                      </div>
-                    </motion.div>
-
-                    <motion.div className="flex justify-between p-2 py-4 col-span-2 md:col-span-1">
-                      <div className="w-80">
-                        <div className="flex text-md md:text-xl text-yellow-500">
-                          <BsStarFill />
-                          <BsStarFill />
-                          <BsStarFill />
-                          <BsStarHalf />
-                          <BsStar />
-                        </div>
                       </div>
                     </motion.div>
                   </div>

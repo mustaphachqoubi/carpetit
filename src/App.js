@@ -96,16 +96,6 @@ function App() {
       });
   };
 
-  // const handleDiscounts = async (checkoutTokenId, data) => {
-  //   const discounts = await commerce.checkout.checkDiscount(checkoutTokenId, data)
-  //   try{
-  //     console.log(discounts)
-  //     getDiscountCode(discounts)
-  //   }catch (err){
-  //     console.log(err)
-  //   }
-  // }
-
   useEffect(() => {
     const generatetoken = async () => {
       try {
@@ -125,30 +115,6 @@ function App() {
     fetchProducts();
     fetchCart();
   });
-
-  // useEffect(() => {
-  //   console.log(checkoutToken, 'here')
-  // }, [checkoutToken])
-
-
-
-  // useEffect(() => {
-  //   fetch("https://api.chec.io/v1/discounts", {
-  //     method: "GET",
-  //     headers: {
-  //       "X-Authorization": `sk_4660823b096d2de8f657d61dbf6d84d5a484a6be4c8a1`,
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then(console.log("did responsed"), (response) => response.json())
-  //     .then((dt) => {
-  //       console.log(dt), dispatch(getCode(dt.data[0].code));
-  //     })
-  //     .catch((error) => {
-  //       console.log("discount error: ", error);
-  //     });
-  // });
 
   return (
     <div className={dark}>
