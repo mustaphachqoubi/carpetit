@@ -99,7 +99,6 @@ function Carpet({ handleAddToCart, selectedCategory }) {
             >
               <motion.div className={`relative`}>
                 <motion.img
-                  loading="lazy"
                   onClick={() => dispatch(selectedIdGetId(c.id))}
                   src={c.assets[0].url}
                   alt="carpet"

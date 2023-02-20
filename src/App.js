@@ -1,14 +1,13 @@
-import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
-import React, { useEffect, useState } from "react";
+// import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
+
+import { Navbar, HeroBanner, Footer } from "./components";
+import React, { useEffect, useState, Suspense } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
-import { getCode } from "./redux/AppReducers/code";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "./redux/AppReducers/products";
 import { switchDark } from "./redux/AppReducers/dark";
-import { getDiscountCode } from "./redux/CarpetReducers/discount";
-
 import {
   cartRetrieve,
   cartAdd,
@@ -18,13 +17,15 @@ import {
   cartRefresh,
 } from "./redux/AppReducers/cart";
 import { setErrorMessage } from "./redux/AppReducers/errorMessage";
+import LazyLoader from "./components/LazyLoader/LazyLoader";
 
+const Cart = React.lazy(() => import("./components/Cart/Cart"));
+const Checkout = React.lazy(() => import("./components/Checkout/Checkout")); 
 function App() {
   const [order, setOrder] = useState({});
   const [newCheckoutToken, setNewCheckoutToken] = useState([]);
   const { dark } = useSelector((state) => state.dark);
   const { cart } = useSelector((state) => state.cart);
-  const { checkoutToken } = useSelector((state) => state.checkoutToken);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
 
@@ -131,25 +132,31 @@ function App() {
                 />
               }
             />
+
             <Route
               path="/cart"
               element={
-                <Cart
-                  handleUpdateQt={handleUpdateQt}
-                  handleRemoveFromCart={handleRemoveFromCart}
-                  handleEmptyCart={handleEmptyCart}
-                />
+                <Suspense fallback={<LazyLoader />}>
+                  <Cart
+                    handleUpdateQt={handleUpdateQt}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleEmptyCart={handleEmptyCart}
+                  />
+                </Suspense>
               }
             />
+
             <Route
               path="/checkout"
               element={
-                <Checkout
-                  CheckShippingOption={checkShippingOption}
-                  newCheckoutToken={newCheckoutToken}
-                  handleCaptureCheckout={handleCaptureCheckout}
-                  order={order}
-                />
+                <Suspense fallback={<LazyLoader />}>
+                  <Checkout
+                    CheckShippingOption={checkShippingOption}
+                    newCheckoutToken={newCheckoutToken}
+                    handleCaptureCheckout={handleCaptureCheckout}
+                    order={order}
+                  />
+                </Suspense>
               }
             />
           </Routes>

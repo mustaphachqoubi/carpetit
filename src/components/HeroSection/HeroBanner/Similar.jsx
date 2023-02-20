@@ -1,8 +1,10 @@
 import React from "react";
 import { Carpet } from "../../../assets";
 import { AiOutlineRight } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Similar = () => {
+  const {products} = useSelector(state => state.products)
   return (
     <div
       onClick={() => {
@@ -18,7 +20,7 @@ const Similar = () => {
           Similar Carpets
         </h3>
         <h3 className="text-xs font-semibold w-30">Warain Collectible</h3>
-        <h3 className="text-sm font-bold">$744</h3>
+        <h3 className="text-sm font-bold">{products.length >= 2 ? '$' + products[1].price.raw : '$744'} </h3>
       </div>
       <div className="dark:text-slate-300 absolute right-[20px] text-lg text-gray-500 cursor-pointer hover:text-slate-400">
         <AiOutlineRight />
