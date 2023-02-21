@@ -1,5 +1,4 @@
 import React from "react";
-import { Carpet } from "../../../assets";
 import { AiOutlineRight } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
@@ -13,7 +12,12 @@ const Similar = () => {
       className="w-56 md:w-[15em] bg-white dark:bg-slate-600 dark:hover:bg-slate-700 dark:text-white shadow-2xl hover:bg-slate-100 flex items-center space-x-3 p-2 absolute rounded-full cursor-pointer"
     >
       <div className="shrink-0 bg-orange-500 p-2 rounded-full w-12 h-12 flex items-center justify-center overflow-hidden">
-        <img src={Carpet} alt="carpet" className="w-8 shadow-lg" />
+        {
+          products.length >= 1 && (
+
+            <img src={products.length >= 2 ? products[1].image.url : products[0].image.url} alt="carpet" className="w-8 shadow-lg" />
+          )
+        }
       </div>
       <div className="flex flex-col items-start gap-1 ">
         <h3 className="text-orange-500 text-xs font-semibold">

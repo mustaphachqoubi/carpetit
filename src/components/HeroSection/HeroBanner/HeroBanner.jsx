@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Carpet } from "../../../assets/";
 import Similar from "./Similar";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
@@ -101,7 +100,7 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
           </div>
           {products.length > 0 ? (
             <img
-              src={products[0] ? products[0].image.url : Carpet}
+              src={products[0] && products[0].image.url}
               alt="carpet"
               className="image-container sm:w-80 select-none"
             />

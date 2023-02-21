@@ -1,6 +1,3 @@
-export {default as Carpet} from './carpet1.png'
-export {default as Logo} from './logo.png'
-export {default as Loading} from './loading.png'
 export {default as done} from './verified.gif'
 export {default as error} from './unverified.gif'
 export {default as warning} from './warning.gif'

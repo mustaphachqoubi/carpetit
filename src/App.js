@@ -1,7 +1,7 @@
 // import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
 
 import { Navbar, HeroBanner, Footer } from "./components";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
@@ -19,8 +19,8 @@ import {
 import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 import LazyLoader from "./components/LazyLoader/LazyLoader";
 
-const Cart = React.lazy(() => import("./components/Cart/Cart"));
-const Checkout = React.lazy(() => import("./components/Checkout/Checkout")); 
+const Cart = lazy(() => import("./components/Cart/Cart"));
+const Checkout = lazy(() => import("./components/Checkout/Checkout")); 
 function App() {
   const [order, setOrder] = useState({});
   const [newCheckoutToken, setNewCheckoutToken] = useState([]);
