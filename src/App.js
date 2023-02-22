@@ -1,5 +1,3 @@
-// import { Navbar, HeroBanner, Footer, Checkout, Cart } from "./components";
-
 import { Navbar, HeroBanner, Footer } from "./components";
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import { commerce } from "./lib/commerce";

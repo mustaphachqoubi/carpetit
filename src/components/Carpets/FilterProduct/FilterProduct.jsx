@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BiFilterAlt } from "react-icons/bi";
-import { Filtering } from "../../../dummy";
+import Filtering from "../../../dummy";
 import { useDispatch } from "react-redux";
 import { getSearchRef } from "../../../redux/CarpetReducers/searchInputReducer";
 
