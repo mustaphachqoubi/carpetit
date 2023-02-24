@@ -1,6 +1,5 @@
 import React from "react";
-import { FiTrash } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setTrashId, setTrashInitial } from "../../redux/CartReducers/trash";
 import { setPlusId, setPlusInitial } from "../../redux/CartReducers/plus";
 import { setMinesId, setMinesInitial } from "../../redux/CartReducers/mines";

@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { done, error, warning } from "../../assets/index";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import { setConfirmationLoading } from "../../redux/CheckoutReducers/confirmatio
 import { setreferenceLoading } from "../../redux/CheckoutReducers/referenceLoading";
 import { setThankMessageLoading } from "../../redux/CheckoutReducers/thankMessageLoading";
 import { removeStep } from "../../redux/CheckoutReducers/step";
+import {initialStep} from '../../redux/CheckoutReducers/step'
 const Confirmation = ({ order }) => {
   const { shippingData } = useSelector((state) => state.shippingData);
   const { confirmationLoading } = useSelector(
@@ -103,6 +104,9 @@ const Confirmation = ({ order }) => {
         </button>
         <Link to="/">
           <button
+          onClick={() => {
+            dispatch(initialStep())}
+          }
             type="submit"
             className="text-white rounded-md bg-blue-500 w-[10rem] h-10 hover:bg-blue-700 cursor-pointer"
           >

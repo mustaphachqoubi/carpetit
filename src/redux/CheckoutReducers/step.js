@@ -12,8 +12,11 @@ const stepSlice = createSlice({
     removeStep: (state) => {
       state.step = state.step - 1;
     },
+    initialStep: (state) => {
+      state.step = 1;
+    },
   },
 });
 
-export const { addStep, removeStep } = stepSlice.actions;
+export const { addStep, removeStep, initialStep } = stepSlice.actions;
 export default stepSlice;
