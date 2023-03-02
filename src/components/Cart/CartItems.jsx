@@ -6,7 +6,6 @@ import { setMinesId, setMinesInitial } from "../../redux/CartReducers/mines";
 import CartItem from "./CartItem";
 
 const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
-
   const dispatch = useDispatch();
 
   const handleClickedTrash = (id) => {
@@ -35,12 +34,12 @@ const CartItems = ({ cart, handleUpdateQt, handleRemoveFromCart }) => {
 
   return (
     <>
-        <CartItem 
+      <CartItem
         handleClickedTrash={handleClickedTrash}
         handleClickedPlus={handleClickedPlus}
         handleClickedMines={handleClickedMines}
         cart={cart}
-        />
+      />
     </>
   );
 };

@@ -6,6 +6,7 @@ import {
   setDeleteSpinner,
   setDeleteInitial,
 } from "../../redux/CartReducers/empty";
+import { useEffect } from "react";
 
 const EmptyCart = () => {
   return (
@@ -33,6 +34,10 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
   const { empty } = useSelector((state) => state.empty);
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setDeleteInitial())
+  }, [])
 
   return cart?.length >= 0 ? (
     <h1 className="font-bold dark:text-white text-2xl flex justify-center items-center p-10 h-screen">
@@ -67,6 +72,8 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
           </Link>
           <button
             onClick={() => {
+              
+
               dispatch(
                 setDeleteSpinner(
                   <svg
@@ -87,9 +94,6 @@ const Cart = ({ handleUpdateQt, handleRemoveFromCart, handleEmptyCart }) => {
                   </svg>
                 )
               );
-              setTimeout(function () {
-                dispatch(setDeleteInitial());
-              }, 2000);
               handleEmptyCart(cart?.id);
             }}
             className="font-semibold flex items-center justify-center bg-red-500 hover:bg-red-700 w-[7.3rem] h-[3rem] rounded-md text-white"

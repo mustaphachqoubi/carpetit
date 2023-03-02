@@ -83,7 +83,7 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
               >
                 <div className="flex justify-center py-5 md:p-0">
                   <div className="transition ease-in-out duration-300 relative border border-dashed border-orange-500 rounded-full p-5 text-2xl text-orange-500 cursor-pointer hover:border-solid">
-                    <p className=" hidden md:block text-sm text-orange-500 absolute left-[-8em] md:left-[-65px] w-22 bg-[#FAFCFC] dark:bg-slate-800">
+                    <p className="hidden md:block 2xl:hidden text-sm text-orange-500 absolute left-[-8em] md:left-[-65px] w-22 bg-[#FAFCFC] dark:bg-slate-800">
                       Watch video
                     </p>
                     <FaPlay />

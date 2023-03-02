@@ -18,7 +18,9 @@ import { setErrorMessage } from "./redux/AppReducers/errorMessage";
 import LazyLoader from "./components/LazyLoader/LazyLoader";
 
 const Cart = lazy(() => import("./components/Cart/Cart"));
-const Checkout = lazy(() => import("./components/Checkout/Checkout")); 
+const Checkout = lazy(() =>
+  import("./components/Checkout/CheckoutStructure/Checkout")
+);
 function App() {
   const [order, setOrder] = useState({});
   const [newCheckoutToken, setNewCheckoutToken] = useState([]);
@@ -153,6 +155,7 @@ function App() {
                     newCheckoutToken={newCheckoutToken}
                     handleCaptureCheckout={handleCaptureCheckout}
                     order={order}
+                    totalItems={cart.total_unique_items}
                   />
                 </Suspense>
               }

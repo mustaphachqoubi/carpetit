@@ -1,14 +1,21 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { MdDone } from "react-icons/md";
-import Shipping from "./Shipping";
-import Payment from "./Payment";
-import Confirmation from "./Confirmation";
+import Shipping from "../StepOne/Shipping";
+import Payment from "../StepTwo/Payment";
+import Confirmation from "../StepThree/Confirmation";
 import { useSelector, useDispatch } from "react-redux";
-import { addStep, removeStep } from "../../redux/CheckoutReducers/step";
-import { getShippingData } from "../../redux/CheckoutReducers/shippingData";
+import { addStep, removeStep } from "../../../redux/CheckoutReducers/step";
+import { getShippingData } from "../../../redux/CheckoutReducers/shippingData";
 
-const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption, newCheckoutToken }) => {
+const Checkout = ({
+  handleCaptureCheckout,
+  order,
+  CheckShippingOption,
+  newCheckoutToken,
+  totalItems,
+}) => {
   const { step } = useSelector((state) => state.step);
+  const { cart } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -19,10 +26,15 @@ const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption, newChecko
     dispatch(getShippingData(data));
     nextStep();
   };
-  
+
   return (
-    <div className="dark:text-white flex justify-center p-10">
-      <div className="rounded-md bg-gray-100 dark:bg-slate-700 w-[50rem]">
+    <div className="dark:text-white flex gap-4 flex-col items-center justify-center py-10 mx-5 overflow-hidden">
+      {!totalItems && (
+        <div className="flex bg-red-500 w-full md:w-[50rem] py-2 px-4 text-center rounded-md text-white font-bold justify-center items-center">
+          Your cart is empty make sure to add a carpet first.
+        </div>
+      )}
+      <div className="rounded-md bg-gray-100 dark:bg-slate-700 w-[50rem] px-20 md:px-6">
         <h1 className="font-bold tracking-wider text-2xl p-4 md:p-8 flex justify-center items-center">
           Checkout
         </h1>
@@ -78,7 +90,7 @@ const Checkout = ({ handleCaptureCheckout, order, CheckShippingOption, newChecko
         </div>
 
         {step === 1 ? (
-          <Shipping next={next} CheckShippingOption={CheckShippingOption}/>
+          <Shipping next={next} CheckShippingOption={CheckShippingOption} />
         ) : step === 2 ? (
           <Payment
             backStep={backStep}

@@ -58,6 +58,8 @@ const FilterProduct = ({ SelectedCat, handleSearch }) => {
     dispatch(getSearchRef(searchRef.current.value));
   });
 
+
+
   return (
     <div className="flex flex-col items-center mt-20 md:mt-10">
       <div className="flex justify-center items-center p-4 md:p-10">

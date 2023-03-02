@@ -34,11 +34,32 @@ const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart }) => {
   };
 
   var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
+
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
   return (
     <>
       {products.length > 0
         ? filteredList.map((c) => (
             <motion.div
+              variants={container}
+              initial="hidden"
+              animate="visible"
+              transition={{
+                delay: 0.5,
+                duration: 2,
+                default: { ease: "linear" }
+              }}                            
               layoutId={c.id}
               className={`shrink-0 cursor-pointer w-[16rem] sm:w-[18rem] sm:max-w-sm`}
               key={c.id}

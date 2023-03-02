@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { done, error, warning } from "../../assets/index";
+import { done, error, warning } from "../../../assets/index";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setConfirmationLoading } from "../../redux/CheckoutReducers/confirmationLoading";
-import { setreferenceLoading } from "../../redux/CheckoutReducers/referenceLoading";
-import { setThankMessageLoading } from "../../redux/CheckoutReducers/thankMessageLoading";
-import { removeStep } from "../../redux/CheckoutReducers/step";
-import {initialStep} from '../../redux/CheckoutReducers/step'
+import { setConfirmationLoading } from "../../../redux/CheckoutReducers/confirmationLoading";
+import { setreferenceLoading } from "../../../redux/CheckoutReducers/referenceLoading";
+import { setThankMessageLoading } from "../../../redux/CheckoutReducers/thankMessageLoading";
+import { removeStep } from "../../../redux/CheckoutReducers/step";
+import {initialStep} from '../../../redux/CheckoutReducers/step'
 const Confirmation = ({ order }) => {
   const { shippingData } = useSelector((state) => state.shippingData);
   const { confirmationLoading } = useSelector(
