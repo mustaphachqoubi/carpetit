@@ -27,7 +27,7 @@ function Carpet({ handleAddToCart, selectedCategory }) {
           dispatch(selectedSizeInitial(c.variant_groups[0].options[0].id));
         }
       });
-      setIsFirst(false);
+      // setIsFirst(false);
     }
   }, [products]);
 

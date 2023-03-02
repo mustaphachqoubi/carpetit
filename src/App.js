@@ -1,5 +1,5 @@
 import { Navbar, HeroBanner, Footer } from "./components";
-import React, { useEffect, useState, Suspense, lazy } from "react";
+import React, { useEffect, useState, Suspense, lazy, memo } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";

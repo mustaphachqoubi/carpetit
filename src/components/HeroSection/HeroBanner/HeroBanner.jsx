@@ -127,4 +127,4 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
   );
 };
 
-export default HeroBanner;
+export default React.memo(HeroBanner);

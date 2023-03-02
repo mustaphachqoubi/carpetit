@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { MdDone } from "react-icons/md";
 import Shipping from "../StepOne/Shipping";
 import Payment from "../StepTwo/Payment";
@@ -15,7 +15,6 @@ const Checkout = ({
   totalItems,
 }) => {
   const { step } = useSelector((state) => state.step);
-  const { cart } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 

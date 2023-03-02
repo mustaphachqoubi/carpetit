@@ -33,7 +33,7 @@ const Navbar = ({ pullDark, totalItems }) => {
         </div>
         <Link to="/cart">
           <div className="relative border p-3 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 cursor-pointer flex items-center justify-center">
-            <div className="absolute top-0 right-[-10px] w-6 h-6 bg-red-500 p-1 rounded-full text-sm flex justify-center items-center text-white">
+            <div className="select-none absolute top-0 right-[-10px] w-6 h-6 bg-red-500 p-1 rounded-full text-sm flex justify-center items-center text-white">
               {!totalItems ? 0 : totalItems >= 10 ? "+9" : totalItems}
             </div>
             <FiShoppingCart />

@@ -12,8 +12,6 @@ const ProductSkeleton = () => {
         </div>
         <Skeleton type="price"/>
         </div>
-
-        
     </div>
   )
 }

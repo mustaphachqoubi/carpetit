@@ -142,4 +142,4 @@ const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart }) => {
   );
 };
 
-export default BeforeOpeningCarpet;
+export default React.memo(BeforeOpeningCarpet);
