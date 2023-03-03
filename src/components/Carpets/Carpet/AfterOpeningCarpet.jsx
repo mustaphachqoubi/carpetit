@@ -293,7 +293,7 @@ const AfterOpeningCarpet = ({ handleAddToCart, setIsFirst }) => {
                           )}
                         </div>
                       </div>
-
+                      
                       <div className="w-full md:w-80 mt-4">
                         {products.map(
                           (carpet) =>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { carpetListGetProducts } from "../../../redux/CarpetReducers/carpetList";
+import { setsearchedCarpetList } from "../../../redux/CarpetReducers/SearchedCarpetList";
 import { selectedSizeInitial } from "../../../redux/CarpetReducers/selectedSize";
 
 import BeforeOpeningCarpet from "./BeforeOpeningCarpet";
@@ -17,7 +18,8 @@ function Carpet({ handleAddToCart, selectedCategory }) {
   const [isFirst, setIsFirst] = useState(true);
 
   useEffect(() => {
-    searchRef === "" && dispatch(carpetListGetProducts(products.map((c) => c)));
+      searchRef === "" && dispatch(setsearchedCarpetList(products.map((c) => c)));
+      searchRef === "" && dispatch(carpetListGetProducts(products.map((c) => c)));
   }, [products, dispatch]);
 
   useEffect(() => {

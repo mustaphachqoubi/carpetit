@@ -7,12 +7,13 @@ import ProductSkeleton from "../../Skeletons/ProductSkeleton";
 import { hideOpenedProductHidden } from "../../../redux/CarpetReducers/hideOpenedProduct";
 import { selectedIdGetId } from "../../../redux/CarpetReducers/selectedId";
 import { startLoad, endLoad } from "../../../redux/CarpetReducers/loading";
+import {countToZero} from '../../../redux/CarpetReducers/count'
 
-const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart, setIsFirst }) => {
+const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart }) => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
-  const { carpetList } = useSelector((state) => state.carpetlist);
+  const { searchedCarpetList } = useSelector((state) => state.searchedCarpetList);
   const { loading } = useSelector((state) => state.loader);
 
   const handleClick = (id, variantGRP) => {
@@ -25,15 +26,15 @@ const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart, setIsFirst }) 
 
   const getFilteredList = () => {
     if (selectedCategory === "") {
-      return carpetList;
+      return searchedCarpetList;
     } else {
-      return carpetList.filter((carpet) =>
+      return searchedCarpetList.filter((carpet) =>
         carpet.categories.map((cat) => cat.name).includes(selectedCategory)
       );
     }
   };
 
-  var filteredList = useMemo(getFilteredList, [selectedCategory, carpetList]);
+  var filteredList = useMemo(getFilteredList, [selectedCategory, searchedCarpetList]);
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -65,7 +66,7 @@ const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart, setIsFirst }) 
               key={c.id}
               onClick={() => {
                 dispatch(hideOpenedProductHidden());
-                
+                dispatch(countToZero())
               }}
             >
               <motion.div className={`relative`}>

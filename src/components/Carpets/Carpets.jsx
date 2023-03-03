@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Carpet from "./Carpet/Carpet";
 import FilterProduct from "./FilterProduct/FilterProduct";
 import { useSelector, useDispatch } from "react-redux";
-import { carpetListGetProducts } from "../../redux/CarpetReducers/carpetList";
+import { setsearchedCarpetList } from "../../redux/CarpetReducers/SearchedCarpetList";
 
 const Carpets = ({ handleAddToCart, handleDiscounts }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -14,13 +14,13 @@ const Carpets = ({ handleAddToCart, handleDiscounts }) => {
   };
 
   const handleSearch = (carpetName) => {
-    dispatch(
-      carpetListGetProducts(
-        carpetList.filter((carpet) =>
-          carpet.name.toLowerCase().includes(carpetName)
+      dispatch(
+        setsearchedCarpetList(
+          carpetList.filter((carpet) =>
+            carpet.name.toLowerCase().includes(carpetName)
+          )
         )
-      )
-    );
+      );
   };
 
   return (

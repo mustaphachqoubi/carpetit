@@ -40,6 +40,7 @@ import plusSlice from "./CartReducers/plus";
 import minesSlice from "./CartReducers/mines";
 import loadingHSlice from "./HeroBannerReducers/loading";
 import searchRefSlice from "./CarpetReducers/searchInputReducer";
+import searchedCarpetListSlice from "./CarpetReducers/SearchedCarpetList";
 
 const store = configureStore({
   reducer: {
@@ -81,6 +82,7 @@ const store = configureStore({
     mines: minesSlice.reducer,
     loading: loadingHSlice.reducer,
     searchRef: searchRefSlice.reducer,
+    searchedCarpetList: searchedCarpetListSlice.reducer,
   },
   middleware: [thunk],
 });
