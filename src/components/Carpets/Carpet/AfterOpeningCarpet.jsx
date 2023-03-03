@@ -18,7 +18,7 @@ import { selectedSizeId } from "../../../redux/CarpetReducers/selectedSize";
 import { updateCount } from "../../../redux/CarpetReducers/count";
 import { startLoad, endLoad } from "../../../redux/CarpetReducers/loading";
 
-const AfterOpeningCarpet = ({ handleAddToCart }) => {
+const AfterOpeningCarpet = ({ handleAddToCart, setIsFirst }) => {
   const dispatch = useDispatch();
 
   const { selectedId } = useSelector((state) => state.selector);
@@ -52,7 +52,7 @@ const AfterOpeningCarpet = ({ handleAddToCart }) => {
         {selectedId &&
           ((document.body.style.overflow = "hidden"),
           (
-            <div className="z-50 p-3 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
+            <div className="z-50 p-3 overflow-y-scroll flex justify-center items-start md:items-center bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm w-full h-screen fixed top-0 left-0">
               <div className="flex justify-center">
                 <div
                   onClick={() => {
@@ -60,12 +60,14 @@ const AfterOpeningCarpet = ({ handleAddToCart }) => {
                     dispatch(selectedIdNull());
                     document.body.style.overflow = "visible";
                     dispatch(backScroll());
+                    setAssetsCount(0)
+                    setIsFirst(true)
                   }}
                   className="flex justify-center items-start md:items-center w-full h-screen fixed top-0 left-0"
                 ></div>
                 <motion.div
                   layoutId={selectedId}
-                  className="overflow-hidden w-full relative dark:bg-slate-600 bg-[#EFF0F0] rounded-xl p-4 md:p-6 m-2 md:m-0"
+                  className="overflow-hidden w-full relative dark:bg-slate-700 bg-[#EFF0F0] rounded-xl p-4 md:p-6 m-2 md:m-0"
                 >
                   <motion.button
                     onClick={() => {
@@ -73,6 +75,8 @@ const AfterOpeningCarpet = ({ handleAddToCart }) => {
                       dispatch(selectedIdNull());
                       document.body.style.overflow = "visible";
                       dispatch(backScroll());
+                      setAssetsCount(0)
+                      setIsFirst(true)
                     }}
                     className="bg-white/30 backdrop-blur-sm text-xs md:text-md dark:md:text-white dark:md:border-slate-500 m-2 absolute z-50 top-3 right-3 md:top-2 md:right-2 md:border md:border-black md:top-0 md:hover:bg-black md:hover:text-white w-8 h-8 rounded-full flex justify-center items-center cursur-pointer hover:backdrop-blur-xl dark:text-white"
                   >
@@ -214,7 +218,7 @@ const AfterOpeningCarpet = ({ handleAddToCart }) => {
                                           variant.options.map((option) => {
                                             return (
                                               <div
-                                                onClick={() => {
+                                                onClick={(e) => {
                                                   handleSelectedSize(option.id);
                                                   dispatch(
                                                     updateCount(
@@ -223,6 +227,7 @@ const AfterOpeningCarpet = ({ handleAddToCart }) => {
                                                       )
                                                     )
                                                   );
+                                                  setIsFirst(false)
                                                 }}
                                                 key={option.id}
                                                 className={`${

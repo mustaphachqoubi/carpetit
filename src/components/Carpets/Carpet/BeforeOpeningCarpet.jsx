@@ -8,7 +8,7 @@ import { hideOpenedProductHidden } from "../../../redux/CarpetReducers/hideOpene
 import { selectedIdGetId } from "../../../redux/CarpetReducers/selectedId";
 import { startLoad, endLoad } from "../../../redux/CarpetReducers/loading";
 
-const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart }) => {
+const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart, setIsFirst }) => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
@@ -65,6 +65,7 @@ const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart }) => {
               key={c.id}
               onClick={() => {
                 dispatch(hideOpenedProductHidden());
+                
               }}
             >
               <motion.div className={`relative`}>
