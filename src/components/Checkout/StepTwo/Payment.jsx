@@ -71,7 +71,7 @@ const Payment = ({
   return (
     <>
       {newCheckoutToken.length < 1 ? (
-        <div className="w-full p-20 h-96 flex justify-center items-center">
+        <div className="w-full p-20 h-96 flex justify-center items-center ">
           <svg
             aria-hidden="true"
             className="w-6 h-6 animate-spin text-slate-300 fill-blue-500"
@@ -90,19 +90,18 @@ const Payment = ({
           </svg>
         </div>
       ) : (
-        <div className="p-8">
+        <div className="p-8 text-center md:text-left">
           <h1 className="font-semibold text-lg py-5">Order summary</h1>
-
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5 justify-center md:justify-between">
             {!newCheckoutToken ? (
               <h3>Loading...</h3>
             ) : (
               newCheckoutToken?.line_items.map((carpet) => (
                 <div
-                  className="flex md:justify-around justify-between items-center"
+                  className="flex gap-6 items-end"
                   key={carpet.id}
                 >
-                  <div>
+                  <div className="flex flex-col items-start">
                     <h3 className="font-semibold text-md">{carpet.name}</h3>
                     <h3 className="text-sm text-gray-500">
                       Quantity: {carpet.quantity}
@@ -116,8 +115,8 @@ const Payment = ({
             )}
           </div>
 
-          <div className="flex justify-between py-5">
-            <div className="font-medium text-md py-5 flex gap-1 flex-col md:flex-row justify-center align-center text-center">
+          <div className="flex gap-6 justify-center md:justify-between items-center py-5 ">
+            <div className=" font-medium text-md py-5 flex gap-1 flex-col md:flex-row justify-center align-center text-center">
               <h3>Total</h3> <h3>+</h3> <h3>Shipping</h3>
             </div>
             <h3 className="font-bold text-md py-5">
@@ -133,11 +132,11 @@ const Payment = ({
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
               {({ elements, stripe }) => (
-                <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+                <form onSubmit={(e) => handleSubmit(e, elements, stripe)} className="text-center">
                   <CardElement />
                   <br />
                   <br />
-                  <div className="flex justify-between flex-col md:flex-row gap-4">
+                  <div className="flex justify-between flex-col md:flex-row gap-4 w-full px-[10rem] md:px-0">
                     <button
                       className="flex justify-center h-10 items-center px-8 rounded-md font-semibold bg-slate-300 text-gray-500 dark:text-gray-300 hover:bg-slate-400 dark:hover:text-white dark:hover:bg-slate-800 hover:text-white dark:bg-slate-600"
                       onClick={() => backStep()}
