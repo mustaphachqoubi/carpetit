@@ -2,6 +2,7 @@
   background: #ddd;
   margin: 10px 0;
   border-radius: 4px;
+  animation: animateSkeleton 2s infinite;
 }
 
 .skeleton.text {
@@ -34,4 +35,16 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+
+@keyframes animateSkeleton {
+  from {
+    background: linear-gradient(to left top, #ddd, rgb(202, 200, 200));
+  }
+  50% {
+    background: linear-gradient(to left top, #ddd, rgb(202, 200, 200));
+  }
+  to {
+    background: linear-gradient(to right bottom, #ddd, rgb(202, 200, 200));
+  }
 }
