@@ -1,5 +1,5 @@
 import { Navbar, HeroBanner, Footer } from "./components";
-import React, { useEffect, useState, Suspense, lazy, memo } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import { commerce } from "./lib/commerce";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getToken } from "./redux/CheckoutReducers/checkoutToken";
@@ -28,6 +28,7 @@ function App() {
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
+  // const pullDark = () => dispatch(switchDark(localStorage.getItem("theme")));
 
   const fetchProducts = async () => {
     const p = await commerce.products.list({
@@ -116,7 +117,7 @@ function App() {
     fetchProducts();
     fetchCart();
   });
-
+  // pullDark(localStorage.getItem("theme"))
   return (
     <div className={dark}>
       <div className="bg-[#FAFCFC] dark:bg-slate-800 max-w-[1440px] m-auto">

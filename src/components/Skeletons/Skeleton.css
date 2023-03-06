@@ -3,6 +3,7 @@
   margin: 10px 0;
   border-radius: 4px;
   animation: animateSkeleton 2s infinite;
+  animation-timing-function: linear
 }
 
 .skeleton.text {
@@ -39,12 +40,12 @@
 
 @keyframes animateSkeleton {
   from {
-    background: linear-gradient(to left top, #ddd, rgb(202, 200, 200));
+    background: linear-gradient(to left top, #ddd, lightgray);
   }
   50% {
-    background: linear-gradient(to left top, #ddd, rgb(202, 200, 200));
+    background: linear-gradient(to left top, #ddd, lightgray);
   }
   to {
-    background: linear-gradient(to right bottom, #ddd, rgb(202, 200, 200));
+    background: linear-gradient(to right bottom, #ddd, lightgray);
   }
 }
