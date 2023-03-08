@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ pullDark, totalItems }) => {
   const [darkToggle, setDarkToggle] = useState("");
-  const [d, setd] = useState(0);
-  useEffect(() => {
+
+  const handlePullDark = () => {
     pullDark(localStorage.getItem("theme"))
+  }
+
+  useEffect(() => {
+    handlePullDark()
   });
 
 
@@ -21,14 +25,15 @@ const Navbar = ({ pullDark, totalItems }) => {
       <div className="flex gap-5 justify-center items-center">
         <div
           onClick={() => {
-            darkToggle === ""
-              ? setDarkToggle("dark")
-              : darkToggle === "dark"
-              ? setDarkToggle("")
-              : setDarkToggle("dark");
-
-            localStorage.setItem("theme", darkToggle);
-            
+            if(darkToggle === "dark" || localStorage.getItem('theme') === 'dark'){
+              setDarkToggle("")
+              localStorage.setItem("theme", "")
+            }
+            else{
+              setDarkToggle("dark")
+              localStorage.setItem("theme", 'dark')
+            }
+            pullDark(localStorage.getItem("theme"))
           }}
           className="border p-3 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 cursor-pointer flex items-center justify-center"
         >
