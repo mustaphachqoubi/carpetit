@@ -28,8 +28,7 @@ function App() {
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const pullDark = (darkit) => dispatch(switchDark(darkit));
-  // const pullDark = () => dispatch(switchDark(localStorage.getItem("theme")));
-
+  
   const fetchProducts = async () => {
     const p = await commerce.products.list({
       include: "assets,variant_groups",

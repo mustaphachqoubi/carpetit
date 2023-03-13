@@ -14,7 +14,6 @@ const Navbar = ({ pullDark, totalItems }) => {
     handlePullDark()
   });
 
-
   return (
     <div className="dark:text-white dark:bg-slate-800 py-4 px-6 w-full flex justify-between gap-4 items-center bg-[#FAFCFC] z-50">
       <Link to="/">

@@ -33,7 +33,7 @@ const Confirmation = ({ order }) => {
     const or = await order;
     dispatch(
       setreferenceLoading(
-        or ? order?.customer_reference : <img className="w-10" src={warning} />
+        or ? order?.customer_reference : <img className="w-10" src={warning} alt="warning"/>
       )
     );
   };
@@ -61,7 +61,7 @@ const Confirmation = ({ order }) => {
 
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center h-96">
         <div className="flex flex-col p-8 items-center space-y-4">
           <div className="flex items-center gap-2">
             <h1 className="font-bold">CONFIRMED</h1>

@@ -31,7 +31,9 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
               {products[0] ? products[0].name : "Loading..."}
             </h1>
             <p className="text-lg text-slate-500 dark:text-slate-400">
-              115 <span className="font-bold">x</span> 115 cm
+              {
+                products[0] ? products[0].variant_groups[0].options[0].name : `115 x 115 cm`
+              }
             </p>
             <h1 className="font-bold text-4xl">
               ${products[0] ? products[0].price.formatted : "Loading..."}
@@ -80,6 +82,7 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
               <a
                 href="https://www.youtube.com/watch?v=ZKgYMUep-wQ"
                 target="_blank"
+                rel="noreferrer"
               >
                 <div className="flex justify-center py-5 md:p-0">
                   <div className="transition ease-in-out duration-300 relative border border-dashed border-orange-500 rounded-full p-5 text-2xl text-orange-500 cursor-pointer hover:border-solid">
