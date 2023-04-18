@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Similar from "./Similar";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
