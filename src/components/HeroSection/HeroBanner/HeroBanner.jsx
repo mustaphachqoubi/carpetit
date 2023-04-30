@@ -97,7 +97,7 @@ const HeroBanner = ({ handleAddToCart, handleDiscounts }) => {
           </div>
         </div>
 
-        <div className="relative col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]">
+        <div className="relative col-span-2 md:col-span-1 flex justify-center py-0 md:py-10 p-10 h-[30.5em]"> 
           <div className="z-50 absolute left-2 sm:left-10 top-20 ">
             <Similar products={products} />
           </div>

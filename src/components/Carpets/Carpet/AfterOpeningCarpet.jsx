@@ -266,7 +266,7 @@ const AfterOpeningCarpet = ({ handleAddToCart, setIsFirst }) => {
                               }
                             });
                           }}
-                          className="mt-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:bg-gradient-to-l from-orange-500 to-yellow-500 flex gap-4 items-center justify-center w-full h-10 md:px-5 rounded-lg font-bold text-white cursor-pointer"
+                          className="mt-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:bg-gradient-to-l from-orange-500 to-yellow-500 flex gap-4 items-center justify-center w-[70%] sm:w-[80%] md:w-full h-10 md:px-5 rounded-lg font-bold text-white cursor-pointer"
                         >
                           {loading === selectedId ? (
                             <svg
