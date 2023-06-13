@@ -1,3 +1,5 @@
 export {default as done} from './verified.gif'
 export {default as error} from './unverified.gif'
 export {default as warning} from './warning.gif'
+export { default as logo } from './logo.png'
+export { default as logoWithName} from './logowithname.png'

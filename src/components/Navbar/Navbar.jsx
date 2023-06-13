@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegMoon } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { logo } from '../../assets/'
 
 const Navbar = ({ pullDark, totalItems }) => {
   const [darkToggle, setDarkToggle] = useState("");

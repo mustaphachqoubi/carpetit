@@ -74,7 +74,7 @@ const BeforeOpeningCarpet = ({ selectedCategory, handleAddToCart }) => {
                   onClick={() => dispatch(selectedIdGetId(c.id))}
                   src={c.assets[0].url}
                   alt="carpet"
-                  className="object-cover h-[18em] w-80 rounded-xl"
+                  className="img object-cover h-[18em] w-80 rounded-xl"
                 />
                 <motion.div
                   onClick={() => {
